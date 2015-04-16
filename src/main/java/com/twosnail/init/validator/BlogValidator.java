@@ -1,4 +1,4 @@
-package com.twosnail.basic.validator;
+package com.twosnail.init.validator;
 
 import com.jfinal.core.Controller;
 import com.jfinal.validate.Validator;

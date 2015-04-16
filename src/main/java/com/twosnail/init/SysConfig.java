@@ -1,8 +1,5 @@
-package com.twosnail.basic.util;
+package com.twosnail.init;
 
-import com.twosnail.basic.controller.BlogController;
-import com.twosnail.basic.controller.IndexController;
-import com.twosnail.basic.service.Blog;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -12,6 +9,8 @@ import com.jfinal.config.Routes;
 import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
+import com.twosnail.basic.service.Blog;
+import com.twosnail.basic.util.AdminRoutes;
 
 /**
  * API引导式配置
@@ -31,8 +30,8 @@ public class SysConfig extends JFinalConfig {
 	 * 配置路由
 	 */
 	public void configRoute(Routes me) {
-		me.add( "/", IndexController.class );	// 第三个参数为该Controller的视图存放路径
-		me.add( "/blog", BlogController.class );			// 第三个参数省略时默认与第一个参数值相同，在此即为 "/blog"
+		me.add( new AdminRoutes() );	// 后台视图地址映射
+		me.add( new ExtRoutes() );	// 前台视图地址映射
 	}
 	
 	/**

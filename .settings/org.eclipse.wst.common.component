@@ -5,6 +5,6 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <property name="java-output-path" value="/zhiyeyaoshi2/target/classes"/>
-        <property name="context-root" value="zhiyeyaoshi2"/>
+        <property name="context-root" value="jfinal_demo_for_maven"/>
     </wb-module>
 </project-modules>
