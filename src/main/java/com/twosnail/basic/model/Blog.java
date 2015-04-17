@@ -1,4 +1,4 @@
-package com.twosnail.basic.service;
+package com.twosnail.basic.model;
 
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;

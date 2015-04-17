@@ -1,6 +1,6 @@
 package com.twosnail.basic.controller;
 
-import com.twosnail.basic.service.Blog;
+import com.twosnail.basic.model.Blog;
 import com.jfinal.core.Controller;
 
 /**

@@ -3,7 +3,7 @@ package com.twosnail.basic.controller;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.twosnail.basic.interceptor.BlogInterceptor;
-import com.twosnail.basic.service.Blog;
+import com.twosnail.basic.model.Blog;
 import com.twosnail.init.validator.BlogValidator;
 
 /**

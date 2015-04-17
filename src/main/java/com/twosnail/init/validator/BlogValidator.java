@@ -2,7 +2,7 @@ package com.twosnail.init.validator;
 
 import com.jfinal.core.Controller;
 import com.jfinal.validate.Validator;
-import com.twosnail.basic.service.Blog;
+import com.twosnail.basic.model.Blog;
 
 /**
  * BlogValidator.
