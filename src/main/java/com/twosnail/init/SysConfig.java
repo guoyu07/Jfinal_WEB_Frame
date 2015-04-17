@@ -1,5 +1,7 @@
 package com.twosnail.init;
 
+import org.beetl.core.GroupTemplate;
+
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -9,7 +11,14 @@ import com.jfinal.config.Routes;
 import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
+import com.jfinal.render.ViewType;
 import com.twosnail.basic.model.Blog;
+import com.twosnail.basic.model.SysButtonLog;
+import com.twosnail.basic.model.SysInfoRole;
+import com.twosnail.basic.model.SysInfoUrl;
+import com.twosnail.basic.model.SysInfoUser;
+import com.twosnail.basic.model.SysLogLog;
+import com.twosnail.basic.model.SysPrivilege;
 import com.twosnail.basic.util.AdminRoutes;
 
 /**
@@ -23,7 +32,14 @@ public class SysConfig extends JFinalConfig {
 	public void configConstant(Constants me) {
 		// 加载少量必要配置，随后可用getProperty(...)获取值
 		loadPropertyFile("a_little_config.txt");
-		me.setDevMode(getPropertyToBoolean("devMode", false));
+		
+		//配置模板  
+        me.setMainRenderFactory(new MyBeetlRenderFactory());  
+        //获取GroupTemplate模板，可以设置共享变量操作  
+        GroupTemplate groupTemplate=MyBeetlRenderFactory.groupTemplate;  
+        me.setDevMode(getPropertyToBoolean("config.devModel", false));  
+        me.setEncoding("UTF-8"); 
+        
 	}
 	
 	/**
@@ -45,7 +61,14 @@ public class SysConfig extends JFinalConfig {
 		// 配置ActiveRecord插件
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(c3p0Plugin);
 		me.add(arp);
-		arp.addMapping("blog", Blog.class);	// 映射blog 表到 Blog模型
+		// 映射表到模型
+		arp.addMapping( "blog", Blog.class );	
+		arp.addMapping( "sysinfouser" , SysInfoUser.class ) ;
+		arp.addMapping( "sysbuttonlog" , SysButtonLog.class ) ;
+		arp.addMapping( "sysinforole" , SysInfoRole.class ) ;
+		arp.addMapping( "sysinfourl" , SysInfoUrl.class ) ;
+		arp.addMapping( "sysloglog" , SysLogLog.class ) ;
+		arp.addMapping( "sysprivilege" , SysPrivilege.class ) ;
 	}
 	
 	/**
