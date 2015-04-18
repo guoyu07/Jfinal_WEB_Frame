@@ -1,6 +1,10 @@
 package com.twosnail.basic.model;
 
+import java.util.List;
+
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Record;
 
 /**   
  * @Title: SysInfoUser.java
@@ -14,5 +18,18 @@ import com.jfinal.plugin.activerecord.Model;
 public class SysPrivilege extends Model<SysPrivilege>{
 	public static final SysPrivilege me = new SysPrivilege() ; 
 	
+	
+	public List<SysPrivilege> getSysPrivilegeByUserId( long userId ) {
+		return me.find( 
+				"SELECT a.* FROM sysprivilege a  LEFT JOIN sysinfouser b  ON a.roleId = b.roleId WHERE b.userId = ?" , userId ) ;
+	}
+	
+	/**
+     * 获取角色授权信息
+     * @param roleId
+     */
+    public List<SysPrivilege> getSysPrivilegeById( long roleId ){
+    	return  me.find( "SELECT a.* FROM sysprivilege a WHERE a.roleId = ?" , roleId ) ;
+    }
 	
 }

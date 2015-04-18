@@ -67,8 +67,8 @@
 						"password":$.md5( $.md5( passwordObj.val() ) ), 
 						"code":codeObj.val() 
 					}, function ( data ) {
-						if( data.statusCode == 200 ) {
-							location.href="./admin-index";
+						if( data.status == 1 ) {
+							location.href="./main";
 						} else {
 							errorMessage.text( data.message );
 							changeCodeImage();
@@ -113,7 +113,7 @@
 			    	</div>
 		       
 		        <div class="login_form">
-		    		<form name="login" id="login" action="./user/login" method="post" >
+		    		<form name="login" id="login" action="./check" method="post" >
 		    			<div class="form-group">
 		    				<label for="email" class="t">用户名：</label> 
 		    				<input type="text" name="email" id="email" size="20" class="form-control x319 in" value="root"/>

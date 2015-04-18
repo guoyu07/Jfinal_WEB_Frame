@@ -1,7 +1,8 @@
 package com.twosnail.init;
 
-import org.beetl.core.GroupTemplate;
-
+import com.alibaba.druid.filter.stat.StatFilter;
+import com.alibaba.druid.util.JdbcConstants;
+import com.alibaba.druid.wall.WallFilter;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -10,9 +11,10 @@ import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
-import com.jfinal.plugin.c3p0.C3p0Plugin;
+import com.jfinal.plugin.druid.DruidPlugin;
+import com.jfinal.plugin.druid.DruidStatViewHandler;
+import com.jfinal.render.FreeMarkerRender;
 import com.jfinal.render.ViewType;
-import com.twosnail.basic.model.Blog;
 import com.twosnail.basic.model.SysButtonLog;
 import com.twosnail.basic.model.SysInfoRole;
 import com.twosnail.basic.model.SysInfoUrl;
@@ -20,6 +22,9 @@ import com.twosnail.basic.model.SysInfoUser;
 import com.twosnail.basic.model.SysLogLog;
 import com.twosnail.basic.model.SysPrivilege;
 import com.twosnail.basic.util.AdminRoutes;
+import com.twosnail.basic.util.RequestHandler;
+
+import freemarker.template.TemplateModelException;
 
 /**
  * API引导式配置
@@ -32,14 +37,28 @@ public class SysConfig extends JFinalConfig {
 	public void configConstant(Constants me) {
 		// 加载少量必要配置，随后可用getProperty(...)获取值
 		loadPropertyFile("a_little_config.txt");
-		
 		//配置模板  
-        me.setMainRenderFactory(new MyBeetlRenderFactory());  
-        //获取GroupTemplate模板，可以设置共享变量操作  
-        GroupTemplate groupTemplate=MyBeetlRenderFactory.groupTemplate;  
-        me.setDevMode(getPropertyToBoolean("config.devModel", false));  
+        me.setDevMode(getPropertyToBoolean("devModel", false));
+        me.setViewType( ViewType.FREE_MARKER );
         me.setEncoding("UTF-8"); 
+        me.setBaseViewPath( "/view" );
+        me.setFreeMarkerViewExtension(".html");
         
+        //
+        try {
+			FreeMarkerRender.getConfiguration().setSharedVariable( "rootPath" , "http://localhost:8080" );
+		} catch (TemplateModelException e) {
+			e.printStackTrace();
+		}
+        
+        FreeMarkerRender.setProperty("template_update_delay", "0");//模板更更新时间,0表示每次都加载
+        FreeMarkerRender.setProperty("classic_compatible", "true");//如果为null则转为空值,不需要再用!处理
+        FreeMarkerRender.setProperty("whitespace_stripping", "true");//去除首尾多余空格
+        FreeMarkerRender.setProperty("date_format", "yyyy-MM-dd");
+        FreeMarkerRender.setProperty("time_format", "HH:mm:ss");
+        FreeMarkerRender.setProperty("datetime_format", "yyyy-MM-dd HH:mm:ss");
+        FreeMarkerRender.setProperty("default_encoding", "UTF-8");
+        //FreeMarkerRender.setProperties(properties);
 	}
 	
 	/**
@@ -55,14 +74,21 @@ public class SysConfig extends JFinalConfig {
 	 */
 	public void configPlugin(Plugins me) {
 		// 配置C3p0数据库连接池插件
-		C3p0Plugin c3p0Plugin = new C3p0Plugin(getProperty("jdbcUrl"), getProperty("user"), getProperty("password").trim());
-		me.add(c3p0Plugin);
+		//C3p0Plugin c3p0Plugin = new C3p0Plugin(getProperty("jdbcUrl"), getProperty("user"), getProperty("password").trim());
+		//me.add(c3p0Plugin);
+		
+		//阿里巴巴 数据库连接池插件
+		DruidPlugin dp = new DruidPlugin(getProperty("jdbcUrl"), getProperty("user"), getProperty("password"));
+		dp.addFilter(new StatFilter());
+		WallFilter wall = new WallFilter();
+		wall.setDbType(JdbcConstants.MYSQL);
+		dp.addFilter(wall);
+		me.add(dp);
 		
 		// 配置ActiveRecord插件
-		ActiveRecordPlugin arp = new ActiveRecordPlugin(c3p0Plugin);
+		ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
 		me.add(arp);
 		// 映射表到模型
-		arp.addMapping( "blog", Blog.class );	
 		arp.addMapping( "sysinfouser" , SysInfoUser.class ) ;
 		arp.addMapping( "sysbuttonlog" , SysButtonLog.class ) ;
 		arp.addMapping( "sysinforole" , SysInfoRole.class ) ;

@@ -93,11 +93,11 @@
 		</exclusions>
 	</dependency>
     
-    <dependency>
+    <!-- <dependency>
     	<groupId>c3p0</groupId>
     	<artifactId>c3p0</artifactId>
     	<version>0.9.1.2</version>
-    </dependency>
+    </dependency> -->
     <dependency>
     	<groupId>org.freemarker</groupId>
     	<artifactId>freemarker</artifactId>
@@ -130,7 +130,14 @@
 		<artifactId>fastjson</artifactId>
 		<version>1.2.5</version>
 	</dependency>
-
+	
+	<dependency>
+		<groupId>com.alibaba</groupId>
+		<artifactId>druid</artifactId>
+		<version>1.0.7</version>
+	</dependency>
+	
+	
   </dependencies>
   <build>
     <finalName>jfinal_demo_for_maven</finalName>
