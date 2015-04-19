@@ -27,7 +27,6 @@ public class UserController extends Controller {
 	private Logger logger = Logger.getLogger(UserController.class) ;
 	
 	public void index(){
-		Map<String, Object> root = new HashMap<String, Object>() ;
 		try {
 			Integer pageNum = getParaToInt( "pageNum" ) ;
 			Integer numPerPage = getParaToInt( "numPerPage" ) ;
@@ -37,18 +36,14 @@ public class UserController extends Controller {
 	        
 	        Page<Record> list = SysInfoUser.me.getUserInfo( -1 , getPara("keyWord"), pageNum, numPerPage );
 	        List<SysInfoRole> roles = SysInfoRole.me.getSysRoles();
-	        root.put( "list", list );
-	        root.put( "roles", roles );
-	        root.put( "keyWord", keyWord );
+	        setAttr( "list", list );
+	        setAttr( "roles", roles );
+	        setAttr( "keyWord", keyWord );
 	        
 		} catch (Exception e) {
 			this.logger.warn( "添加信息，初始化失败！" , e );
 		}
-        
-        //写入模板
-        FreemarkerUtil.writeTemplate(
-    			getRequest(), getResponse() , "view/sys/user", "user_list.html" , root ) ;
-        renderFreeMarker( "user_list.html" );
+        render( "user_list.html" );
 	}
 	
 	/**

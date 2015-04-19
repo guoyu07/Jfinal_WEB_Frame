@@ -30,6 +30,19 @@
     	<artifactId>jfinal</artifactId>
     	<version>1.9</version>
     </dependency>
+    
+    <dependency>
+    	<groupId>com.jfinal</groupId>
+    	<artifactId>jfinal</artifactId>
+    	<version>1.9</version>
+    </dependency>
+    
+    <dependency>
+    	<groupId>com.jfinal</groupId>
+    	<artifactId>jfinal-ext</artifactId>
+    	<version>3.1.0</version>
+    </dependency>
+    
 	<!-- Jetty JSP：根据 Dependency Hierarchy 视图拆分成了七个 dependency，
             - 方便项目以及便于 导出 war的在jetty与tomcat间无缝迁移
             - Dependencies: http://mvnrepository.com/artifact/org.eclipse.jetty/jetty-jsp
@@ -136,6 +149,13 @@
 		<artifactId>druid</artifactId>
 		<version>1.0.7</version>
 	</dependency>
+	
+	<dependency>
+	    <groupId>org.apache.shiro</groupId>
+	    <artifactId>shiro-web</artifactId>
+	    <version>1.2.3</version>
+	</dependency>
+	
 	
 	
   </dependencies>

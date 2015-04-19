@@ -36,16 +36,18 @@
 		        <div class="am-form-group">
 		          <select data-am-selected="{btnSize: 'sm'}" name="roleId" id="roleId">
 		          	<option value="-1" >角色选择（全部）</option>
-		            <#list roles as role>
-					 	<option value="${role.roleId}" >${role.roleName!''}</option>
-					 </#list>
+		            <%
+					for(role in roles){
+					%>
+						<option value="${role.roleId}" >${role.roleName}</option>
+					<%}%>
 		          </select>
 		        </div>
 	    	</div>
 	      
 	      	<div class="am-u-sm-12 am-u-md-3">
 	        	<div class="am-input-group am-input-group-sm">
-	          		<input type="text" class="am-form-field" id="keyWord" name="keyWord" value="${keyWord}">
+	          		<input type="text" class="am-form-field" id="keyWord" name="keyWord" value="">
 	          		<span class="am-input-group-btn">
 	            		<button class="am-btn am-btn-default" type="submit">搜索</button>
 	          		</span>
@@ -76,15 +78,17 @@
 						</tr>
 		            </thead>
 					<tbody>
-						<#list list.datalist as infoUser>
+						<%
+						for(infoUser in list.list){
+						%>
 							<tr>
 								<td><input type="checkbox" value="${infoUser.userId}" class="checkbox_list" /></td>
 					            <td> ${infoUser.userId} </td>
 					            <td><a href="${rootPath}/sys/user/${infoUser.userId}"> ${infoUser.userName} </a></td>
-					            <td><#if infoUser.sex=1>男<#else>女</#if></td>
+					            <td>${infoUser.sex==1?"男":'女'}</td>
 					            <td> ${infoUser.roleName} </td>
 					            <td class="am-hide-sm-only"> ${infoUser.mobile} </td>
-					            <td class="am-hide-sm-only"> <#if infoUser.isUsed=1>正常<#else>无效</#if> </td>
+					            <td class="am-hide-sm-only">${infoUser.isUsed==1?"正常":'无效'}</td>
 					            <td class="am-hide-sm-only"> ${infoUser.createDate} </td>
 					            <td>
 					              <div class="am-btn-toolbar">
@@ -96,13 +100,13 @@
 					              </div>
 					            </td>
 							</tr>
-						</#list>
+						<%}%>
 					</tbody>
 	        	</table>
 	        </form>
 
 	        <!-- 分页 开始 -->
-			<div class="am-cf" id="page"><input type="hidden" id="pageValue" value="${list.totalCount}_${list.pageSize}_${list.curPage}_5_${rootPath}/sys/user/listview"> </div>
+			<div class="am-cf" id="page"><input type="hidden" id="pageValue" value="${list.totalRow}_${list.pageSize}_${list.pageNumber}_5_${rootPath}/sys/user/listview"> </div>
 			<!-- 分页 结束 -->
 	        
 		</div>
