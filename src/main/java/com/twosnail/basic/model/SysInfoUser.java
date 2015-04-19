@@ -52,7 +52,7 @@ public class SysInfoUser extends Model<SysInfoUser>{
 		List<String> param = new ArrayList<String>(2) ;
 		param.add( userName ) ;
 		param.add( passWord ) ;
-		SysInfoUser infoUser = me.findFirst( "SELECT a.userId,a.roleId,a.userName,a.createTime,a.createIp,a.isUsed,a.sortNo , "
+		SysInfoUser infoUser = me.findFirst( "SELECT a.id,a.roleId,a.userName,a.createTime,a.createIp,a.isUsed,a.sortNo , "
 				+ "b.roleCode,b.roleName  "
 				+ "FROM sysinfouser a "
 				+ "left join sysinforole b on a.roleId = b.roleId "
@@ -66,7 +66,7 @@ public class SysInfoUser extends Model<SysInfoUser>{
 			throw new BusiException( "用户被冻结！" );
 		} else {
 			//正常登陆 获取用户所有角色，所有权限
-			List<SysPrivilege> userPrivilege = SysPrivilege.me.getSysPrivilegeByUserId( infoUser.getLong( "userId" ) ) ;
+			List<SysPrivilege> userPrivilege = SysPrivilege.me.getSysPrivilegeByid( infoUser.getLong( "id" ) ) ;
 			
 			//设置session
 			UserInfo.setUserSession( session, infoUser, userPrivilege );
@@ -85,7 +85,7 @@ public class SysInfoUser extends Model<SysInfoUser>{
 	public Page<Record> getUserInfo( int roleId ,String keyWord , int pageNumber, int pageSize) {
 		StringBuffer sb = new StringBuffer(" FROM sysinfouser a WHERE 1=1 ");
 		if( keyWord != null && "".equals( keyWord = keyWord.trim() ) ) {
-			sb.append( " AND (a.userName LIKE '%"+keyWord+"%' or a.userId LIKE '%"+keyWord+"%')" ) ;
+			sb.append( " AND (a.userName LIKE '%"+keyWord+"%' or a.id LIKE '%"+keyWord+"%')" ) ;
 		}
 		if( roleId != -1 ) {
 			sb.append( " AND a.roleId = " + roleId ) ;
@@ -101,7 +101,7 @@ public class SysInfoUser extends Model<SysInfoUser>{
 	 * @return  true-->存在
 	 */
 	public boolean checkUserName(String userName){
-		return me.findFirst( "SELECT userId,userName FROM sysinfouser WHERE userName=?" , userName) != null ;
+		return me.findFirst( "SELECT id,userName FROM sysinfouser WHERE userName=?" , userName) != null ;
 	}
 	
 	/**
@@ -130,7 +130,7 @@ public class SysInfoUser extends Model<SysInfoUser>{
 	 */
 	public void addUserInfo( SysInfoUser infoUser , HttpServletRequest request ) throws BusiException{
 		infoUser.set( "createTime" ,System.currentTimeMillis() );
-        infoUser.set( "createUserId" ,UserInfo.getUserId( request ) ) ;
+        infoUser.set( "createId" ,UserInfo.getId( request ) ) ;
         infoUser.set( "createIp" ,RequestHandler.getIpAddr(request)) ;
 		me.setAttrs(infoUser) ;
 		if( !me.save() ) {
@@ -140,11 +140,11 @@ public class SysInfoUser extends Model<SysInfoUser>{
 	
 	/**
 	 * 通过id查询用户信息
-	 * @param userId
+	 * @param id
 	 * @return
 	 */
-	public SysInfoUser getUserInfoById( long userId){
-		return me.findById(userId) ;
+	public SysInfoUser getUserInfoById( long id){
+		return me.findById(id) ;
 	}
 	
 	/**
@@ -154,7 +154,7 @@ public class SysInfoUser extends Model<SysInfoUser>{
 	 */
 	public void updateSysInfoUser( 
 			SysInfoUser infoUser , HttpServletRequest request ) throws BusiException{
-		infoUser.set( "operateUserId" , UserInfo.getUserId(request) ) ;
+		infoUser.set( "operateId" , UserInfo.getId(request) ) ;
 		infoUser.set( "opetateTime" , System.currentTimeMillis() ) ;
 		me.setAttrs(infoUser) ;
 		if( !me.update() ) {
@@ -164,13 +164,13 @@ public class SysInfoUser extends Model<SysInfoUser>{
 	
 	/**
 	 * 修改用户状态
-	 * @param userId
+	 * @param id
 	 * @param isUsed
 	 * @return
 	 * @throws BusiException
 	 */
-    public void updateSysInfoUserStasus( long userId , int isUsed ) throws BusiException{
-    	me.set( "userId", userId );
+    public void updateSysInfoUserStasus( long id , int isUsed ) throws BusiException{
+    	me.set( "id", id );
     	me.set( "isUsed", isUsed );
 		if( !me.update() ) {
             throw new BusiException( "修改用户状态失败!" );
@@ -179,7 +179,7 @@ public class SysInfoUser extends Model<SysInfoUser>{
     
     /**
      * 删除用户
-     * @param userId
+     * @param id
      * @return
      * @throws BusiException
      */

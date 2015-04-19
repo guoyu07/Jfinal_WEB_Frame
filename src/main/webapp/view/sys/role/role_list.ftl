@@ -55,7 +55,7 @@
 		}
 		
 		$.post( url+roleId , {}, function ( data ) {
-			if ( data.state == 1 ) {
+			if ( data.status == 1 ) {
 				window.location.href="${rootPath}/sys/role/listview";
 			} else {
 				window.top.tips( data.msg );

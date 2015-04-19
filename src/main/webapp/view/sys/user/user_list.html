@@ -39,7 +39,7 @@
 		            <%
 					for(role in roles){
 					%>
-						<option value="${role.roleId}" >${role.roleName}</option>
+						<option value="${role.roleId}" >${role.roleName!}</option>
 					<%}%>
 		          </select>
 		        </div>
@@ -47,7 +47,7 @@
 	      
 	      	<div class="am-u-sm-12 am-u-md-3">
 	        	<div class="am-input-group am-input-group-sm">
-	          		<input type="text" class="am-form-field" id="keyWord" name="keyWord" value="">
+	          		<input type="text" class="am-form-field" id="keyWord" name="keyWord" value="${keyWord!}">
 	          		<span class="am-input-group-btn">
 	            		<button class="am-btn am-btn-default" type="submit">搜索</button>
 	          		</span>
@@ -82,9 +82,9 @@
 						for(infoUser in list.list){
 						%>
 							<tr>
-								<td><input type="checkbox" value="${infoUser.userId}" class="checkbox_list" /></td>
-					            <td> ${infoUser.userId} </td>
-					            <td><a href="${rootPath}/sys/user/${infoUser.userId}"> ${infoUser.userName} </a></td>
+								<td><input type="checkbox" value="${infoUser.id}" class="checkbox_list" /></td>
+					            <td> ${infoUser.id} </td>
+					            <td><a href="${rootPath}/sys/user/${infoUser.id}"> ${infoUser.userName} </a></td>
 					            <td>${infoUser.sex==1?"男":'女'}</td>
 					            <td> ${infoUser.roleName} </td>
 					            <td class="am-hide-sm-only"> ${infoUser.mobile} </td>
@@ -93,9 +93,9 @@
 					            <td>
 					              <div class="am-btn-toolbar">
 					                <div class="am-btn-group am-btn-group-xs">
-					                  <a href="${rootPath}/sys/user/editview?userId=${infoUser.userId}" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span class="am-icon-pencil-square-o"></span> 编辑</a>
-					                  <a data-id="${infoUser.userId}" href="javascript:status(${infoUser.userId}, ${infoUser.isUsed});" class="am-btn am-btn-default am-btn-xs am-text-warning am-hide-sm-only"><span class="am-icon-toggle-on"></span>状态</a>
-					                  <a href="javascript:del(${infoUser.userId});" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-trash-o"></span> 删除</a>
+					                  <a href="${rootPath}/sys/user/editview?id=${infoUser.id}" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span class="am-icon-pencil-square-o"></span> 编辑</a>
+					                  <a data-id="${infoUser.id}" href="javascript:status(${infoUser.id}, ${infoUser.isUsed});" class="am-btn am-btn-default am-btn-xs am-text-warning am-hide-sm-only"><span class="am-icon-toggle-on"></span>状态</a>
+					                  <a href="javascript:del(${infoUser.id});" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-trash-o"></span> 删除</a>
 					                </div>
 					              </div>
 					            </td>
@@ -130,56 +130,56 @@
 <script src="${rootPath}/ext/js/page.js"></script>
 <script type="text/javascript">
 	//删除
-	function del( userId  ) {
-		if( userId != null && userId != '' ) {
+	function del( id  ) {
+		if( id != null && id != '' ) {
 
 		} else {
 			$(".checkbox_list").each(function() {  
 	            if ($(this).attr("checked")) {  
-	                userId += $(this).val() + ",";  
+	                id += $(this).val() + ",";  
 	            } 
 	        });
-			userId = userId.substring(0,userId.length-1) ;
+			id = id.substring(0,id.length-1) ;
 		}
 		
-		$('#my-confirm', window.parent.document ).modal({
+		$('#my-confirm', window.top.document ).modal({
 	        relatedTarget: this,
 	        onConfirm: function(options) {
-	        	$.post( "${rootPath}/sys/user/del", {		
-						"userId":userId
+	        	$.post( "${rootPath}/sys/user/delete", {		
+						"id":id
 					}, function ( data ) {
-						if ( data.state == 1 ) {
-							location.href="${rootPath}/sys/user/listview";
+						if ( data.status == 1 ) {
+							location.href="${rootPath}/sys/user/";
 						} else {
-							window.parent.tips( data.msg );
+							window.top.tips( data.msg );
 						}
 				}, "json" );
 	        },
 	        onCancel: function() {          
 	        }
 	    });	
-	    delete userId;
+	    delete id;
 	}
 	//修改状态
-	function status( userId , isUsed ) {
+	function status( id , isUsed ) {
 		if( isUsed == 1 ) {
-			$('#confirm_info' , window.parent.document ).html(  '你，确定要禁用该用户' );
+			$('#confirm_info' , window.top.document ).html(  '你，确定要禁用该用户' );
 			isUsed = 0 ;
 		} else {
-			$('#confirm_info' , window.parent.document ).html(  '你，确定要启用该用户' );
+			$('#confirm_info' , window.top.document ).html(  '你，确定要启用该用户' );
 			isUsed = 1 ;
 		}
-	    $('#my-confirm', window.parent.document ).modal({
+	    $('#my-confirm', window.top.document ).modal({
 	        relatedTarget: this,
 	        onConfirm: function(options) {
-	        	$.post( "${rootPath}/sys/user/edit/status", {		
-						"userId":userId ,
+	        	$.post( "${rootPath}/sys/user/upstatus", {		
+						"id":id ,
 						"isUsed":isUsed
 					}, function ( data ) {
-						if ( data.state == 1 ) {
-							location.href="${rootPath}/sys/user/listview";
+						if ( data.status == 1 ) {
+							location.href="${rootPath}/sys/user/";
 						} else {
-							window.parent.tips( data.msg );
+							window.top.tips( data.msg );
 						}
 				}, "json" );
 	        },

@@ -9,10 +9,11 @@
 $(document).ready(function(){
 	//初始化数据
   $.post(
-    "../../sys/user/add/init" , 
+    "../../sys/user/addinit" , 
     {}, 
     function ( data ) {
-      if( data.state == 1 ) {
+    	debugger;
+      if( data.status == 1 ) {
         var list = data.data.roles ;
         var html = "<select data-am-selected='{btnSize: \'sm\'}' name='roleId' id='roleId'>";
         for (var i = 0; i < list.length; i++) {
@@ -40,16 +41,16 @@ function save(){
 	var sex = $('input:radio[name="sex"]:checked').val();
 	var isUsed = $('input:radio[name="isUsed"]:checked').val();
 	if( userName == '' ) {
-		window.parent.tips( "用户名不能为空！" );
+		window.top.tips( "用户名不能为空！" );
 		return ;
 	}
 	if( passWord == '' ) {
-		window.parent.tips( "密码不能为空！" );
+		window.top.tips( "密码不能为空！" );
 		return ;
 	}else{
 		//passWord = $.md5( $.md5( passWord ) ) ;
 	}
-	$.post( "../../sys/user/add", {
+	$.post( "../../sys/user/addsave", {
 			"userName":userName, 
 			"email":email, 
 			"passWord":passWord, 
@@ -62,10 +63,10 @@ function save(){
 			"sex":sex,
 			"isUsed":isUsed
 		}, function ( data ) {
-			if ( data.state == 1 ) {
-				location.href="../../sys/user/listview";
+			if ( data.status == 1 ) {
+				location.href="../../sys/user/";
 			} else {
-				window.parent.tips( data.msg );
+				window.top.tips( data.msg );
 			}
 	}, "json" );
 }

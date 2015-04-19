@@ -19,9 +19,9 @@ public class SysPrivilege extends Model<SysPrivilege>{
 	public static final SysPrivilege me = new SysPrivilege() ; 
 	
 	
-	public List<SysPrivilege> getSysPrivilegeByUserId( long userId ) {
+	public List<SysPrivilege> getSysPrivilegeByid( long id ) {
 		return me.find( 
-				"SELECT a.* FROM sysprivilege a  LEFT JOIN sysinfouser b  ON a.roleId = b.roleId WHERE b.userId = ?" , userId ) ;
+				"SELECT a.* FROM sysprivilege a  LEFT JOIN sysinfouser b  ON a.roleId = b.roleId WHERE b.id = ?" , id ) ;
 	}
 	
 	/**

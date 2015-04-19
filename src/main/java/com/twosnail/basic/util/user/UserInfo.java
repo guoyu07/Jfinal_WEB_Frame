@@ -34,8 +34,8 @@ public class UserInfo {
 	 * @param request
 	 * @return
 	 */
-	public static long getUserId( HttpServletRequest request ) {
-		return getUserId( request.getSession() );
+	public static long getId( HttpServletRequest request ) {
+		return getId( request.getSession() );
 	}
 	
 	/**
@@ -43,9 +43,9 @@ public class UserInfo {
 	 * @param session
 	 * @return
 	 */
-	public static long getUserId( HttpSession session ) {
+	public static long getId( HttpSession session ) {
 		SysInfoUser userInfo = getUserInfo(session) ;
-		return userInfo == null ? -1 : userInfo.getLong("userId") ;
+		return userInfo == null ? -1 : userInfo.getLong("id") ;
 	}
 	
 	/**

@@ -79,7 +79,7 @@ public class UserController extends Controller {
      */
     public void addsave() {
     	
-    	SysInfoUser infoUser = getModel(SysInfoUser.class , "infoUser" ) ;
+    	SysInfoUser infoUser = getModel(SysInfoUser.class) ;
         String dp = getPara("isDefPassWord");
         int isDefPas = dp == null ? 1 : 0 ;
         infoUser.set( "isDefPassWord" , isDefPas);
@@ -104,20 +104,15 @@ public class UserController extends Controller {
      */
     public void editview(){
         
-        Map<String, Object> root = new HashMap<String, Object>() ;
         try {
         	List<SysInfoRole> roles = SysInfoRole.me.getSysRoles();
-            SysInfoUser infoUser = SysInfoUser.me.getUserInfoById(getParaToInt("userId")) ;        
-            root.put( "infoUser" , infoUser ) ;
-            root.put( "roles" ,  roles ) ;
+            SysInfoUser infoUser = SysInfoUser.me.getUserInfoById(getParaToInt("id")) ;        
+            setAttr( "infoUser" , infoUser ) ;
+            setAttr( "roles" ,  roles ) ;
 		} catch (Exception e) {
 			this.logger.warn( "修改信息，初始化信息失败！" , e );
 		}
-        
-        //写入模板
-        FreemarkerUtil.writeTemplate(
-    			getRequest(), getResponse() , "WEB-INF/html/system/user", "user_edit.ftl" , root ) ;
-		render( "user_edit.ftl" ) ;
+		render( "user_edit.html" ) ;
     }
     
     /**
@@ -129,7 +124,7 @@ public class UserController extends Controller {
     public void editsave(){
     	
         String message = "" ;
-        SysInfoUser infoUser = getModel(SysInfoUser.class) ;
+        SysInfoUser infoUser = getModel(SysInfoUser.class ) ;
         try {
         	//角色编号不能为空
             if( infoUser == null || infoUser.get("") == null ){
@@ -137,6 +132,7 @@ public class UserController extends Controller {
             }
             SysInfoUser.me.updateSysInfoUser( infoUser , getRequest() ) ;
             renderJson( new ResultObj( ResultObj.SUCCESS , null , null ) ) ;
+            return ;
         } catch( BusiException e ) {
             this.logger.warn( "保存用户信息失败！"  , e );
             message = "保存用户信息失败！";
@@ -150,17 +146,23 @@ public class UserController extends Controller {
 
     /**
      * 修改状态
-     * @param userId
+     * @param id
      * @param isUsed
      * @return
      */
     public void upstatus(){
         try {
-            SysInfoUser.me.updateSysInfoUserStasus( getParaToLong("userId") , getParaToInt("isUsed") );
+            SysInfoUser.me.updateSysInfoUserStasus( getParaToLong("id") , getParaToInt("isUsed") );
             renderJson( new ResultObj( ResultObj.SUCCESS , null , null ) );
+            return ;
         } catch ( BusiException e ) {
-            this.logger.info( "修改状态失败！", e );
+            this.logger.warn( "修改状态失败！", e );
             renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null ) );
+            return ;
+        } catch ( Exception e ) {
+            this.logger.warn( "系统异常，状态失败！", e );
+            renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null ) );
+            return ;
         }
     }
     
@@ -169,12 +171,12 @@ public class UserController extends Controller {
      * @return
      */
     public void delete(){
-    	String userId  = getPara( " String userId " ) ;
+    	String id  = getPara( "id" ) ;
         try {
-        	if( userId == null || "".equals( userId ) ) {
+        	if( id == null || "".equals( id ) ) {
         		renderJson( new ResultObj( ResultObj.FAIL , "参数Ids不能为空！" , null ) );
         	} else {
-        		String[] ids =  userId.split(",") ;
+        		String[] ids =  id.split(",") ;
         		SysInfoUser.me.deleteSysInfoUserTx(  ids );
         	}            
         	renderJson( new ResultObj( ResultObj.SUCCESS , null , null ) );
@@ -186,7 +188,7 @@ public class UserController extends Controller {
     
     /**
      * 用户信息
-     * @param userId
+     * @param id
      * @param request
      * @param response
      * @return
@@ -194,7 +196,7 @@ public class UserController extends Controller {
 	public void userInfoview( ){		
 		Map<String, Object> root = new HashMap<String, Object>(3) ;
 		try {
-	        SysInfoUser info = SysInfoUser.me.getUserInfoById( getParaToInt("userId") );
+	        SysInfoUser info = SysInfoUser.me.getUserInfoById( getParaToInt("id") );
 	        root.put( "info" , info ) ;
 		} catch (Exception e) {
 			this.logger.warn( "添加信息，初始化失败！" , e );
@@ -207,7 +209,7 @@ public class UserController extends Controller {
     
     /**
      * 选择用户
-     * @param userId
+     * @param id
      * @return
      */
     /*public ModelAndView infoChooseRole( Integer pageNum, String keyWord, Integer numPerPage, HttpSession session )
@@ -220,9 +222,9 @@ public class UserController extends Controller {
         for (Map<String, Object> map : listMap)
 		{
 			JSONObject obj = new JSONObject() ;
-			obj.put( "ids", map.get ("userId" )) ;
+			obj.put( "ids", map.get ("id" )) ;
 			obj.put( "userName" , map.get( "userName" ) ) ;
-			obj.put( "userId" , map.get( "userId" ) ) ;
+			obj.put( "id" , map.get( "id" ) ) ;
 			map.put("checkbox", obj.toString().replace("\"", "\'")) ;
 		}
         list.setDatalist( listMap ) ;
