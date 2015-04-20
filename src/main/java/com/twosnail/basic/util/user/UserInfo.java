@@ -5,7 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.twosnail.basic.model.SysInfoUser;
+import com.twosnail.basic.model.SysUser;
 import com.twosnail.basic.model.SysPrivilege;
 
 /**   
@@ -20,13 +20,13 @@ public class UserInfo {
 	
 	public static void setUserSession( 
 			HttpSession session, 
-			SysInfoUser userInfo , List<SysPrivilege> userPrivilege ) {
+			SysUser userInfo , List<SysPrivilege> userPrivilege ) {
 		session.setAttribute( "userInfo", userInfo );
 		session.setAttribute( "userPrivilege", userPrivilege );
 	}
 	
-	public static SysInfoUser getUserInfo( HttpSession session ) {
-		return (SysInfoUser) session.getAttribute( "userInfo" );
+	public static SysUser getUserInfo( HttpSession session ) {
+		return (SysUser) session.getAttribute( "userInfo" );
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public class UserInfo {
 	 * @return
 	 */
 	public static long getId( HttpSession session ) {
-		SysInfoUser userInfo = getUserInfo(session) ;
+		SysUser userInfo = getUserInfo(session) ;
 		return userInfo == null ? -1 : userInfo.getLong("id") ;
 	}
 	
@@ -63,7 +63,7 @@ public class UserInfo {
 	 * @return
 	 */
 	public static String getUserName( HttpSession session ) {
-		SysInfoUser userInfo = getUserInfo(session) ;
+		SysUser userInfo = getUserInfo(session) ;
 		return userInfo == null ?  null : userInfo.getStr("userName");
 	}
 	
@@ -82,7 +82,7 @@ public class UserInfo {
 	 * @return
 	 */
 	public static int getRoleId( HttpSession session ) {
-		SysInfoUser userInfo = getUserInfo(session) ;
+		SysUser userInfo = getUserInfo(session) ;
 		return userInfo == null ? -1 : userInfo.getInt("roleId") ;
 	}
 	
@@ -92,7 +92,7 @@ public class UserInfo {
 	 * @return
 	 */
 	public static String getRoleName( HttpSession session ) {
-		SysInfoUser userInfo = getUserInfo(session) ;
+		SysUser userInfo = getUserInfo(session) ;
 		return userInfo == null ?  null : userInfo.getStr("roleName");
 	}
 	
@@ -102,7 +102,7 @@ public class UserInfo {
 	 * @return
 	 */
 	public static String getRoleCode( HttpSession session ) {
-		SysInfoUser userInfo = getUserInfo(session) ;
+		SysUser userInfo = getUserInfo(session) ;
 		return userInfo == null ?  null : userInfo.getStr("roleCode");
 	}
 	

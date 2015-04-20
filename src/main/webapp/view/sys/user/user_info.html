@@ -13,7 +13,7 @@
 <!-- content start -->
 <div class="admin-content">
     <div class="am-cf am-padding">
-      	<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">个人资料</strong> / <small>Personal information</small></div>
+      	<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">个人资料</strong> / <small>Personal sysUserrmation</small></div>
     </div>
     <hr/>
     <div class="am-g">
@@ -23,32 +23,32 @@
 		        <div class="am-form-group">
 		           	<label class="am-u-sm-3 am-form-label">手机号码 </label>
 		           	<div class="am-u-sm-9 p-top">
-		           	 	${info.mobile}
+		           	 	${sysUser.mobile}
 		           </div>
 		        </div>        
 				<div class="am-form-group">
 				 	<label for="birthday" class="am-u-sm-3 am-form-label">生日</label>
 					<div class="am-u-sm-9 p-top">
-					  	${info.birthday}
+					  	${sysUser.birthday}
 					</div>
 				 </div>
 				 
 				 <div class="am-form-group">
 				 	<label class="am-u-sm-3 am-form-label">角色</label>
-				 	<div class="am-u-sm-9 p-top">${info.roleId}</div>				 	
+				 	<div class="am-u-sm-9 p-top">${sysUser.roleId}</div>				 	
 				 </div>
 				 
 				 <div class="am-form-group">
 					<label for="user-role" class="am-u-sm-3 am-form-label">性别</label>
 					<div class="am-u-sm-9 p-top">			      
-			             <#if info.isUsed=1 > 男 <#else> 女 </#if>
+			             ${sysUser.isUsed=1?'男':'女'}
 					</div>
 				</div>
 				
 				<div class="am-form-group">
 					<label for="user-role" class="am-u-sm-3 am-form-label">状态</label>
 					<div class="am-u-sm-9 p-top">			      
-			            <#if info.isUsed=1 > 正常 <#else>  无效 </#if>
+			            ${sysUser.isUsed=1?'正常':'无效'}
 					</div>
 				</div>
 			 
@@ -59,28 +59,28 @@
 		        <div class="am-form-group">
 		            <label for="userName" class="am-u-sm-3 am-form-label">姓名</label>
 		            <div class="am-u-sm-9 p-top">
-		              	${info.userName}
+		              	${sysUser.userName}
 		            </div>
 		        </div>
 
 		        <div class="am-form-group">
 		            <label for="email" class="am-u-sm-3 am-form-label">电子邮件</label>
 		            <div class="am-u-sm-9 p-top">
-		              	${info.email}
+		              	${sysUser.email}
 		            </div>
 		        </div>
 
 		        <div class="am-form-group">
 		            <label for="idCard" class="am-u-sm-3 am-form-label">身份证</label>
 		            <div class="am-u-sm-9 p-top">
-		              	${info.idCard}
+		              	${sysUser.idCard}
 		            </div>
 		        </div>
 				
 		        <div class="am-form-group">
 		            <label for="addr" class="am-u-sm-3 am-form-label">地址</label>
 		            <div class="am-u-sm-9 p-top">
-		              	${info.addr}
+		              	${sysUser.addr}
 		            </div>
 		        </div>
 
@@ -88,7 +88,7 @@
 		        <div class="am-form-group">
 		            <label for="sortNo" class="am-u-sm-3 am-form-label">排序号</label>
 		            <div class="am-u-sm-9 p-top">
-		              	${info.sortNo}
+		              	${sysUser.sortNo}
 		            </div>
 		        </div>
 		          

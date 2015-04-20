@@ -1,17 +1,14 @@
 package com.twosnail.basic.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Logger;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
-import com.twosnail.basic.model.SysInfoRole;
-import com.twosnail.basic.model.SysInfoUser;
-import com.twosnail.basic.util.FreemarkerUtil;
+import com.twosnail.basic.model.SysRole;
+import com.twosnail.basic.model.SysUser;
 import com.twosnail.basic.util.exception.BusiException;
 import com.twosnail.basic.util.result.ResultObj;
 
@@ -34,14 +31,14 @@ public class UserController extends Controller {
 	        pageNum = pageNum == null ? 1 : pageNum;
 	        numPerPage = ( numPerPage == null || numPerPage == 0 ) ? 3 : numPerPage;
 	        
-	        Page<Record> list = SysInfoUser.me.getUserInfo( -1 , getPara("keyWord"), pageNum, numPerPage );
-	        List<SysInfoRole> roles = SysInfoRole.me.getSysRoles();
+	        Page<Record> list = SysUser.me.getUser( -1 , getPara("keyWord"), pageNum, numPerPage );
+	        List<SysRole> roles = SysRole.me.getSysRoles();
 	        setAttr( "list", list );
 	        setAttr( "roles", roles );
 	        setAttr( "keyWord", keyWord );
 	        
 		} catch (Exception e) {
-			this.logger.warn( "添加信息，初始化失败！" , e );
+			this.logger.warn( "用户列表信息，初始化失败！" , e );
 		}
         render( "user_list.html" );
 	}
@@ -60,7 +57,7 @@ public class UserController extends Controller {
     	
         JSONObject result = new JSONObject() ;
         try {
-        	List<SysInfoRole> roles = SysInfoRole.me.getSysRoles();
+        	List<SysRole> roles = SysRole.me.getSysRoles();
         	result.put( "roles" ,  roles ) ;
         	renderJson(new ResultObj( ResultObj.SUCCESS , "", result )) ;
 		} catch (Exception e) {
@@ -72,25 +69,21 @@ public class UserController extends Controller {
     
     /**
      * 保存页面
-     * @param infoUser
-     * @param request
-     * @param session
-     * @return
      */
     public void addsave() {
     	
-    	SysInfoUser infoUser = getModel(SysInfoUser.class) ;
+    	SysUser sysUser = getModel(SysUser.class) ;
         String dp = getPara("isDefPassWord");
         int isDefPas = dp == null ? 1 : 0 ;
-        infoUser.set( "isDefPassWord" , isDefPas);
+        sysUser.set( "isDefPassWord" , isDefPas);
         if(isDefPas==0)
-        	infoUser.set( "passWord" , "PassWord" );
-        if( infoUser == null || infoUser.getInt("roleId") < 0 )
+        	sysUser.set( "passWord" , "PassWord" );
+        if( sysUser == null || sysUser.getInt("roleId") < 0 )
         	renderJson( new ResultObj( ResultObj.FAIL , "角色不能为空！" , null )) ;
-        if( SysInfoUser.me.checkUserName( infoUser.getStr("userName")) )
+        if( SysUser.me.checkUserName( sysUser.getStr("userName")) )
         	renderJson( new ResultObj( ResultObj.FAIL , "新增失败，用户名存在！" , null ) ) ;
     	try {
-             SysInfoUser.me.addUserInfo( infoUser , getRequest() );
+             SysUser.me.addUser( sysUser , getRequest() );
              renderJson( new ResultObj( ResultObj.SUCCESS , "添加成功！" , null ) ) ;
          } catch( BusiException e ) {
              this.logger.warn( "新增用户失败" , e );
@@ -105,9 +98,9 @@ public class UserController extends Controller {
     public void editview(){
         
         try {
-        	List<SysInfoRole> roles = SysInfoRole.me.getSysRoles();
-            SysInfoUser infoUser = SysInfoUser.me.getUserInfoById(getParaToInt("id")) ;        
-            setAttr( "infoUser" , infoUser ) ;
+        	List<SysRole> roles = SysRole.me.getSysRoles();
+            SysUser sysUser = SysUser.me.getUserById(getParaToInt("id")) ;        
+            setAttr( "sysUser" , sysUser ) ;
             setAttr( "roles" ,  roles ) ;
 		} catch (Exception e) {
 			this.logger.warn( "修改信息，初始化信息失败！" , e );
@@ -117,20 +110,20 @@ public class UserController extends Controller {
     
     /**
      * 修改保存页面
-     * @param infoUser
+     * @param sysUser
      * @param request
      * @return
      */
     public void editsave(){
     	
         String message = "" ;
-        SysInfoUser infoUser = getModel(SysInfoUser.class ) ;
+        SysUser sysUser = getModel(SysUser.class ) ;
         try {
         	//角色编号不能为空
-            if( infoUser == null || infoUser.get("") == null ){
+            if( sysUser == null || sysUser.get("") == null ){
             	renderJson(  new ResultObj( ResultObj.FAIL , "用户名不能为空！" , null ) );
             }
-            SysInfoUser.me.updateSysInfoUser( infoUser , getRequest() ) ;
+            SysUser.me.updUser( sysUser , getRequest() ) ;
             renderJson( new ResultObj( ResultObj.SUCCESS , null , null ) ) ;
             return ;
         } catch( BusiException e ) {
@@ -152,7 +145,7 @@ public class UserController extends Controller {
      */
     public void upstatus(){
         try {
-            SysInfoUser.me.updateSysInfoUserStasus( getParaToLong("id") , getParaToInt("isUsed") );
+            SysUser.me.updUserStasus( getParaToLong("id") , getParaToInt("isUsed") );
             renderJson( new ResultObj( ResultObj.SUCCESS , null , null ) );
             return ;
         } catch ( BusiException e ) {
@@ -177,7 +170,7 @@ public class UserController extends Controller {
         		renderJson( new ResultObj( ResultObj.FAIL , "参数Ids不能为空！" , null ) );
         	} else {
         		String[] ids =  id.split(",") ;
-        		SysInfoUser.me.deleteSysInfoUserTx(  ids );
+        		SysUser.me.delUserTx(  ids );
         	}            
         	renderJson( new ResultObj( ResultObj.SUCCESS , null , null ) );
         } catch ( BusiException e ) {
@@ -193,18 +186,13 @@ public class UserController extends Controller {
      * @param response
      * @return
      */
-	public void userInfoview( ){		
-		Map<String, Object> root = new HashMap<String, Object>(3) ;
+	public void info(){		
 		try {
-	        SysInfoUser info = SysInfoUser.me.getUserInfoById( getParaToInt("id") );
-	        root.put( "info" , info ) ;
+	        setAttr( "sysUser" , SysUser.me.getUserById( getParaToInt("id") ) ) ;
 		} catch (Exception e) {
 			this.logger.warn( "添加信息，初始化失败！" , e );
-		}        
-        //写入模板
-        FreemarkerUtil.writeTemplate(
-    			getRequest(), getResponse() , "WEB-INF/html/system/user", "user_info.ftl" , root ) ;
-        render( "user_info.ftl" );
+		}
+        render( "user_info.html" );
     }
     
     /**
@@ -217,7 +205,7 @@ public class UserController extends Controller {
         ModelAndView view = new ModelAndView( "/system/user/role_user_choose" );
         pageNum = pageNum == null ? 1 : pageNum;
         numPerPage = ( numPerPage == null || numPerPage == 0 ) ? 20 : numPerPage;
-        PageList<Map> list = SysInfoUser.me.getUserInfo(1, -1 , keyWord, pageNum, numPerPage );
+        PageList<Map> list = SyssysUser.me.getUserInfo(1, -1 , keyWord, pageNum, numPerPage );
         List<Map> listMap =  list.getDatalist() ;
         for (Map<String, Object> map : listMap)
 		{

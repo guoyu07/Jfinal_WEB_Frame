@@ -2,6 +2,7 @@ package com.twosnail.basic.util;
 
 import com.jfinal.config.Routes;
 import com.twosnail.basic.controller.IndexController;
+import com.twosnail.basic.controller.RoleController;
 import com.twosnail.basic.controller.UserController;
 
 public class AdminRoutes extends Routes {
@@ -10,6 +11,7 @@ public class AdminRoutes extends Routes {
 	public void config() {
 		add( "/" , IndexController.class  ) ;
 		add( "/sys/user" , UserController.class  ) ;
+		add( "/sys/role" , RoleController.class  ) ;
 	}
 
 }

@@ -15,7 +15,7 @@ import com.twosnail.basic.util.exception.BusiException;
 import com.twosnail.basic.util.user.UserInfo;
 
 /**   
- * @Title: SysInfoUser.java
+ * @Title: SysUser.java
  * @Description: TODO 
  * @author jason   
  * @date 2015年4月17日 下午1:02:01 
@@ -23,9 +23,9 @@ import com.twosnail.basic.util.user.UserInfo;
  */
 
 @SuppressWarnings("serial")
-public class SysInfoUser extends Model<SysInfoUser>{
+public class SysUser extends Model<SysUser>{
 	
-	public static final SysInfoUser me = new SysInfoUser() ; 
+	public static final SysUser me = new SysUser() ; 
 	public static final int STATUS_NOMAL = 1;    
 	public static final int STATUS_FREEZE = 0;
 	
@@ -52,16 +52,16 @@ public class SysInfoUser extends Model<SysInfoUser>{
 		List<String> param = new ArrayList<String>(2) ;
 		param.add( userName ) ;
 		param.add( passWord ) ;
-		SysInfoUser infoUser = me.findFirst( "SELECT a.id,a.roleId,a.userName,a.createTime,a.createIp,a.isUsed,a.sortNo , "
+		SysUser infoUser = me.findFirst( "SELECT a.id,a.id,a.userName,a.createTime,a.createIp,a.isUsed,a.sortNo , "
 				+ "b.roleCode,b.roleName  "
-				+ "FROM sysinfouser a "
-				+ "left join sysinforole b on a.roleId = b.roleId "
+				+ "FROM sys_user a "
+				+ "left join sys_role b on a.id = b.id "
 				+ "WHERE a.userName=? AND a.passWord=? " , userName , passWord ) ;
 		
 		if( infoUser == null ) {
 			//没有该用户
 			throw new BusiException( "账号或密码错误！" );
-		} else if( infoUser.getInt( "isUsed" ) != SysInfoUser.STATUS_NOMAL ) {
+		} else if( infoUser.getInt( "isUsed" ) != SysUser.STATUS_NOMAL ) {
 			//管理员被冻结
 			throw new BusiException( "用户被冻结！" );
 		} else {
@@ -76,22 +76,22 @@ public class SysInfoUser extends Model<SysInfoUser>{
 	
 	/**
 	 * 获取用户信息
-	 * @param roleId
+	 * @param id
 	 * @param keyWord
 	 * @param pageNumber
 	 * @param pageSize
 	 * @return
 	 */
-	public Page<Record> getUserInfo( int roleId ,String keyWord , int pageNumber, int pageSize) {
-		StringBuffer sb = new StringBuffer(" FROM sysinfouser a WHERE 1=1 ");
+	public Page<Record> getUser( int id ,String keyWord , int pageNumber, int pageSize) {
+		StringBuffer sb = new StringBuffer(" FROM sys_user a WHERE 1=1 ");
 		if( keyWord != null && "".equals( keyWord = keyWord.trim() ) ) {
 			sb.append( " AND (a.userName LIKE '%"+keyWord+"%' or a.id LIKE '%"+keyWord+"%')" ) ;
 		}
-		if( roleId != -1 ) {
-			sb.append( " AND a.roleId = " + roleId ) ;
+		if( id != -1 ) {
+			sb.append( " AND a.id = " + id ) ;
 		}
 		return Db.paginate(pageNumber, pageSize, 
-				"SELECT a.*,(select a1.roleName from sysinforole a1 WHERE a1.roleId = a.roleId) roleName" , sb.toString() );
+				"SELECT a.*,(select a1.roleName from sys_role a1 WHERE a1.id = a.id) roleName" , sb.toString() );
 			
 	}
 
@@ -101,7 +101,7 @@ public class SysInfoUser extends Model<SysInfoUser>{
 	 * @return  true-->存在
 	 */
 	public boolean checkUserName(String userName){
-		return me.findFirst( "SELECT id,userName FROM sysinfouser WHERE userName=?" , userName) != null ;
+		return me.findFirst( "SELECT id,userName FROM sys_user WHERE userName=?" , userName) != null ;
 	}
 	
 	/**
@@ -109,30 +109,30 @@ public class SysInfoUser extends Model<SysInfoUser>{
 	 * @param userName
 	 */
 	public int checkUserNameCount( String userName ){
-		return Db.queryInt("SELECT COUNT(1) FROM sysinfouser a WHERE a.userName = ?" , userName );
+		return Db.queryInt("SELECT COUNT(1) FROM sys_user a WHERE a.userName = ?" , userName );
 	}
 	
 	/**
      * 查看该角色下是否存在用户
-     * @param roleId
+     * @param id
      * @return true 不存在
      * @throws BusiException
      */
-    public boolean checkUserByRoleId( int roleId ){
-    	return Db.queryInt("SELECT COUNT(1) FROM sysinfouser a WHERE a.roleId = ?" , roleId ) == 1;
+    public boolean checkUserById( int id ){
+    	return Db.queryColumn("SELECT id FROM sys_user a WHERE a.roleId = ?" , id ) == null;
     }
     
 	
 	/**
 	 * 添加用户信息
-	 * @param infoUser
+	 * @param sysUser
 	 * @throws BusiException
 	 */
-	public void addUserInfo( SysInfoUser infoUser , HttpServletRequest request ) throws BusiException{
-		infoUser.set( "createTime" ,System.currentTimeMillis() );
-        infoUser.set( "createId" ,UserInfo.getId( request ) ) ;
-        infoUser.set( "createIp" ,RequestHandler.getIpAddr(request)) ;
-		me.setAttrs(infoUser) ;
+	public void addUser( SysUser sysUser , HttpServletRequest request ) throws BusiException{
+		sysUser.set( "createTime" ,System.currentTimeMillis() );
+        sysUser.set( "createId" ,UserInfo.getId( request ) ) ;
+        sysUser.set( "createIp" ,RequestHandler.getIpAddr(request)) ;
+		me.setAttrs(sysUser) ;
 		if( !me.save() ) {
             throw new BusiException( "添加信息失败!" );
         }
@@ -143,7 +143,7 @@ public class SysInfoUser extends Model<SysInfoUser>{
 	 * @param id
 	 * @return
 	 */
-	public SysInfoUser getUserInfoById( long id){
+	public SysUser getUserById( long id){
 		return me.findById(id) ;
 	}
 	
@@ -152,11 +152,11 @@ public class SysInfoUser extends Model<SysInfoUser>{
 	 * @param infoUser
 	 * @throws BusiException
 	 */
-	public void updateSysInfoUser( 
-			SysInfoUser infoUser , HttpServletRequest request ) throws BusiException{
-		infoUser.set( "operateId" , UserInfo.getId(request) ) ;
-		infoUser.set( "opetateTime" , System.currentTimeMillis() ) ;
-		me.setAttrs(infoUser) ;
+	public void updUser( 
+			SysUser user , HttpServletRequest request ) throws BusiException{
+		user.set( "operateId" , UserInfo.getId(request) ) ;
+		user.set( "opetateTime" , System.currentTimeMillis() ) ;
+		me.setAttrs(user) ;
 		if( !me.update() ) {
             throw new BusiException( "添加信息失败!" );
         }
@@ -169,7 +169,7 @@ public class SysInfoUser extends Model<SysInfoUser>{
 	 * @return
 	 * @throws BusiException
 	 */
-    public void updateSysInfoUserStasus( long id , int isUsed ) throws BusiException{
+    public void updUserStasus( long id , int isUsed ) throws BusiException{
     	me.set( "id", id );
     	me.set( "isUsed", isUsed );
 		if( !me.update() ) {
@@ -183,9 +183,9 @@ public class SysInfoUser extends Model<SysInfoUser>{
      * @return
      * @throws BusiException
      */
-    public void deleteSysInfoUserTx( String[] ids ) throws BusiException{
+    public void delUserTx( String[] ids ) throws BusiException{
 		for (String id : ids) {
-			if( !me.deleteById(id) ) {
+			if( !me.deleteById( id ) ) {
 	            throw new BusiException( "删除用户失败!" );
 	        }
 		}

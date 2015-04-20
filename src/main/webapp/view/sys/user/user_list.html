@@ -84,7 +84,7 @@
 							<tr>
 								<td><input type="checkbox" value="${infoUser.id}" class="checkbox_list" /></td>
 					            <td> ${infoUser.id} </td>
-					            <td><a href="${rootPath}/sys/user/${infoUser.id}"> ${infoUser.userName} </a></td>
+					            <td><a href="${rootPath}/sys/user/info?id=${infoUser.id}"> ${infoUser.userName} </a></td>
 					            <td>${infoUser.sex==1?"男":'女'}</td>
 					            <td> ${infoUser.roleName} </td>
 					            <td class="am-hide-sm-only"> ${infoUser.mobile} </td>

@@ -1,7 +1,7 @@
 package com.twosnail.basic.controller;
 
 import com.jfinal.core.Controller;
-import com.twosnail.basic.model.SysInfoUser;
+import com.twosnail.basic.model.SysUser;
 import com.twosnail.basic.util.result.ResultObj;
 
 /**   
@@ -31,7 +31,7 @@ public class IndexController extends Controller {
 	 */
 	public void check(){
 		try {
-			SysInfoUser.me.userLogin( 
+			SysUser.me.userLogin( 
 					getPara("loginName"), getPara("password"), getPara( "code" )  , getRequest() );
 			//获取上次登录时间-->第一次登录、上次登录时间为0
 			long lastTime = 0;

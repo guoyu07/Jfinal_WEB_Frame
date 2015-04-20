@@ -1,4 +1,4 @@
-package com.twosnail.init;
+package com.twosnail.basic.config;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,13 +21,14 @@ import com.jfinal.ext.plugin.shiro.ShiroPlugin;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.twosnail.basic.model.SysButtonLog;
-import com.twosnail.basic.model.SysInfoRole;
+import com.twosnail.basic.model.SysRole;
 import com.twosnail.basic.model.SysInfoUrl;
-import com.twosnail.basic.model.SysInfoUser;
+import com.twosnail.basic.model.SysUser;
 import com.twosnail.basic.model.SysLogLog;
 import com.twosnail.basic.model.SysPrivilege;
 import com.twosnail.basic.util.AdminRoutes;
 import com.twosnail.basic.util.tools.ShiroExt;
+import com.twosnail.init.ExtRoutes;
 
 /**
  * API引导式配置
@@ -92,9 +93,9 @@ public class SysConfig extends JFinalConfig {
 		arp.setShowSql(getPropertyToBoolean("showSql", false));
 		me.add(arp);
 		// 映射表到模型
-		arp.addMapping( "sysinfouser" , SysInfoUser.class ) ;
+		arp.addMapping( "sys_user" , SysUser.class ) ;
 		arp.addMapping( "sysbuttonlog" , SysButtonLog.class ) ;
-		arp.addMapping( "sysinforole" , SysInfoRole.class ) ;
+		arp.addMapping( "sys_role" , SysRole.class ) ;
 		arp.addMapping( "sysinfourl" , SysInfoUrl.class ) ;
 		arp.addMapping( "sysloglog" , SysLogLog.class ) ;
 		arp.addMapping( "sysprivilege" , SysPrivilege.class ) ;
