@@ -38,7 +38,7 @@ public class SysConfig extends JFinalConfig {
 	/**
 	 * 配置常量
 	 */
-	public void configConstant(Constants me) {
+	public void configConstant( Constants me )  {
 		// 加载少量必要配置，随后可用getProperty(...)获取值
 		loadPropertyFile("jfinal.properties");
         me.setDevMode(getPropertyToBoolean("devModel", false));
