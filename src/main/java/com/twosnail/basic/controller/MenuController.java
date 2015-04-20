@@ -166,7 +166,7 @@ public class MenuController extends Controller {
 				
 				str.append( " data-am-collapse=\"{target: '#"+ sysMenu.get("id") +"'}\"" ) ;
 				
-				str.append( "><span class=\"am-icon-file\"></span> " ) ;
+				str.append( "><span class=\""+sysMenu.get("icon")+"\"></span> " ) ;
 				str.append( sysMenu.get("name") ) ;
 				str.append( "<span class=\"am-icon-angle-right am-fr am-margin-right\"></span>" ) ;
 				str.append( "</a>" ) ;
@@ -176,7 +176,7 @@ public class MenuController extends Controller {
 				str.append("</ul>") ;
 				
 			} else {
-				str.append( "><span class=\"am-icon-file\"></span> " ) ;
+				str.append( "><span class=\""+sysMenu.get("icon")+"\"></span> " ) ;
 				str.append( sysMenu.get("name") ) ;
 				str.append( "</a>" ) ;
 			}

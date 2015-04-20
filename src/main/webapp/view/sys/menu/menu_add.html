@@ -58,7 +58,24 @@ function save(){
 				<div class="am-form-group">
 		            <label for="icon" class="am-u-sm-3 am-form-label">菜单icon</label>
 		            <div class="am-u-sm-9">
-		              	<input type="text" name="sysMenu.icon"  placeholder="请选择icon">
+		              	<input type="hidden" name="sysMenu.icon" id="icon" value="am-icon-file"  placeholder="请选择icon">
+		              	<input type="hidden" id="icon-value" value="am-icon-file">
+		              	<a id="a_icon" class="am-icon-file"></a>
+		              	<a class="am-btn am-btn-sm am-btn-success" onclick="choseIco();">选择</a>
+		              	<select data-am-selected="{btnSize: 'sm'}" onchange="selectStyle(this.value )" id="select-font">
+		              		<option value=" " selected="selected">默认大小</option>
+		              		<option value=" am-icon-sm">am-icon-sm</option>
+		              		<option value=" am-icon-md">am-icon-md</option>
+		              		<option value=" am-icon-lg">am-icon-lg</option>		              		
+		              	</select>
+		              	<!-- <select data-am-selected="{btnSize: 'sm'}" onchange="selectStyle(this.value , 'select-font' )"  id="select-color">
+		              		<option value=" " selected="selected">默认</option>
+		              		<option value=" am-icon-btn am-primary">am-primary</option>
+		              		<option value=" am-icon-btn am-secondary">am-secondary</option>
+		              		<option value=" am-icon-btn am-success">am-success</option>
+		              		<option value=" am-icon-btn am-warning">am-warning</option>
+		              		<option value=" am-icon-btn am-danger">am-danger</option>         		
+		              	</select> -->
 		            </div>
 		        </div>
 		        
@@ -121,5 +138,26 @@ function save(){
 <script src="${rootPath}/assets/js/amazeui.min.js"></script>
 <!--<![endif]-->
 <script src="${rootPath}/assets/js/app.js"></script>
+<script type="text/javascript">
+	function choseIco(){
+		window.top.choseIco();
+	}	
+	function selectStyle( value ){
+		var clazz = $("#icon-value").val() +  value ;
+		$("#a_icon").removeClass();
+		$("#icon").removeClass();
+		$("#a_icon").attr( "class" , clazz ) ;
+		$("#icon").val( clazz ) ;
+	}
+	
+	function setStyle( value ){
+		$("#icon-value").val( value );
+		var select = $("#select-font").val() ;
+		$("#a_icon").removeClass();
+		$("#icon").removeClass();
+		$('#icon').val( value + select );
+		$('#a_icon').attr( "class",value + select );
+	}
+</script>
 </body>
 </html>

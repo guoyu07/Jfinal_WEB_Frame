@@ -169,6 +169,10 @@
 		}
 		$('#my-alert').modal('open');
 	}
+  
+	function choseIco(){
+		$('#choseIco').modal('open');
+	}
 
 </script>
 
@@ -198,9 +202,45 @@
       </div>
     </div>
 </div>
+
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="choseIco">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd">Modal 标题
+      <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+    </div>
+    <div class="am-modal-bd" id="div_setIoc">
+      <ul class="doc-icon-list" >
+      <li class="am-icon-bed" ></li>
+      <li class="am-icon-buysellads"> </li>
+<li class="am-icon-hand-o-right"> 1</li>
+<li class="am-icon-classstyle">2 </li>
+ <li class="am-icon-hand-o-up"> 3</li>
+ <li class="am-icon-long-arrow-down">3 </li>
+ <li class="am-icon-long-arrow-left"> </li>
+ <li class="am-icon-long-arrow-right"></li>
+ <li class="am-icon-long-arrow-up"></li>
+ <li class="am-icon-toggle-down"></li>
+ <li class="am-icon-toggle-left"></li>
+ <li class="am-icon-toggle-right"></li>
+ <li class="am-icon-toggle-up"></li>
+      <li class="">
+      </ul>
+    </div>
+  </div>
+</div>
+
 <!-- modal end -->
 
 
 
 </body>
+<script type="text/javascript">
+	$("#div_setIoc").ready(function(){
+		$("#div_setIoc li").click(function(){
+			var value = $(this).attr('class') ;
+			content.window.content_in.window.setStyle( value ); 
+			$('#choseIco').modal('close');
+		});
+	});
+</script>
 </html>

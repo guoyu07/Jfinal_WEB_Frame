@@ -99,7 +99,7 @@ public class IndexController extends Controller {
 			str.append( " <a class=\"am-cf\" onclick=\"setidValue("+sysMenu.get("id")+");\"  " ) ;
 			if( node.getChildren().size() > 0 ) {
 				str.append( " data-am-collapse=\"{target: '#"+ sysMenu.get("id") +"'}\"" ) ;
-				str.append( "><span class=\"am-icon-file\"></span> " ) ;
+				str.append( "><span class=\""+sysMenu.get("icon")+"\"></span> " ) ;
 				str.append( sysMenu.get("name") ) ;
 				str.append( "<span class=\"am-icon-angle-right am-fr am-margin-right\"></span>" ) ;
 				str.append( "</a>" ) ;
@@ -110,7 +110,7 @@ public class IndexController extends Controller {
 				
 			} else {
 				str.append( " href="+ basePath + sysMenu.get("href") +" target=\"content\"  " ) ;
-				str.append( "><span class=\"am-icon-file\"></span> " ) ;
+				str.append( "><span class=\""+sysMenu.get("icon")+"\"></span> " ) ;
 				str.append( sysMenu.get("name") ) ;
 				str.append( "</a>" ) ;
 			}
