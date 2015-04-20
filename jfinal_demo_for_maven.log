@@ -134,3 +134,18 @@ Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'two
 	at com.jfinal.plugin.activerecord.DbPro.paginate(DbPro.java:460)
 	at com.jfinal.plugin.activerecord.DbPro.paginate(DbPro.java:488)
 	... 36 more
+
+2015-04-20 17:59:21
+[WARN]-[Thread: qtp1724482638-21]-[com.jfinal.core.ActionHandler.handle()]: 404 Action Not Found: /log/node/listview
+
+2015-04-20 17:59:27
+[WARN]-[Thread: qtp1724482638-21]-[com.jfinal.core.ActionHandler.handle()]: 404 Action Not Found: /log/node/listview
+
+2015-04-20 17:59:29
+[WARN]-[Thread: qtp1724482638-21]-[com.jfinal.core.ActionHandler.handle()]: 404 Action Not Found: //log/login/listview
+
+2015-04-20 18:02:49
+[WARN]-[Thread: qtp1724482638-19]-[com.jfinal.core.ActionHandler.handle()]: 404 Action Not Found: //log/login/listview
+
+2015-04-20 18:02:50
+[WARN]-[Thread: qtp1724482638-24]-[com.jfinal.core.ActionHandler.handle()]: 404 Action Not Found: /log/node/listview

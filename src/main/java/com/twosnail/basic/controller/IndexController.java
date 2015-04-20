@@ -1,8 +1,13 @@
 package com.twosnail.basic.controller;
 
+import java.util.List;
+
 import com.jfinal.core.Controller;
+import com.twosnail.basic.model.SysMenu;
 import com.twosnail.basic.model.SysUser;
+import com.twosnail.basic.util.RequestHandler;
 import com.twosnail.basic.util.result.ResultObj;
+import com.twosnail.basic.util.tree.TreeNode;
 
 /**   
  * @Title: IndexController.java
@@ -55,9 +60,22 @@ public class IndexController extends Controller {
 	}
 	
 	/**
-	 * 
+	 * 后台主页
 	 */
 	public void main() {
+		//菜单
+		List<TreeNode<SysMenu>> list = SysMenu.me.getMenuList() ;
+        String tree = treeMenu( list,  new StringBuilder() ,  RequestHandler.getBasePath(getRequest()) ) ;
+        setAttr( "tree", tree ) ;
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		render("main.html");
 	}
 	
@@ -66,6 +84,39 @@ public class IndexController extends Controller {
 	 */
 	public void content() {
 		render("content.html");
+	}
+	
+	
+	public String treeMenu( List<TreeNode<SysMenu>> list , StringBuilder str , String basePath ){    	
+    	SysMenu sysMenu = null ;
+    	for (TreeNode<SysMenu> node : list){
+			sysMenu = node.get() ;	
+			str.append( "<li " ) ;
+			if( -1 == sysMenu.getInt( "parentId" ) ) ;
+				str.append( "class=\"admin-parent\" " ) ;
+			str.append( ">" ) ;
+			
+			str.append( " <a class=\"am-cf\" onclick=\"setidValue("+sysMenu.get("id")+");\"  " ) ;
+			if( node.getChildren().size() > 0 ) {
+				str.append( " data-am-collapse=\"{target: '#"+ sysMenu.get("id") +"'}\"" ) ;
+				str.append( "><span class=\"am-icon-file\"></span> " ) ;
+				str.append( sysMenu.get("name") ) ;
+				str.append( "<span class=\"am-icon-angle-right am-fr am-margin-right\"></span>" ) ;
+				str.append( "</a>" ) ;
+				
+				str.append("<ul class=\"am-list am-collapse admin-sidebar-sub am-in\" id=\""+ sysMenu.get("id") +"\">") ;
+				treeMenu( node.getChildren() , str , basePath );
+				str.append("</ul>") ;
+				
+			} else {
+				str.append( " href="+ basePath + sysMenu.get("href") +" target=\"content\"  " ) ;
+				str.append( "><span class=\"am-icon-file\"></span> " ) ;
+				str.append( sysMenu.get("name") ) ;
+				str.append( "</a>" ) ;
+			}
+			str.append( "</li>" ) ;
+		}
+		return str.toString() ;
 	}
 }
 
