@@ -9,7 +9,7 @@ import com.twosnail.basic.util.tree.TreeList;
 import com.twosnail.basic.util.tree.TreeNode;
 
 /**   
- * @Title: SysUser.java
+ * @Title: SysRole.java
  * @Description: TODO 
  * @author 两只蜗牛   
  * @date 2015年4月17日 下午1:02:01 

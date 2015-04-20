@@ -160,7 +160,7 @@
 	
   </dependencies>
   <build>
-    <finalName>jfinal_demo_for_maven</finalName>
+    <finalName>zhiyeyaoshi2</finalName>
 	    <plugins>
 		  <plugin>
 		    <groupId>org.mortbay.jetty</groupId>

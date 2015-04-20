@@ -9,38 +9,120 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Record;
 import com.twosnail.basic.util.PermissionName;
+import com.twosnail.basic.util.exception.BusiException;
+import com.twosnail.basic.util.tree.TreeList;
+import com.twosnail.basic.util.tree.TreeNode;
 
 /**   
- * @Title: SysInfoUser.java
- * @Description: TODO 
- * @author jason   
+ * @Title: SysMenu.java
+ * @Description: 菜单 
+ * @author 两只蜗牛   
  * @date 2015年4月17日 下午1:02:01 
  * @version V1.0   
  */
 
 @SuppressWarnings("serial")
-public class SysInfoUrl extends Model<SysInfoUrl>{
-	private Logger logger = Logger.getLogger( SysInfoUrl.class );
-	public static final SysInfoUrl me = new SysInfoUrl() ; 
+public class SysMenu extends Model<SysMenu> {
+	private Logger logger = Logger.getLogger( SysMenu.class );
+	public static final SysMenu me = new SysMenu() ; 
+	/**
+     * 获取菜单列表信息
+     * @return
+     */
+    public List<TreeNode<SysMenu>> getMenuList(){
+    	List<SysMenu> SysMenu = me.find( "SELECT * FROM sys_menu " ) ;
+    	List<TreeNode<SysMenu>> list =  TreeList.sort( SysMenu, new TreeList.SortHandler<SysMenu>() {
+			public int getId(SysMenu t){
+				return t.getInt("id");
+			}
+			public int getParentId(SysMenu t){
+				return t.getInt("parentId");
+			}
+    	} );
+    	return list ;
+    }
+    
+    /**
+	 * 通过id查询菜单信息
+	 * @param id
+	 * @return
+	 */
+	public SysMenu getMenuById( int id ){
+		return me.findById( id ) ;
+	}
+	
+	public String getMenuName(  int id  ) {
+		if( id == -1 ) {
+			return null ;
+		}
+		return this.getMenuById(id).getStr("name") ;
+	}
+	
+	/**
+	 * 添加菜单信息
+	 * @param SysMenu
+	 * @throws BusiException
+	 */
+	public void addMenu( SysMenu menu) throws BusiException {
+		menu.set( "createTime" , System.currentTimeMillis() );
+		me.setAttrs(menu) ;
+		if( !me.save() ) {
+            throw new BusiException( "添加信息失败!" );
+        }
+	}
+    
+	/**
+	 * 修改菜单信息
+	 * @param SysMenu
+	 * @throws BusiException
+	 */
+	public void updMenu( SysMenu menu ) throws BusiException {
+		me.setAttrs(menu) ;
+		if( !me.update() ) {
+            throw new BusiException( "修改菜单信息失败!" );
+        }
+	}
+	
+	/**
+     * 修改菜单信息状态
+     * @param SysMenu
+     * @throws BusiException
+     */
+    public void updMenuStasus( SysMenu menu ) throws BusiException {
+    	me.setAttrs( menu ) ;
+    	if(  !me.update() ) {
+            throw new BusiException( "修改信息失败" );
+        }
+    }   
+    
+    /**
+     * 删除 菜单
+     * @param id
+     * @throws BusiException
+     */
+    public void delMenuTx( int id ) throws BusiException{
+       if( !me.deleteById( id ) ) {
+           throw new BusiException( "修改信息失败" );
+       }
+    }
 	
 	/**
      * 获取授权列表
      * @return
      * @throws Exception
      */
-    public List<Record> getSysInfoUrlByRoleId(long roleId){
+    public List<Record> getsysMenuByMenuId(long menuId){
     	//获取菜单
     	List<Record> infoUrl = Db.find( 
-    			"SELECT a.*,IFNULL((select a1.permValue from sysprivilege a1 where a.urlId = a1.urlId and a1.roleId=? ),-1) permValue "
-    			+ "FROM sysinfourl a ORDER BY a.sortNo" , roleId ) ;
+    			"SELECT a.*,IFNULL((select a1.permValue from sys_privilege a1 where a.urlId = a1.urlId and a1.menuId=? ),-1) permValue "
+    			+ "FROM sys_menu a ORDER BY a.sortNo" , menuId ) ;
     	List<SysButton> buttonList = new ArrayList<SysButton>() ;
-    	for (Record sysInfoUrl : infoUrl){
+    	for (Record sys_menu : infoUrl){
     		
     		buttonList = new ArrayList<SysButton>() ;
-    		String permissionMethod = sysInfoUrl.getStr( "permission" ) ;
+    		String permissionMethod = sys_menu.getStr( "permission" ) ;
     		//通过反射，找到所需节点名称，值
-    		if(permissionMethod != null && !"".equals( permissionMethod ))
-    		{
+    		if(permissionMethod != null && !"".equals( permissionMethod )){
     			Class<?> clz;
 				try
 				{
@@ -69,10 +151,10 @@ public class SysInfoUrl extends Model<SysInfoUrl>{
 							}  
 	    	            button.set( "permValue" , permValue ) ;	
 	    	            //设置是否存在权限
-	    	            if( -1 == sysInfoUrl.getInt( "permValue" ) )
+	    	            if( -1 == sys_menu.getInt( "permValue" ) )
 	    	            	button.set( "hasPermission" , false ) ;
 	    	            else
-	    	            	button.set( "hasPermission" , (sysInfoUrl.getInt("permValue")&permValue)==permValue ) ;
+	    	            	button.set( "hasPermission" , (sys_menu.getInt("permValue")&permValue)==permValue ) ;
 	    	            
 	    	            buttonList.add(button) ;
 	    	        }
@@ -95,10 +177,10 @@ public class SysInfoUrl extends Model<SysInfoUrl>{
 							}  
 	    	            button.set( "permValue" ,permValue ) ;
 	    	            //设置是否存在权限
-	    	            if( -1 == sysInfoUrl.getInt( "permValue" ) )
+	    	            if( -1 == sys_menu.getInt( "permValue" ) )
 	    	            	button.set( "hasPermission" , false ) ;
 	    	            else
-	    	            	button.set( "hasPermission" , (sysInfoUrl.getInt("permValue")&permValue)==permValue ) ;
+	    	            	button.set( "hasPermission" , (sys_menu.getInt("permValue")&permValue)==permValue ) ;
 	    	            
 	    	            buttonList.add(button) ;
 	    	        }
@@ -106,9 +188,11 @@ public class SysInfoUrl extends Model<SysInfoUrl>{
 				{
 					logger.debug("不存在该类:"+e.getMessage()) ;
 				}
-				//sysInfoUrl.set( "sysButton" buttonList) ;
+				//sys_menu.set( "sysButton" buttonList) ;
     		}
 		}
     	return infoUrl ;		
+    	
+    	
     }
 }

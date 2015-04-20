@@ -5,14 +5,14 @@ import com.jfinal.plugin.activerecord.Model;
 /**   
  * @Title: SysInfoUser.java
  * @Description: TODO 
- * @author jason   
+ * @author 两只蜗牛   
  * @date 2015年4月17日 下午1:02:01 
  * @version V1.0   
  */
 
 @SuppressWarnings("serial")
-public class SysLogLog extends Model<SysLogLog>{
-	public static final SysLogLog me = new SysLogLog() ; 
+public class SysLoginLog extends Model<SysLoginLog>{
+	public static final SysLoginLog me = new SysLoginLog() ; 
 	
 	
 }

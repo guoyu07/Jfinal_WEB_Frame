@@ -22,11 +22,10 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.twosnail.basic.model.SysButtonLog;
 import com.twosnail.basic.model.SysRole;
-import com.twosnail.basic.model.SysInfoUrl;
+import com.twosnail.basic.model.SysMenu;
 import com.twosnail.basic.model.SysUser;
-import com.twosnail.basic.model.SysLogLog;
+import com.twosnail.basic.model.SysLoginLog;
 import com.twosnail.basic.model.SysPrivilege;
-import com.twosnail.basic.util.AdminRoutes;
 import com.twosnail.basic.util.tools.ShiroExt;
 import com.twosnail.init.ExtRoutes;
 
@@ -54,6 +53,9 @@ public class SysConfig extends JFinalConfig {
  		Map<String, Object> sharedVars = new HashMap<String, Object>();
  		sharedVars.put("rootPath", "http://localhost:8082") ;
  		gt.setSharedVars(sharedVars);
+ 		
+ 		//error
+ 		me.setError404View("error/404.html");
 	}
 	
 	/**
@@ -94,11 +96,11 @@ public class SysConfig extends JFinalConfig {
 		me.add(arp);
 		// 映射表到模型
 		arp.addMapping( "sys_user" , SysUser.class ) ;
-		arp.addMapping( "sysbuttonlog" , SysButtonLog.class ) ;
+		arp.addMapping( "sys_button_log" , SysButtonLog.class ) ;
 		arp.addMapping( "sys_role" , SysRole.class ) ;
-		arp.addMapping( "sysinfourl" , SysInfoUrl.class ) ;
-		arp.addMapping( "sysloglog" , SysLogLog.class ) ;
-		arp.addMapping( "sysprivilege" , SysPrivilege.class ) ;
+		arp.addMapping( "sys_menu" , SysMenu.class ) ;
+		arp.addMapping( "sys_login_log" , SysLoginLog.class ) ;
+		arp.addMapping( "sys_privilege" , SysPrivilege.class ) ;
 		
 		// 加载Shiro插件
 		me.add(new ShiroPlugin(routes));

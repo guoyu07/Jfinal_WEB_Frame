@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.jfinal.core.Controller;
 import com.jfinal.log.Logger;
-import com.twosnail.basic.model.SysRole;
+import com.twosnail.basic.model.SysMenu;
 import com.twosnail.basic.model.SysUser;
 import com.twosnail.basic.util.RequestHandler;
 import com.twosnail.basic.util.exception.BusiException;
@@ -12,26 +12,23 @@ import com.twosnail.basic.util.result.ResultObj;
 import com.twosnail.basic.util.tree.TreeNode;
 
 /**   
- * @Title: RoleController.java
- * @Description: 角色 
+ * @Title: MenuController.java
+ * @Description: 菜单 
  * @author 两只蜗牛   
  * @date 2015年4月17日 上午9:26:37 
  * @version V1.0   
  */
-public class RoleController extends Controller {
-	
-	private Logger logger = Logger.getLogger(RoleController.class) ;
-	
+public class MenuController extends Controller {	
+	private Logger logger = Logger.getLogger(MenuController.class) ;	
 	public void index(){
 		try {
-			List<TreeNode<SysRole>> list = SysRole.me.getRoleList() ;
+			List<TreeNode<SysMenu>> list = SysMenu.me.getMenuList() ;
 	        String tree = treeMenu( list,  new StringBuilder() ,  RequestHandler.getBasePath(getRequest()) ) ;
 	        setAttr( "tree", tree ) ;
-	        
 		} catch (Exception e) {
-			this.logger.warn( "角色列表信息，初始化失败！" , e );
+			this.logger.warn( "菜单列表信息，初始化失败！" , e );
 		}
-        render( "role_list.html" );
+        render( "menu_list.html" );
 	}
 	
 	/**
@@ -41,13 +38,8 @@ public class RoleController extends Controller {
     	
     	int id = getParaToInt( "id" ) ;
         setAttr( "parentId" , id ) ;
-        if( id == 0 ) {        	
-        } else if( id == -1 ) {
-        	setAttr( "parentName" , "超级管理员" ) ;
-        } else {
-        	setAttr( "parentName" , SysRole.me.getRoleName(id)) ;
-        }        
-    	render( "role_add.html" ) ;
+        setAttr( "parentName" , SysMenu.me.getMenuName(id)) ;
+    	render( "menu_add.html" ) ;
     }
     
     /**
@@ -58,10 +50,10 @@ public class RoleController extends Controller {
      * @return
      */
     public void add() {
-    	SysRole sysRole = getModel( SysRole.class ) ;
+    	SysMenu sysMenu = getModel( SysMenu.class ) ;
     	try {
-            //添加角色信息
-    		SysRole.me.addRole( sysRole );
+            //添加菜单信息
+    		SysMenu.me.addMenu( sysMenu );
     		renderJson( new ResultObj( ResultObj.SUCCESS , "", null ) ) ;
     		return ;
         } catch( BusiException e ) {
@@ -79,11 +71,11 @@ public class RoleController extends Controller {
      */
     public void editview(){        
     	try {
-    		setAttr( "sysRole" , SysRole.me.getRoleById( getParaToInt("id") )  ) ;
+    		setAttr( "sysMenu" , SysMenu.me.getMenuById( getParaToInt("id") )  ) ;
 		} catch (Exception e) {
-			this.logger.warn( "修改角色信息，初始化失败！" , e ); 
+			this.logger.warn( "修改菜单信息，初始化失败！" , e ); 
 		}
-		render( "role_edit.html" ) ;
+		render( "menu_edit.html" ) ;
     }
     
     /**
@@ -93,13 +85,13 @@ public class RoleController extends Controller {
      * @return
      */
     public void edit(){
-    	SysRole sysRole = getModel( SysRole.class ) ;
+    	SysMenu sysMenu = getModel( SysMenu.class ) ;
     	try {
-    		SysRole.me.updRole(sysRole) ;
+    		SysMenu.me.updMenu(sysMenu) ;
         	renderJson( new ResultObj( ResultObj.SUCCESS , "" , null )) ;
         	return ;
         } catch( BusiException e ) {
-            this.logger.warn( "修改角色信息失败！" ,e );
+            this.logger.warn( "修改菜单信息失败！" ,e );
             renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null )) ;
             return ;
         } catch (Exception e) {
@@ -119,10 +111,10 @@ public class RoleController extends Controller {
     public void editstatus(){
     	int id  = getParaToInt( "id" ) ;
     	try {
-        	SysRole sysRole= SysRole.me.getRoleById( id ) ;
-            int isUsed = sysRole.getInt("isUsed") == 1 ? 0 : 1 ;
-            sysRole.set( "isUsed" , isUsed );
-            SysRole.me.updRoleStasus( sysRole );
+        	SysMenu sysMenu= SysMenu.me.getMenuById( id ) ;
+            int isUsed = sysMenu.getInt("isUsed") == 1 ? 0 : 1 ;
+            sysMenu.set( "isUsed" , isUsed );
+            SysMenu.me.updMenuStasus( sysMenu );
             renderJson( new ResultObj( ResultObj.SUCCESS , "" , null )) ;
         } catch ( BusiException e ) {
             this.logger.warn( e.getMessage() , e );
@@ -142,14 +134,14 @@ public class RoleController extends Controller {
     	try {
 			if( SysUser.me.checkUserById( id ) ){
 	        	try {
-	        		SysRole.me.delRoleTx( id );
+	        		SysMenu.me.delMenuTx( id );
 	        		renderJson( new ResultObj( ResultObj.SUCCESS , "删除成功" , null )) ;
 	        	} catch ( BusiException e ) {
 	        		this.logger.warn( "删除失败！" , e );
 	        		renderJson( new ResultObj( ResultObj.FAIL , "删除失败！" , null )) ;
 	        	}
 	        }else{
-	        	renderJson( new ResultObj( ResultObj.FAIL , "该角色存在角色，不能删除" , null )) ;
+	        	renderJson( new ResultObj( ResultObj.FAIL , "该菜单存在菜单，不能删除" , null )) ;
 	        }
 		} catch (Exception e ) {
 			this.logger.warn( "系统异常！" , e );
@@ -159,33 +151,33 @@ public class RoleController extends Controller {
     
    
     
-	public String treeMenu( List<TreeNode<SysRole>> list , StringBuilder str , String basePath ){    	
-    	SysRole sysRole = null ;
-    	for (TreeNode<SysRole> node : list){
-			sysRole = node.get() ;	
+	public String treeMenu( List<TreeNode<SysMenu>> list , StringBuilder str , String basePath ){    	
+    	SysMenu sysMenu = null ;
+    	for (TreeNode<SysMenu> node : list){
+			sysMenu = node.get() ;	
 			str.append( "<li " ) ;
-			if( -1 == sysRole.getInt( "parentId" ) ) ;
+			if( -1 == sysMenu.getInt( "parentId" ) ) ;
 				str.append( "class=\"admin-parent\" " ) ;
 			str.append( ">" ) ;
 			
-			str.append( " <a class=\"am-cf\" onclick=\"setidValue("+sysRole.get("id")+");\"  " ) ;
-			str.append( " href="+ basePath + "/sys/role/editview?id=" +sysRole.get("id") +" target=\"content_in\"  " ) ;
+			str.append( " <a class=\"am-cf\" onclick=\"setidValue("+sysMenu.get("id")+");\"  " ) ;
+			str.append( " href="+ basePath + "/sys/menu/editview?id=" +sysMenu.get("id") +" target=\"content_in\"  " ) ;
 			if( node.getChildren().size() > 0 ) {
 				
-				str.append( " data-am-collapse=\"{target: '#"+ sysRole.get("id") +"'}\"" ) ;
+				str.append( " data-am-collapse=\"{target: '#"+ sysMenu.get("id") +"'}\"" ) ;
 				
 				str.append( "><span class=\"am-icon-file\"></span> " ) ;
-				str.append( sysRole.get("roleName") ) ;
+				str.append( sysMenu.get("name") ) ;
 				str.append( "<span class=\"am-icon-angle-right am-fr am-margin-right\"></span>" ) ;
 				str.append( "</a>" ) ;
 				
-				str.append("<ul class=\"am-list am-collapse admin-sidebar-sub am-in\" id=\""+ sysRole.get("id") +"\">") ;
+				str.append("<ul class=\"am-list am-collapse admin-sidebar-sub am-in\" id=\""+ sysMenu.get("id") +"\">") ;
 				treeMenu( node.getChildren() , str , basePath );
 				str.append("</ul>") ;
 				
 			} else {
 				str.append( "><span class=\"am-icon-file\"></span> " ) ;
-				str.append( sysRole.get("roleName") ) ;
+				str.append( sysMenu.get("name") ) ;
 				str.append( "</a>" ) ;
 			}
 			str.append( "</li>" ) ;

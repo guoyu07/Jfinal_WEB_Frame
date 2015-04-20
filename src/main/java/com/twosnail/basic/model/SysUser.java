@@ -17,7 +17,7 @@ import com.twosnail.basic.util.user.UserInfo;
 /**   
  * @Title: SysUser.java
  * @Description: TODO 
- * @author jason   
+ * @author 两只蜗牛   
  * @date 2015年4月17日 下午1:02:01 
  * @version V1.0   
  */
@@ -66,7 +66,7 @@ public class SysUser extends Model<SysUser>{
 			throw new BusiException( "用户被冻结！" );
 		} else {
 			//正常登陆 获取用户所有角色，所有权限
-			List<SysPrivilege> userPrivilege = SysPrivilege.me.getSysPrivilegeByid( infoUser.getLong( "id" ) ) ;
+			List<SysPrivilege> userPrivilege = SysPrivilege.me.getPrivilegeByUserId( infoUser.getLong( "id" ) ) ;
 			
 			//设置session
 			UserInfo.setUserSession( session, infoUser, userPrivilege );
@@ -149,7 +149,8 @@ public class SysUser extends Model<SysUser>{
 	
 	/**
 	 * 修改用户信息
-	 * @param infoUser
+	 * @param user
+	 * @param request
 	 * @throws BusiException
 	 */
 	public void updUser( 
