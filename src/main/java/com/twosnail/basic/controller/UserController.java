@@ -29,7 +29,7 @@ public class UserController extends Controller {
 			Integer numPerPage = getParaToInt( "numPerPage" ) ;
 			String keyWord = getPara("keyWord") ;
 	        pageNum = pageNum == null ? 1 : pageNum;
-	        numPerPage = ( numPerPage == null || numPerPage == 0 ) ? 3 : numPerPage;
+	        numPerPage = ( numPerPage == null || numPerPage == 0 ) ? 5 : numPerPage;
 	        
 	        Page<Record> list = SysUser.me.getUser( -1 , getPara("keyWord"), pageNum, numPerPage );
 	        List<SysRole> roles = SysRole.me.getSysRoles();

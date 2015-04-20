@@ -82,16 +82,16 @@ public class SysUser extends Model<SysUser>{
 	 * @param pageSize
 	 * @return
 	 */
-	public Page<Record> getUser( int id ,String keyWord , int pageNumber, int pageSize) {
+	public Page<Record> getUser( int roleId ,String keyWord , int pageNumber, int pageSize) {
 		StringBuffer sb = new StringBuffer(" FROM sys_user a WHERE 1=1 ");
 		if( keyWord != null && "".equals( keyWord = keyWord.trim() ) ) {
 			sb.append( " AND (a.userName LIKE '%"+keyWord+"%' or a.id LIKE '%"+keyWord+"%')" ) ;
 		}
-		if( id != -1 ) {
-			sb.append( " AND a.id = " + id ) ;
+		if( roleId != -1 ) {
+			sb.append( " AND a.roleId = " + roleId ) ;
 		}
 		return Db.paginate(pageNumber, pageSize, 
-				"SELECT a.*,(select a1.roleName from sys_role a1 WHERE a1.id = a.id) roleName" , sb.toString() );
+				"SELECT a.*,(select a1.roleName from sys_role a1 WHERE a1.id = a.roleId) roleName" , sb.toString() );
 			
 	}
 
@@ -167,7 +167,6 @@ public class SysUser extends Model<SysUser>{
 	 * 修改用户状态
 	 * @param id
 	 * @param isUsed
-	 * @return
 	 * @throws BusiException
 	 */
     public void updUserStasus( long id , int isUsed ) throws BusiException{
@@ -181,7 +180,6 @@ public class SysUser extends Model<SysUser>{
     /**
      * 删除用户
      * @param id
-     * @return
      * @throws BusiException
      */
     public void delUserTx( String[] ids ) throws BusiException{

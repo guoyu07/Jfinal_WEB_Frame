@@ -1,6 +1,10 @@
 package com.twosnail.basic.model;
 
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.Record;
+import com.twosnail.basic.util.exception.BusiException;
 
 /**   
  * @Title: SysButtonLog.java
@@ -14,5 +18,29 @@ import com.jfinal.plugin.activerecord.Model;
 public class SysButtonLog extends Model<SysButtonLog>{
 	public static final SysButtonLog me = new SysButtonLog() ; 
 	
+	/**
+	 * 获取按钮日志
+	 * @param keyWord
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return
+	 */
+	public Page<Record> getButtonLog( String keyWord , int pageNumber, int pageSize) {
+		StringBuffer sb = new StringBuffer(" FROM sys_button_log a WHERE 1=1 ");
+		/*if( keyWord != null && "".equals( keyWord = keyWord.trim() ) ) {
+			sb.append( " AND (a.userName LIKE '%"+keyWord+"%' or a.id LIKE '%"+keyWord+"%')" ) ;
+		}*/
+		
+		return Db.paginate(pageNumber, pageSize, 
+				"SELECT a.*,(select a1.userName from sys_user a1 WHERE a1.id = a.userId) userName " , sb.toString() );
+			
+	}
 	
+	public void delUserTx( String[] ids ) throws BusiException{
+		for (String id : ids) {
+			if( !me.deleteById( id ) ) {
+	            throw new BusiException( "删除用户失败!" );
+	        }
+		}
+    }
 }
