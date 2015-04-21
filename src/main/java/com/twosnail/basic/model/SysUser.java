@@ -10,6 +10,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 
+import com.jfinal.log.Logger;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
@@ -29,6 +30,7 @@ import com.twosnail.basic.util.user.UserInfo;
 @SuppressWarnings("serial")
 public class SysUser extends Model<SysUser>{
 	
+	private Logger logger = Logger.getLogger( SysUser.class ) ;
 	public static final SysUser me = new SysUser() ; 
 	public static final int STATUS_NOMAL = 1;    
 	public static final int STATUS_FREEZE = 0;
@@ -80,6 +82,7 @@ public class SysUser extends Model<SysUser>{
 		} catch (LockedAccountException e) {
 			throw new BusiException("账号已经冻结！") ;
 		} catch (Exception e) {
+			this.logger.warn( "登录失败，系统异常！" , e );
 			throw new BusiException("登录失败，系统异常！") ;
 		}
 	}

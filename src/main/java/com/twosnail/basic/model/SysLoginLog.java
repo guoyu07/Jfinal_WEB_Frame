@@ -51,8 +51,9 @@ public class SysLoginLog extends Model<SysLoginLog>{
 	 * @return
 	 */
 	private long getLastTime( long userId ){
-		return Db.queryLong( 
-				"SELECT l.loginTime FROM sysloglog l where l.userId=? order by l.logintime DESC LIMIT 0,1 " , userId ) ;
+		 Long loginTime = Db.queryLong( 
+				"SELECT l.loginTime FROM sys_login_log l where l.userId=? order by l.logintime DESC LIMIT 0,1 " , userId ) ;
+		 return loginTime == null ? 0 : loginTime ;
 	}
 	/**
 	 * 获取登录日志
