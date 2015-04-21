@@ -212,3 +212,12 @@ java.lang.NullPointerException
 	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:608)
 	at org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:543)
 	at java.lang.Thread.run(Thread.java:722)
+
+2015-04-21 18:15:18
+[WARN]-[Thread: qtp358250797-33]-[com.jfinal.core.ActionHandler.handle()]: 403 Forbidden: /sys/menu/
+
+2015-04-21 18:15:49
+[WARN]-[Thread: qtp358250797-30]-[com.jfinal.core.ActionHandler.handle()]: 403 Forbidden: /sys/menu/addview?id=-1
+
+2015-04-21 18:16:04
+[WARN]-[Thread: qtp358250797-26]-[com.jfinal.core.ActionHandler.handle()]: 403 Forbidden: /sys/menu/addview?id=-1

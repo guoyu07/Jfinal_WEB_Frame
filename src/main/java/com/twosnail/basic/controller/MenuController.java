@@ -2,6 +2,10 @@ package com.twosnail.basic.controller;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+
 import com.jfinal.core.Controller;
 import com.jfinal.log.Logger;
 import com.twosnail.basic.model.SysMenu;
@@ -20,6 +24,8 @@ import com.twosnail.basic.util.tree.TreeNode;
  */
 public class MenuController extends Controller {	
 	private Logger logger = Logger.getLogger(MenuController.class) ;	
+	
+	//@RequiresRoles(value = { "user", "admin" }, logical = Logical.OR)
 	public void index(){
 		try {
 			List<TreeNode<SysMenu>> list = SysMenu.me.getMenuList() ;
@@ -34,6 +40,7 @@ public class MenuController extends Controller {
 	/**
      * 添加页面
      */
+	@RequiresPermissions("showCode")
     public void addview(){
     	
     	int id = getParaToInt( "id" ) ;
