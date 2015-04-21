@@ -2,6 +2,9 @@ package com.twosnail.basic.controller;
 
 import java.util.List;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+
 import com.jfinal.core.Controller;
 import com.jfinal.log.Logger;
 import com.twosnail.basic.model.SysLoginLog;
@@ -43,7 +46,7 @@ public class IndexController extends Controller {
 	public void check(){
 		try {
 			SysUser.me.userLogin( 
-					getPara("loginName"), getPara("password"), getPara( "code" )  , getRequest() );
+					getPara("loginName"), getPara("password"), getPara( "code" ) , getParaToBoolean("rm", true) , getRequest() );
 			//添加登录日志
 			SysLoginLog.me.addLoginLog( getRequest() );
 			renderJson( new ResultObj( ResultObj.SUCCESS , null, null ) );
@@ -72,6 +75,17 @@ public class IndexController extends Controller {
 	 */
 	public void content() {
 		render("content.html");
+	}
+	
+	/**
+	 * 退出
+	 */
+	public void logout() {
+		Subject currentUser = SecurityUtils.getSubject();
+		if ( currentUser.isAuthenticated() ) {
+			currentUser.logout();
+		}
+		index();
 	}
 	
 	

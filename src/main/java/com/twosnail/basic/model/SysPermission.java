@@ -13,11 +13,11 @@ import com.jfinal.plugin.activerecord.Model;
  */
 
 @SuppressWarnings("serial")
-public class SysPrivilege extends Model<SysPrivilege>{
-	public static final SysPrivilege me = new SysPrivilege() ; 
+public class SysPermission extends Model<SysPermission>{
+	public static final SysPermission me = new SysPermission() ; 
 	
 	
-	public List<SysPrivilege> getPrivilegeByUserId( long id ) {
+	public List<SysPermission> getPrivilegeByUserId( long id ) {
 		return me.find( 
 				"SELECT a.* FROM sys_privilege a  LEFT JOIN sys_user b  ON a.roleId = b.roleId WHERE b.id = ?" , id ) ;
 	}
@@ -26,7 +26,7 @@ public class SysPrivilege extends Model<SysPrivilege>{
      * 获取角色授权信息
      * @param roleId
      */
-    public List<SysPrivilege> getPrivilegeByRoleId( long roleId ){
+    public List<SysPermission> getPrivilegeByRoleId( long roleId ){
     	return  me.find( "SELECT a.* FROM sys_privilege a WHERE a.roleId = ?" , roleId ) ;
     }
 	

@@ -136,8 +136,8 @@ public class SysRole extends Model<SysRole>{
      * @param privilege
      * @throws BusiException
      */
-    public void addPrivilegeById( long id ,List<SysPrivilege> privilege) throws BusiException{
-    	for (SysPrivilege sysPrivilege : privilege) {
+    public void addPrivilegeById( long id ,List<SysPermission> privilege) throws BusiException{
+    	for (SysPermission sysPrivilege : privilege) {
     		sysPrivilege.set( "id" , id ) ;
     		if( !me.save() ) {
                 throw new BusiException( "添加权限信息失败" );

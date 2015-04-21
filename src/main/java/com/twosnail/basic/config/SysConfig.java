@@ -25,7 +25,7 @@ import com.twosnail.basic.model.SysRole;
 import com.twosnail.basic.model.SysMenu;
 import com.twosnail.basic.model.SysUser;
 import com.twosnail.basic.model.SysLoginLog;
-import com.twosnail.basic.model.SysPrivilege;
+import com.twosnail.basic.model.SysPermission;
 import com.twosnail.basic.util.tools.ShiroExt;
 import com.twosnail.init.ExtRoutes;
 
@@ -100,7 +100,7 @@ public class SysConfig extends JFinalConfig {
 		arp.addMapping( "sys_role" , SysRole.class ) ;
 		arp.addMapping( "sys_menu" , SysMenu.class ) ;
 		arp.addMapping( "sys_login_log" , SysLoginLog.class ) ;
-		arp.addMapping( "sys_privilege" , SysPrivilege.class ) ;
+		arp.addMapping( "sys_permission" , SysPermission.class ) ;
 		
 		// 加载Shiro插件
 		me.add(new ShiroPlugin(routes));

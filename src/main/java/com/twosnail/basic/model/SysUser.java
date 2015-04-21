@@ -1,10 +1,14 @@
 package com.twosnail.basic.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
@@ -37,39 +41,47 @@ public class SysUser extends Model<SysUser>{
 	 * @throws BusiException  
 	 */
 	public void userLogin( 
-			String userName, String passWord,String code, HttpServletRequest request) 
+			String userName, String passWord,String code, Boolean rm , HttpServletRequest request) 
 			throws BusiException {
 		
 		HttpSession session =  request.getSession() ;
 		Object obj = session.getAttribute("code");
-		if( !code.equals(obj) ){ 
+		if( !code.equals(obj) ){
 			throw new BusiException( "验证码错误！" ); 
 		}
 		
-		//登录前先清空session
-		UserInfo.destory( session );
-		
-		List<String> param = new ArrayList<String>(2) ;
-		param.add( userName ) ;
-		param.add( passWord ) ;
-		Record user = Db.findFirst( 
-				"SELECT a.id,a.roleId,a.userName,a.createTime,a.createIp,a.isUsed,a.sortNo,b.roleCode,b.roleName  "
-				+ "FROM sys_user a left join sys_role b on a.id = b.id WHERE a.userName=? AND a.passWord=? " , userName , passWord ) ;
-		
-		if( user == null ) {
-			//没有该用户
-			throw new BusiException( "账号或密码错误！" );
-		} else if( user.getInt( "isUsed" ) != SysUser.STATUS_NOMAL ) {
-			//管理员被冻结
-			throw new BusiException( "用户被冻结！" );
-		} else {
-			//正常登陆 获取用户所有角色，所有权限
-			List<SysPrivilege> userPrivilege = SysPrivilege.me.getPrivilegeByUserId( user.getLong( "id" ) ) ;
+		Subject currentUser = SecurityUtils.getSubject();
+		UsernamePasswordToken token = new UsernamePasswordToken( userName, passWord );
+		token.setRememberMe( rm );
+		try {
+			currentUser.login(token);
+			//登录前先清空session
+			//UserInfo.destory( session );
 			
-			//设置session
-			UserInfo.setUserSession( session, user, userPrivilege );
+			Record user = Db.findFirst( 
+					"SELECT a.id,a.roleId,a.userName,a.createTime,a.createIp,a.isUsed,a.sortNo,b.roleCode,b.roleName  "
+					+ "FROM sys_user a left join sys_role b on a.id = b.id WHERE a.userName=?" , userName ) ;
+			
+			if( user.getInt( "isUsed" ) != SysUser.STATUS_NOMAL ) {
+				//管理员被冻结
+				throw new BusiException("账号 [" +userName + "]已经冻结.") ;
+			} /*else {
+				//正常登陆 获取用户所有角色，所有权限
+				List<SysPrivilege> userPrivilege = SysPrivilege.me.getPrivilegeByUserId( user.getLong( "id" ) ) ;
+				
+				//设置session
+				UserInfo.setUserSession( session, user, userPrivilege );
+			}*/
+			
+		} catch (UnknownAccountException e) {
+			throw new BusiException("未知账号") ;
+		} catch (IncorrectCredentialsException e) {
+			throw new BusiException("密码错误") ;
+		} catch (LockedAccountException e) {
+			throw new BusiException("账号已经冻结！") ;
+		} catch (Exception e) {
+			throw new BusiException("登录失败，系统异常！") ;
 		}
-		
 	}
 	
 	/**
