@@ -106,11 +106,17 @@ CREATE TABLE IF NOT EXISTS `sys_login_log` (
   `lastlogTime` bigint(13) DEFAULT NULL COMMENT '上次登录时间',
   `status` int(1) DEFAULT NULL COMMENT '状态;1在线0下线',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='登录日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='登录日志表';
 
--- 正在导出表  twosnail_basic.sys_login_log 的数据：~0 rows (大约)
+-- 正在导出表  twosnail_basic.sys_login_log 的数据：~5 rows (大约)
 DELETE FROM `sys_login_log`;
 /*!40000 ALTER TABLE `sys_login_log` DISABLE KEYS */;
+INSERT INTO `sys_login_log` (`id`, `userId`, `loginTime`, `logoutTime`, `logIp`, `lastlogTime`, `status`) VALUES
+	(1, -1, 1429622837899, NULL, '0:0:0:0:0:0:0:1', 0, 1),
+	(2, -1, 1429623769288, NULL, '0:0:0:0:0:0:0:1', 1429622837899, 1),
+	(3, -1, 1429624011881, NULL, '0:0:0:0:0:0:0:1', 1429623769288, 1),
+	(4, -1, 1429624158205, NULL, '0:0:0:0:0:0:0:1', 1429624011881, 1),
+	(5, -1, 1429624209542, NULL, '0:0:0:0:0:0:0:1', 1429624158205, 1);
 /*!40000 ALTER TABLE `sys_login_log` ENABLE KEYS */;
 
 
@@ -174,7 +180,7 @@ INSERT INTO `sys_permission` (`id`, `roleId`, `urlId`, `permValue`, `permission`
 	(137, 4, 16, 1, 'com.twosnail.basic.constant.permethod.role.LogPermission'),
 	(138, 4, 17, 1, 'com.twosnail.basic.constant.permethod.role.LoginPermission'),
 	(139, 1, 11, 0, NULL),
-	(140, 1, 12, 31, 'com.twosnail.basic.constant.permethod.role.RolePermission'),
+	(140, 1, 12, 31, 'addview'),
 	(141, 1, 13, 15, 'com.twosnail.basic.constant.permethod.role.UserPermission'),
 	(142, 1, 14, 15, 'com.twosnail.basic.constant.permethod.role.MenuPermission'),
 	(143, 1, 15, 0, NULL),
@@ -193,11 +199,14 @@ CREATE TABLE IF NOT EXISTS `sys_role` (
   `createTime` bigint(13) DEFAULT NULL COMMENT '创建时间',
   `parentId` int(4) NOT NULL COMMENT '父级角色',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='角色表';
 
--- 正在导出表  twosnail_basic.sys_role 的数据：~0 rows (大约)
+-- 正在导出表  twosnail_basic.sys_role 的数据：~2 rows (大约)
 DELETE FROM `sys_role`;
 /*!40000 ALTER TABLE `sys_role` DISABLE KEYS */;
+INSERT INTO `sys_role` (`id`, `roleCode`, `roleName`, `isUsed`, `createTime`, `parentId`) VALUES
+	(1, 'root', 'root', 1, NULL, -1),
+	(2, 'admin', 'admin', 1, NULL, 1);
 /*!40000 ALTER TABLE `sys_role` ENABLE KEYS */;
 
 
@@ -210,9 +219,11 @@ CREATE TABLE IF NOT EXISTS `sys_role_permission` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限';
 
--- 正在导出表  twosnail_basic.sys_role_permission 的数据：~0 rows (大约)
+-- 正在导出表  twosnail_basic.sys_role_permission 的数据：~1 rows (大约)
 DELETE FROM `sys_role_permission`;
 /*!40000 ALTER TABLE `sys_role_permission` DISABLE KEYS */;
+INSERT INTO `sys_role_permission` (`id`, `permissionId`, `roleId`) VALUES
+	(1, 140, 1);
 /*!40000 ALTER TABLE `sys_role_permission` ENABLE KEYS */;
 
 
@@ -274,11 +285,13 @@ CREATE TABLE IF NOT EXISTS `sys_user_role` (
   `userId` bigint(11) NOT NULL,
   `roleId` int(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- 正在导出表  twosnail_basic.sys_user_role 的数据：~0 rows (大约)
+-- 正在导出表  twosnail_basic.sys_user_role 的数据：~1 rows (大约)
 DELETE FROM `sys_user_role`;
 /*!40000 ALTER TABLE `sys_user_role` DISABLE KEYS */;
+INSERT INTO `sys_user_role` (`id`, `userId`, `roleId`) VALUES
+	(1, 9, 1);
 /*!40000 ALTER TABLE `sys_user_role` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

@@ -40,7 +40,7 @@ public class MenuController extends Controller {
 	/**
      * 添加页面
      */
-	@RequiresPermissions("showCode")
+	@RequiresPermissions("addview")
     public void addview(){
     	
     	int id = getParaToInt( "id" ) ;
