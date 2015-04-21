@@ -17,6 +17,7 @@ USE `twosnail_basic`;
 
 
 -- 导出  表 twosnail_basic.sysbuttonloghis 结构
+DROP TABLE IF EXISTS `sysbuttonloghis`;
 CREATE TABLE IF NOT EXISTS `sysbuttonloghis` (
   `logId` bigint(13) NOT NULL AUTO_INCREMENT COMMENT '操作日志ID',
   `userId` bigint(11) DEFAULT NULL COMMENT '用户ID',
@@ -30,10 +31,14 @@ CREATE TABLE IF NOT EXISTS `sysbuttonloghis` (
   PRIMARY KEY (`logId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作日志历史表';
 
--- 数据导出被取消选择。
+-- 正在导出表  twosnail_basic.sysbuttonloghis 的数据：~0 rows (大约)
+DELETE FROM `sysbuttonloghis`;
+/*!40000 ALTER TABLE `sysbuttonloghis` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sysbuttonloghis` ENABLE KEYS */;
 
 
 -- 导出  表 twosnail_basic.sysinfoparameter 结构
+DROP TABLE IF EXISTS `sysinfoparameter`;
 CREATE TABLE IF NOT EXISTS `sysinfoparameter` (
   `parameterId` int(4) NOT NULL AUTO_INCREMENT COMMENT '系统参数ID',
   `paraName` varchar(16) NOT NULL COMMENT '参数名称',
@@ -44,10 +49,14 @@ CREATE TABLE IF NOT EXISTS `sysinfoparameter` (
   PRIMARY KEY (`parameterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统参数表';
 
--- 数据导出被取消选择。
+-- 正在导出表  twosnail_basic.sysinfoparameter 的数据：~0 rows (大约)
+DELETE FROM `sysinfoparameter`;
+/*!40000 ALTER TABLE `sysinfoparameter` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sysinfoparameter` ENABLE KEYS */;
 
 
 -- 导出  表 twosnail_basic.syslogloghis 结构
+DROP TABLE IF EXISTS `syslogloghis`;
 CREATE TABLE IF NOT EXISTS `syslogloghis` (
   `logId` bigint(13) NOT NULL COMMENT '日志ID',
   `userId` bigint(11) DEFAULT NULL COMMENT '用户ID',
@@ -59,10 +68,14 @@ CREATE TABLE IF NOT EXISTS `syslogloghis` (
   PRIMARY KEY (`logId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='登录日志历史表';
 
--- 数据导出被取消选择。
+-- 正在导出表  twosnail_basic.syslogloghis 的数据：~0 rows (大约)
+DELETE FROM `syslogloghis`;
+/*!40000 ALTER TABLE `syslogloghis` DISABLE KEYS */;
+/*!40000 ALTER TABLE `syslogloghis` ENABLE KEYS */;
 
 
 -- 导出  表 twosnail_basic.sys_button_log 结构
+DROP TABLE IF EXISTS `sys_button_log`;
 CREATE TABLE IF NOT EXISTS `sys_button_log` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '操作日志ID',
   `userId` bigint(11) DEFAULT NULL COMMENT '用户ID',
@@ -76,10 +89,14 @@ CREATE TABLE IF NOT EXISTS `sys_button_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作日志表';
 
--- 数据导出被取消选择。
+-- 正在导出表  twosnail_basic.sys_button_log 的数据：~0 rows (大约)
+DELETE FROM `sys_button_log`;
+/*!40000 ALTER TABLE `sys_button_log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sys_button_log` ENABLE KEYS */;
 
 
 -- 导出  表 twosnail_basic.sys_login_log 结构
+DROP TABLE IF EXISTS `sys_login_log`;
 CREATE TABLE IF NOT EXISTS `sys_login_log` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '日志ID',
   `userId` bigint(11) DEFAULT NULL COMMENT '用户ID',
@@ -91,10 +108,14 @@ CREATE TABLE IF NOT EXISTS `sys_login_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='登录日志表';
 
--- 数据导出被取消选择。
+-- 正在导出表  twosnail_basic.sys_login_log 的数据：~0 rows (大约)
+DELETE FROM `sys_login_log`;
+/*!40000 ALTER TABLE `sys_login_log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sys_login_log` ENABLE KEYS */;
 
 
 -- 导出  表 twosnail_basic.sys_menu 结构
+DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE IF NOT EXISTS `sys_menu` (
   `id` int(3) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
   `name` varchar(20) DEFAULT NULL COMMENT '名称',
@@ -110,25 +131,60 @@ CREATE TABLE IF NOT EXISTS `sys_menu` (
   `sortNo` int(8) DEFAULT NULL COMMENT '排序号',
   `permission` varchar(64) DEFAULT NULL COMMENT '权限类',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='菜单表';
 
--- 数据导出被取消选择。
+-- 正在导出表  twosnail_basic.sys_menu 的数据：~7 rows (大约)
+DELETE FROM `sys_menu`;
+/*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
+INSERT INTO `sys_menu` (`id`, `name`, `type`, `href`, `icon`, `description`, `target`, `rel`, `parentId`, `createTime`, `isUsed`, `sortNo`, `permission`) VALUES
+	(11, '系统管理', 0, '', '', '', '', '', -1, 1407140785011, 1, 99, ''),
+	(12, '角色列表', 0, '/sys/user/', NULL, '角色列表', 'navTab', 'user_role_listview', 11, 1407141914856, 1, 1, 'com.twosnail.basic.constant.permethod.role.RolePermission'),
+	(13, '用户列表', 0, '/sys/user/', NULL, '用户列表', 'navTab', 'user_info_listview', 11, 1407141964456, 1, 2, 'com.twosnail.basic.constant.permethod.role.UserPermission'),
+	(14, '菜单列表', 0, '/sys/menu/', NULL, '菜单列表', 'navTab', 'order_info_listview', 11, 1407142023060, 1, 3, 'com.twosnail.basic.constant.permethod.role.MenuPermission'),
+	(15, '日志管理', 0, '', '', '', '', '', -1, 1409642077554, 1, 100, ''),
+	(16, '操作日志', 0, '/sys/log/button', ' ', NULL, 'navTab', 'log_node_listview', 15, 1409642132551, 1, 1, 'com.twosnail.basic.constant.permethod.role.LogPermission'),
+	(17, '登录日志', NULL, '/sys/log/login', ' ', '登录日志', 'navTab', 'log_login_listview', 15, 1409648279391, 1, 1, 'com.twosnail.basic.constant.permethod.role.LoginPermission');
+/*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
 
 
--- 导出  表 twosnail_basic.sys_privilege 结构
-CREATE TABLE IF NOT EXISTS `sys_privilege` (
+-- 导出  表 twosnail_basic.sys_permission 结构
+DROP TABLE IF EXISTS `sys_permission`;
+CREATE TABLE IF NOT EXISTS `sys_permission` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '权限管理表ID',
   `roleId` bigint(11) DEFAULT NULL COMMENT '角色ID',
   `urlId` int(8) DEFAULT NULL COMMENT '菜单ID',
   `permValue` int(4) DEFAULT NULL COMMENT '权限值',
-  `Permission` varchar(64) DEFAULT NULL COMMENT '权限类',
+  `permission` varchar(64) DEFAULT NULL COMMENT '权限类',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限管理表';
+) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=utf8 COMMENT='权限管理表';
 
--- 数据导出被取消选择。
+-- 正在导出表  twosnail_basic.sys_permission 的数据：~18 rows (大约)
+DELETE FROM `sys_permission`;
+/*!40000 ALTER TABLE `sys_permission` DISABLE KEYS */;
+INSERT INTO `sys_permission` (`id`, `roleId`, `urlId`, `permValue`, `permission`) VALUES
+	(19, 5, 2, -1, 'com.twosnail.basic.constant.permethod.role.RolePermission'),
+	(20, 5, 4, 1, 'com.twosnail.basic.constant.permethod.role.RolePermission'),
+	(22, 3, 2, 1, 'com.twosnail.basic.constant.permethod.role.RolePermission'),
+	(23, 3, 4, 1, 'com.twosnail.basic.constant.permethod.role.RolePermission'),
+	(132, 4, 11, 0, NULL),
+	(133, 4, 12, 31, 'com.twosnail.basic.constant.permethod.role.RolePermission'),
+	(134, 4, 13, 15, 'com.twosnail.basic.constant.permethod.role.UserPermission'),
+	(135, 4, 14, 15, 'com.twosnail.basic.constant.permethod.role.MenuPermission'),
+	(136, 4, 15, 0, NULL),
+	(137, 4, 16, 1, 'com.twosnail.basic.constant.permethod.role.LogPermission'),
+	(138, 4, 17, 1, 'com.twosnail.basic.constant.permethod.role.LoginPermission'),
+	(139, 1, 11, 0, NULL),
+	(140, 1, 12, 31, 'com.twosnail.basic.constant.permethod.role.RolePermission'),
+	(141, 1, 13, 15, 'com.twosnail.basic.constant.permethod.role.UserPermission'),
+	(142, 1, 14, 15, 'com.twosnail.basic.constant.permethod.role.MenuPermission'),
+	(143, 1, 15, 0, NULL),
+	(144, 1, 16, 1, 'com.twosnail.basic.constant.permethod.role.LogPermission'),
+	(145, 1, 17, 1, 'com.twosnail.basic.constant.permethod.role.LoginPermission');
+/*!40000 ALTER TABLE `sys_permission` ENABLE KEYS */;
 
 
 -- 导出  表 twosnail_basic.sys_role 结构
+DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE IF NOT EXISTS `sys_role` (
   `id` int(4) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
   `roleCode` varchar(32) DEFAULT NULL COMMENT '角色编号',
@@ -139,10 +195,29 @@ CREATE TABLE IF NOT EXISTS `sys_role` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色表';
 
--- 数据导出被取消选择。
+-- 正在导出表  twosnail_basic.sys_role 的数据：~0 rows (大约)
+DELETE FROM `sys_role`;
+/*!40000 ALTER TABLE `sys_role` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sys_role` ENABLE KEYS */;
+
+
+-- 导出  表 twosnail_basic.sys_role_permission 结构
+DROP TABLE IF EXISTS `sys_role_permission`;
+CREATE TABLE IF NOT EXISTS `sys_role_permission` (
+  `id` int(8) NOT NULL,
+  `permissionId` int(8) NOT NULL,
+  `roleId` int(8) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限';
+
+-- 正在导出表  twosnail_basic.sys_role_permission 的数据：~0 rows (大约)
+DELETE FROM `sys_role_permission`;
+/*!40000 ALTER TABLE `sys_role_permission` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sys_role_permission` ENABLE KEYS */;
 
 
 -- 导出  表 twosnail_basic.sys_user 结构
+DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE IF NOT EXISTS `sys_user` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
   `roleId` int(8) DEFAULT NULL,
@@ -164,9 +239,47 @@ CREATE TABLE IF NOT EXISTS `sys_user` (
   `isUsed` int(1) NOT NULL DEFAULT '1' COMMENT '是否有效',
   `sortNo` int(8) DEFAULT NULL COMMENT '排序号',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
--- 数据导出被取消选择。
+-- 正在导出表  twosnail_basic.sys_user 的数据：~19 rows (大约)
+DELETE FROM `sys_user`;
+/*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
+INSERT INTO `sys_user` (`id`, `roleId`, `userName`, `passWord`, `createTime`, `sex`, `birthday`, `idCard`, `mobile`, `phone`, `email`, `addr`, `createId`, `createIp`, `operateId`, `opetateTime`, `isDefPassWord`, `isUsed`, `sortNo`) VALUES
+	(9, 4, 'root', '14e1b600b1fd579f47433b88e8d85291', 1406691374696, 1, NULL, NULL, 0, NULL, NULL, NULL, -1, '0:0:0:0:0:0:0:1', 9, 1429494461796, 1, 1, 1),
+	(10, 4, 'admin', '14e1b600b1fd579f47433b88e8d85291', 1406691444637, 1, NULL, '', 15826008618, NULL, '', '', -1, '0:0:0:0:0:0:0:1', 9, 1428396852183, 1, 1, 1),
+	(11, 4, 'user01', '123456', 1428391501309, 0, '2015-01-02', '50023519941002927X', 15826008619, NULL, 'user01@qq.com', '重庆市云阳县', 9, '0:0:0:0:0:0:0:1', 9, 1428484824882, 1, 0, 15),
+	(12, 1, 'user03', '123456', 1428396925659, 1, NULL, '', 15826008617, NULL, '', '', 9, '0:0:0:0:0:0:0:1', 9, 1428397051036, 1, 1, 1),
+	(23, 4, '31', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL),
+	(25, 4, '33', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL),
+	(26, 4, '34', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL),
+	(27, 4, '35', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL),
+	(28, 4, '36', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL),
+	(29, 4, '37', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL),
+	(30, 4, '38', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL),
+	(31, 4, '40', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL),
+	(32, 4, '41', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL),
+	(33, 4, '42', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL),
+	(34, 4, '43', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL),
+	(35, 4, '44', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL),
+	(36, 4, '45', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL),
+	(37, 4, '46', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL),
+	(38, 4, '47', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL);
+/*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
+
+
+-- 导出  表 twosnail_basic.sys_user_role 结构
+DROP TABLE IF EXISTS `sys_user_role`;
+CREATE TABLE IF NOT EXISTS `sys_user_role` (
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `userId` bigint(11) NOT NULL,
+  `roleId` int(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在导出表  twosnail_basic.sys_user_role 的数据：~0 rows (大约)
+DELETE FROM `sys_user_role`;
+/*!40000 ALTER TABLE `sys_user_role` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sys_user_role` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

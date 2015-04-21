@@ -20,6 +20,7 @@ import com.jfinal.ext.plugin.shiro.ShiroInterceptor;
 import com.jfinal.ext.plugin.shiro.ShiroPlugin;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
+import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.twosnail.basic.model.SysButtonLog;
 import com.twosnail.basic.model.SysRole;
 import com.twosnail.basic.model.SysMenu;
@@ -42,19 +43,23 @@ public class SysConfig extends JFinalConfig {
 		// 加载少量必要配置，随后可用getProperty(...)获取值
 		loadPropertyFile("jfinal.properties");
         me.setDevMode(getPropertyToBoolean("devModel", false));
+        
         // Beetl
  		me.setMainRenderFactory(new BeetlRenderFactory());
+ 		
  		GroupTemplate gt = BeetlRenderFactory.groupTemplate;
+ 		gt.registerFunctionPackage("so", new ShiroExt());
+ 		
+ 		//设置根目录
  		WebAppResourceLoader loader = (WebAppResourceLoader ) gt.getResourceLoader(); 
  		loader.setRoot("src/main/webapp/view");
- 		gt.registerFunctionPackage("so", new ShiroExt());
  		
  		//全局变量
  		Map<String, Object> sharedVars = new HashMap<String, Object>();
  		sharedVars.put("rootPath", "http://localhost:8082") ;
  		gt.setSharedVars(sharedVars);
  		
- 		//error
+ 		//error页面
  		me.setError404View("error/404.html");
 	}
 	
@@ -81,19 +86,22 @@ public class SysConfig extends JFinalConfig {
 		//me.add(c3p0Plugin);
 		
 		//阿里巴巴 数据库连接池插件
-		DruidPlugin dp = new DruidPlugin(getProperty("jdbcUrl"), getProperty("user"), getProperty("password"));
+		DruidPlugin druidPlugin = new DruidPlugin(getProperty("jdbcUrl"), getProperty("user"), getProperty("password"));
 		//dp.addFilter(new StatFilter());
-		WallFilter wall = new WallFilter();
-		wall.setDbType(JdbcConstants.MYSQL);
-		dp.addFilter(wall);
-		me.add(dp);
+		WallFilter wallFilter = new WallFilter();
+		wallFilter.setDbType( JdbcConstants.MYSQL );
+		druidPlugin.addFilter( wallFilter );
+		me.add( druidPlugin );
 		
 		
 		
 		// 配置ActiveRecord插件
-		ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
+		ActiveRecordPlugin arp = new ActiveRecordPlugin( druidPlugin );
+		// arp.setContainerFactory(new CaseInsensitiveContainerFactory());
 		arp.setShowSql(getPropertyToBoolean("showSql", false));
-		me.add(arp);
+		me.add( arp );
+		
+		
 		// 映射表到模型
 		arp.addMapping( "sys_user" , SysUser.class ) ;
 		arp.addMapping( "sys_button_log" , SysButtonLog.class ) ;
@@ -104,12 +112,16 @@ public class SysConfig extends JFinalConfig {
 		
 		// 加载Shiro插件
 		me.add(new ShiroPlugin(routes));
+		
+		// 缓存插件
+		me.add(new EhCachePlugin());
 	}
 	
 	/**
 	 * 配置全局拦截器
 	 */
 	public void configInterceptor(Interceptors me) {
+		//me.add(new SessionInViewInterceptor());
 		me.add(new ShiroInterceptor());
 	}
 	
