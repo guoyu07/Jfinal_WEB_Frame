@@ -52,24 +52,22 @@ public class SysUser extends Model<SysUser>{
 		List<String> param = new ArrayList<String>(2) ;
 		param.add( userName ) ;
 		param.add( passWord ) ;
-		SysUser infoUser = me.findFirst( "SELECT a.id,a.id,a.userName,a.createTime,a.createIp,a.isUsed,a.sortNo , "
-				+ "b.roleCode,b.roleName  "
-				+ "FROM sys_user a "
-				+ "left join sys_role b on a.id = b.id "
-				+ "WHERE a.userName=? AND a.passWord=? " , userName , passWord ) ;
+		Record user = Db.findFirst( 
+				"SELECT a.id,a.roleId,a.userName,a.createTime,a.createIp,a.isUsed,a.sortNo,b.roleCode,b.roleName  "
+				+ "FROM sys_user a left join sys_role b on a.id = b.id WHERE a.userName=? AND a.passWord=? " , userName , passWord ) ;
 		
-		if( infoUser == null ) {
+		if( user == null ) {
 			//没有该用户
 			throw new BusiException( "账号或密码错误！" );
-		} else if( infoUser.getInt( "isUsed" ) != SysUser.STATUS_NOMAL ) {
+		} else if( user.getInt( "isUsed" ) != SysUser.STATUS_NOMAL ) {
 			//管理员被冻结
 			throw new BusiException( "用户被冻结！" );
 		} else {
 			//正常登陆 获取用户所有角色，所有权限
-			List<SysPrivilege> userPrivilege = SysPrivilege.me.getPrivilegeByUserId( infoUser.getLong( "id" ) ) ;
+			List<SysPrivilege> userPrivilege = SysPrivilege.me.getPrivilegeByUserId( user.getLong( "id" ) ) ;
 			
 			//设置session
-			UserInfo.setUserSession( session, infoUser, userPrivilege );
+			UserInfo.setUserSession( session, user, userPrivilege );
 		}
 		
 	}

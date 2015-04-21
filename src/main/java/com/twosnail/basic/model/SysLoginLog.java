@@ -1,10 +1,15 @@
 package com.twosnail.basic.model;
 
+import javax.servlet.http.HttpServletRequest;
+
+import com.jfinal.log.Logger;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import com.twosnail.basic.util.RequestHandler;
 import com.twosnail.basic.util.exception.BusiException;
+import com.twosnail.basic.util.user.UserInfo;
 
 /**   
  * @Title: SysLoginLog.java
@@ -18,6 +23,37 @@ import com.twosnail.basic.util.exception.BusiException;
 public class SysLoginLog extends Model<SysLoginLog>{
 	public static final SysLoginLog me = new SysLoginLog() ; 
 	
+	private Logger logger = Logger.getLogger(SysLoginLog.class) ;
+	
+	/**
+	 * 添加登录日志
+	 * @param request
+	 */
+	public void addLoginLog( HttpServletRequest request ) {
+		try {
+			me.set( "userId", UserInfo.getId(request) );
+			me.set( "loginTime",System.currentTimeMillis());
+			me.set( "logIp",RequestHandler.getIpAddr(request));
+			me.set( "lastlogTime" ,getLastTime( UserInfo.getId(request) ) );
+			me.set( "status" ,1);
+			if( !me.save() ) {
+	            throw new BusiException( "添加信息失败!" );
+	        }
+		} catch (Exception e) {
+			logger.warn( "添加登录日志出错！" , e );
+		}
+		
+	}
+	
+	/**
+	 * 查询用户最后一次登录的时间
+	 * @param userId
+	 * @return
+	 */
+	private long getLastTime( long userId ){
+		return Db.queryLong( 
+				"SELECT l.loginTime FROM sysloglog l where l.userId=? order by l.logintime DESC LIMIT 0,1 " , userId ) ;
+	}
 	/**
 	 * 获取登录日志
 	 * @param keyWord

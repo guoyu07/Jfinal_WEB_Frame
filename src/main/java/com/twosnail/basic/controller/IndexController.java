@@ -3,9 +3,12 @@ package com.twosnail.basic.controller;
 import java.util.List;
 
 import com.jfinal.core.Controller;
+import com.jfinal.log.Logger;
+import com.twosnail.basic.model.SysLoginLog;
 import com.twosnail.basic.model.SysMenu;
 import com.twosnail.basic.model.SysUser;
 import com.twosnail.basic.util.RequestHandler;
+import com.twosnail.basic.util.exception.BusiException;
 import com.twosnail.basic.util.result.ResultObj;
 import com.twosnail.basic.util.tree.TreeNode;
 
@@ -17,6 +20,9 @@ import com.twosnail.basic.util.tree.TreeNode;
  * @version V1.0   
  */
 public class IndexController extends Controller {
+	
+	private Logger logger = Logger.getLogger(IndexController.class) ;
+	
 	/**
 	 * 登录首页
 	 */
@@ -38,23 +44,14 @@ public class IndexController extends Controller {
 		try {
 			SysUser.me.userLogin( 
 					getPara("loginName"), getPara("password"), getPara( "code" )  , getRequest() );
-			//获取上次登录时间-->第一次登录、上次登录时间为0
-			long lastTime = 0;
-			//List<SysLogLog> logs = logService.getlogByUserId(UserInfo.getUserId(session));
-			//if(logs!=null && logs.size()>0){
-			//	lastTime = logs.get(0).getLoginTime();
-			//}
-			//SysLogLog sysLogLog = new SysLogLog();
-			/*sysLogLog.setUserId(UserInfo.getUserId(session));
-			sysLogLog.setLoginTime(System.currentTimeMillis());
-			sysLogLog.setLogIp(RequestHandler.getIpAddr(request));
-			sysLogLog.setLastlogTime(lastTime);
-			sysLogLog.setStatus(1);
-			long logId = logService.addRoleInfo(sysLogLog);
-			session.setAttribute("logId", logId);*/
+			//添加登录日志
+			SysLoginLog.me.addLoginLog( getRequest() );
 			renderJson( new ResultObj( ResultObj.SUCCESS , null, null ) );
+		} catch( BusiException e ) {
+			logger.debug(  e.getMessage() );
+			renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null ) );
 		} catch( Exception e ) {
-			e.printStackTrace();
+			logger.warn( "系统异常，登录失败！" , e );
 			renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null ) );
 		}
 	}
@@ -67,15 +64,6 @@ public class IndexController extends Controller {
 		List<TreeNode<SysMenu>> list = SysMenu.me.getMenuList() ;
         String tree = treeMenu( list,  new StringBuilder() ,  RequestHandler.getBasePath(getRequest()) ) ;
         setAttr( "tree", tree ) ;
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		render("main.html");
 	}
 	

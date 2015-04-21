@@ -5,12 +5,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.twosnail.basic.model.SysUser;
+import com.jfinal.plugin.activerecord.Record;
 import com.twosnail.basic.model.SysPrivilege;
 
 /**   
  * @Title: UserInfo.java
- * @Description: TODO
+ * @Description: 用户信息
  * @author: 两只蜗牛
  * @date: 2015年4月18日 下午1:10:38
  * @version: V1.0
@@ -20,13 +20,13 @@ public class UserInfo {
 	
 	public static void setUserSession( 
 			HttpSession session, 
-			SysUser userInfo , List<SysPrivilege> userPrivilege ) {
+			Record userInfo , List<SysPrivilege> userPrivilege ) {
 		session.setAttribute( "userInfo", userInfo );
 		session.setAttribute( "userPrivilege", userPrivilege );
 	}
 	
-	public static SysUser getUserInfo( HttpSession session ) {
-		return (SysUser) session.getAttribute( "userInfo" );
+	public static Record getUserInfo( HttpSession session ) {
+		return (Record) session.getAttribute( "userInfo" );
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public class UserInfo {
 	 * @return
 	 */
 	public static long getId( HttpSession session ) {
-		SysUser userInfo = getUserInfo(session) ;
+		Record userInfo = getUserInfo(session) ;
 		return userInfo == null ? -1 : userInfo.getLong("id") ;
 	}
 	
@@ -63,7 +63,7 @@ public class UserInfo {
 	 * @return
 	 */
 	public static String getUserName( HttpSession session ) {
-		SysUser userInfo = getUserInfo(session) ;
+		Record userInfo = getUserInfo(session) ;
 		return userInfo == null ?  null : userInfo.getStr("userName");
 	}
 	
@@ -82,7 +82,7 @@ public class UserInfo {
 	 * @return
 	 */
 	public static int getRoleId( HttpSession session ) {
-		SysUser userInfo = getUserInfo(session) ;
+		Record userInfo = getUserInfo(session) ;
 		return userInfo == null ? -1 : userInfo.getInt("roleId") ;
 	}
 	
@@ -92,7 +92,7 @@ public class UserInfo {
 	 * @return
 	 */
 	public static String getRoleName( HttpSession session ) {
-		SysUser userInfo = getUserInfo(session) ;
+		Record userInfo = getUserInfo(session) ;
 		return userInfo == null ?  null : userInfo.getStr("roleName");
 	}
 	
@@ -102,7 +102,7 @@ public class UserInfo {
 	 * @return
 	 */
 	public static String getRoleCode( HttpSession session ) {
-		SysUser userInfo = getUserInfo(session) ;
+		Record userInfo = getUserInfo(session) ;
 		return userInfo == null ?  null : userInfo.getStr("roleCode");
 	}
 	
@@ -111,10 +111,9 @@ public class UserInfo {
 	 * @param session
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public static List<SysPrivilege> getUserPrivilege( HttpSession session ) {
-		@SuppressWarnings("unchecked")
-		List<SysPrivilege> userPrivilege = (List<SysPrivilege>) session.getAttribute( "userPrivilege" );
-		return userPrivilege ;
+		return (List<SysPrivilege>) session.getAttribute( "userPrivilege" );
 	}
 	
 	public static void destory( HttpSession session ) {
