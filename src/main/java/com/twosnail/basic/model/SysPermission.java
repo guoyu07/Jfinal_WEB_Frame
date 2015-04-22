@@ -17,17 +17,17 @@ public class SysPermission extends Model<SysPermission>{
 	public static final SysPermission me = new SysPermission() ; 
 	
 	
-	public List<SysPermission> getPrivilegeByUserId( long id ) {
+	public List<SysPermission> getPermissionByUserId( long id ) {
 		return me.find( 
-				"SELECT a.* FROM sys_privilege a  LEFT JOIN sys_user b  ON a.roleId = b.roleId WHERE b.id = ?" , id ) ;
+				"SELECT a.* FROM sys_permissiona  LEFT JOIN sys_user b  ON a.roleId = b.roleId WHERE b.id = ?" , id ) ;
 	}
 	
 	/**
      * 获取角色授权信息
      * @param roleId
      */
-    public List<SysPermission> getPrivilegeByRoleId( long roleId ){
-    	return  me.find( "SELECT a.* FROM sys_privilege a WHERE a.roleId = ?" , roleId ) ;
+    public List<SysPermission> getPermissionByRoleId( long roleId ){
+    	return  me.find( "SELECT a.* FROM sys_permissiona WHERE a.roleId = ?" , roleId ) ;
     }
 	
 }

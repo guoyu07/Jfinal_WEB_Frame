@@ -3,8 +3,11 @@ package com.twosnail.basic.controller;
 import java.util.List;
 
 import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresUser;
 
 import com.jfinal.core.Controller;
 import com.jfinal.log.Logger;

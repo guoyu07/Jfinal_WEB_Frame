@@ -43,6 +43,8 @@ public class SysConfig extends JFinalConfig {
 	public void configConstant( Constants me )  {
 		// 加载少量必要配置，随后可用getProperty(...)获取值
 		loadPropertyFile("jfinal.properties");
+		// 加载菜单权限
+		loadPropertyFile("menu-auth.properties");
         me.setDevMode(getPropertyToBoolean("devModel", false));
         
         // Beetl

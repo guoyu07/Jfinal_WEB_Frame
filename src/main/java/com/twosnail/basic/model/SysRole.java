@@ -3,7 +3,6 @@ package com.twosnail.basic.model;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Model;
-import com.jfinal.plugin.activerecord.Page;
 import com.twosnail.basic.util.exception.BusiException;
 import com.twosnail.basic.util.tree.TreeList;
 import com.twosnail.basic.util.tree.TreeNode;
@@ -28,7 +27,7 @@ public class SysRole extends Model<SysRole>{
     }
     
     /**
-     * 获取角色列表信息
+     * 获取角色列表信息（树结构）
      * @return
      */
     public List<TreeNode<SysRole>> getRoleList(){
@@ -69,37 +68,13 @@ public class SysRole extends Model<SysRole>{
         }
 	}
 	
-	/*public void addRole( SysRole sysRole) throws BusiException {
-		sysRole.set( "createTime" , System.currentTimeMillis() );
-		me.setAttrs(sysRole) ; //错误写法
-		if( !me.save() ) {
-            throw new BusiException( "添加信息失败!" );
-        }
-	}*/
-    
-	/**
-	 * 获取角色信息
-	 * @param keyWord
-	 * @param page
-	 * @param pageSize
-	 * @return
-	 */
-	public Page<SysRole> getRole(String keyWord , int pageNumber , int pageSize ) {
-		StringBuffer sb = new StringBuffer(" FROM sys_role a WHERE 1=1  ");
-		if( keyWord != null && "".equals( keyWord = keyWord.trim() ) ) {
-			sb.append( " AND (a.roleName LIKE '%"+keyWord+"%' )" ) ;
-		}
-		return paginate( pageNumber, pageSize, "SELECT a.* " , sb.toString() );
-    }
-	
 	/**
 	 * 修改角色信息
 	 * @param sysRole
 	 * @throws BusiException
 	 */
 	public void updRole( SysRole sysRole ) throws BusiException {
-		me.setAttrs(sysRole) ;
-		if( !me.update() ) {
+		if( !sysRole.update() ) {
             throw new BusiException( "修改角色信息失败!" );
         }
 	}
@@ -110,8 +85,7 @@ public class SysRole extends Model<SysRole>{
      * @throws BusiException
      */
     public void updRoleStasus( SysRole sysRole ) throws BusiException {
-    	me.setAttrs( sysRole ) ;
-    	if(  !me.update() ) {
+    	if(  !sysRole.update() ) {
             throw new BusiException( "修改信息失败" );
         }
     }   

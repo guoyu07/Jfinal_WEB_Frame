@@ -76,8 +76,7 @@ public class SysMenu extends Model<SysMenu> {
 	 * @throws BusiException
 	 */
 	public void updMenu( SysMenu menu ) throws BusiException {
-		me.setAttrs(menu) ;
-		if( !me.update() ) {
+		if( !menu.update() ) {
             throw new BusiException( "修改菜单信息失败!" );
         }
 	}
@@ -88,8 +87,7 @@ public class SysMenu extends Model<SysMenu> {
      * @throws BusiException
      */
     public void updMenuStasus( SysMenu menu ) throws BusiException {
-    	me.setAttrs( menu ) ;
-    	if(  !me.update() ) {
+    	if(  !menu.update() ) {
             throw new BusiException( "修改信息失败" );
         }
     }   

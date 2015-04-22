@@ -169,8 +169,7 @@ public class SysUser extends Model<SysUser>{
 			SysUser user , HttpServletRequest request ) throws BusiException{
 		user.set( "operateId" , UserInfo.getId(request) ) ;
 		user.set( "opetateTime" , System.currentTimeMillis() ) ;
-		me.setAttrs(user) ;
-		if( !me.update() ) {
+		if( !user.update() ) {
             throw new BusiException( "添加信息失败!" );
         }
 	}
