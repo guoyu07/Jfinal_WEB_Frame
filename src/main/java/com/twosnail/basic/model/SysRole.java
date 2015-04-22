@@ -64,11 +64,18 @@ public class SysRole extends Model<SysRole>{
 	 */
 	public void addRole( SysRole sysRole) throws BusiException {
 		sysRole.set( "createTime" , System.currentTimeMillis() );
-		me.setAttrs(sysRole) ;
-		if( !me.save() ) {
+		if( !sysRole.save() ) {
             throw new BusiException( "添加信息失败!" );
         }
 	}
+	
+	/*public void addRole( SysRole sysRole) throws BusiException {
+		sysRole.set( "createTime" , System.currentTimeMillis() );
+		me.setAttrs(sysRole) ; //错误写法
+		if( !me.save() ) {
+            throw new BusiException( "添加信息失败!" );
+        }
+	}*/
     
 	/**
 	 * 获取角色信息

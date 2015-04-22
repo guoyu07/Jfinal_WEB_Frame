@@ -30,13 +30,14 @@ public class SysLoginLog extends Model<SysLoginLog>{
 	 * @param request
 	 */
 	public void addLoginLog( HttpServletRequest request ) {
+		SysLoginLog log = new SysLoginLog() ;
 		try {
-			me.set( "userId", UserInfo.getId(request) );
-			me.set( "loginTime",System.currentTimeMillis());
-			me.set( "logIp",RequestHandler.getIpAddr(request));
-			me.set( "lastlogTime" ,getLastTime( UserInfo.getId(request) ) );
-			me.set( "status" ,1);
-			if( !me.save() ) {
+			log.set( "userId", UserInfo.getId(request) );
+			log.set( "loginTime",System.currentTimeMillis());
+			log.set( "logIp",RequestHandler.getIpAddr(request));
+			log.set( "lastlogTime" ,getLastTime( UserInfo.getId(request) ) );
+			log.set( "status" ,1);
+			if( !log.save() ) {
 	            throw new BusiException( "添加信息失败!" );
 	        }
 		} catch (Exception e) {

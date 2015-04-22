@@ -145,8 +145,7 @@ public class SysUser extends Model<SysUser>{
 		sysUser.set( "createTime" ,System.currentTimeMillis() );
         sysUser.set( "createId" ,UserInfo.getId( request ) ) ;
         sysUser.set( "createIp" ,RequestHandler.getIpAddr(request)) ;
-		me.setAttrs(sysUser) ;
-		if( !me.save() ) {
+		if( !sysUser.save() ) {
             throw new BusiException( "添加信息失败!" );
         }
 	}

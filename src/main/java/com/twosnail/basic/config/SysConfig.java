@@ -19,14 +19,15 @@ import com.jfinal.core.JFinal;
 import com.jfinal.ext.plugin.shiro.ShiroInterceptor;
 import com.jfinal.ext.plugin.shiro.ShiroPlugin;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.activerecord.tx.TxByRegex;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.twosnail.basic.model.SysButtonLog;
-import com.twosnail.basic.model.SysRole;
-import com.twosnail.basic.model.SysMenu;
-import com.twosnail.basic.model.SysUser;
 import com.twosnail.basic.model.SysLoginLog;
+import com.twosnail.basic.model.SysMenu;
 import com.twosnail.basic.model.SysPermission;
+import com.twosnail.basic.model.SysRole;
+import com.twosnail.basic.model.SysUser;
 import com.twosnail.basic.util.tools.ShiroExt;
 import com.twosnail.init.ExtRoutes;
 
@@ -98,7 +99,7 @@ public class SysConfig extends JFinalConfig {
 		// 配置ActiveRecord插件
 		ActiveRecordPlugin arp = new ActiveRecordPlugin( druidPlugin );
 		// arp.setContainerFactory(new CaseInsensitiveContainerFactory());
-		arp.setShowSql(getPropertyToBoolean("showSql", false));
+		arp.setShowSql(getPropertyToBoolean( "showSql", true ));
 		me.add( arp );
 		
 		
@@ -122,7 +123,14 @@ public class SysConfig extends JFinalConfig {
 	 */
 	public void configInterceptor(Interceptors me) {
 		//me.add(new SessionInViewInterceptor());
+		//添加shrio权限管理拦截器
 		me.add(new ShiroInterceptor());
+		
+		//开启事务
+		me.add(new TxByRegex("upd.*"));
+		me.add(new TxByRegex("add.*"));
+		me.add(new TxByRegex("del.*"));
+		me.add(new TxByRegex(".*Tx"));
 	}
 	
 	/**

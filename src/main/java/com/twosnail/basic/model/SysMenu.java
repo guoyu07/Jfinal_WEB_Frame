@@ -65,8 +65,7 @@ public class SysMenu extends Model<SysMenu> {
 	 */
 	public void addMenu( SysMenu menu) throws BusiException {
 		menu.set( "createTime" , System.currentTimeMillis() );
-		me.setAttrs(menu) ;
-		if( !me.save() ) {
+		if( !menu.save() ) {
             throw new BusiException( "添加信息失败!" );
         }
 	}
