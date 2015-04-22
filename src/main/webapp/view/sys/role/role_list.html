@@ -38,7 +38,7 @@
 		document.getElementById('content').style.width=document.documentElement.clientWidth-500+"px";
 	}
 
-	function checkid( url ){
+	function checkId( url ){
 		var id = $("#id").val() ;
 		if( id == -1 ) {
 			window.parent.tips( "请选择角色" );
@@ -85,8 +85,8 @@
 	        <div class="am-btn-toolbar">
 	          	<div class="am-btn-group am-btn-group-xs">
 	          		<a href="${rootPath}/sys/role/addview?id=-1" target="content_in" class="am-btn am-btn-success" ><span class="am-icon-plus"></span> 添加超级管理员 </a>
-	          		<a href="javascript:checkid('${rootPath}/sys/role/addview/');" id="user_role_addchiview" target="content_in" class="am-btn am-btn-success" ><span class="am-icon-plus"></span> 添加子角色 </a>
-	          		<a href="javascript:checkid('${rootPath}/sys/role/permissionview/');" id="user_role_permissionview" target="content_in" class="am-btn am-btn-success" ><span class="am-icon-plus"></span> 授权 </a>
+	          		<a href="javascript:checkId('${rootPath}/sys/role/addview/');" id="user_role_addchiview" target="content_in" class="am-btn am-btn-success" ><span class="am-icon-plus"></span> 添加子角色 </a>
+	          		<a href="javascript:checkId('${rootPath}/sys/role/permissionview/');" id="user_role_permissionview" target="content_in" class="am-btn am-btn-success" ><span class="am-icon-plus"></span> 授权 </a>
 	          		<a href="javascript:editRole('${rootPath}/sys/role/editstatus/');" id="user_role_editstatus" target="content_in" class="am-btn am-btn-success" ><span class="am-icon-plus"></span> 修改状态 </a>
 	            	<a href="javascript:editRole('${rootPath}/sys/role/delview/');" id="user_role_delview" target="content_in" class="am-btn am-btn-danger"><span class="am-icon-trash-o"></span> 删除</a>
 	          		<input type="hidden" value="-1" id="id" >

@@ -157,7 +157,11 @@ public class RoleController extends Controller {
 		}
     }
     
-   
+   public void permissionview(){
+	   int id  = getParaToInt( "id" ) ;
+	   
+	   SysRole.me.getPrimession();
+   }
     
 	public String treeMenu( List<TreeNode<SysRole>> list , StringBuilder str , String basePath ){    	
     	SysRole sysRole = null ;
