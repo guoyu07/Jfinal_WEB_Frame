@@ -20,18 +20,18 @@ import com.twosnail.basic.util.tree.TreeNode;
  * @date 2015年4月17日 下午1:02:01 
  * @version V1.0   
  */
-
 @SuppressWarnings("serial")
 public class SysMenu extends Model<SysMenu> {
 	private Logger logger = Logger.getLogger( SysMenu.class );
 	public static final SysMenu me = new SysMenu() ; 
+	
 	/**
-     * 获取菜单列表信息
+     * 获取菜单列表信息Tree
      * @return
      */
-    public List<TreeNode<SysMenu>> getMenuList(){
-    	List<SysMenu> SysMenu = me.find( "SELECT * FROM sys_menu " ) ;
-    	List<TreeNode<SysMenu>> list =  TreeList.sort( SysMenu, new TreeList.SortHandler<SysMenu>() {
+    public List<TreeNode<SysMenu>> getMenuTree(){
+    	List<SysMenu> menu = this.getMenuList() ;
+    	List<TreeNode<SysMenu>> tree =  TreeList.sort( menu, new TreeList.SortHandler<SysMenu>() {
 			public int getId(SysMenu t){
 				return t.getInt("id");
 			}
@@ -39,7 +39,15 @@ public class SysMenu extends Model<SysMenu> {
 				return t.getInt("parentId");
 			}
     	} );
-    	return list ;
+    	return tree ;
+    }
+    
+    /**
+     * 获取菜单列表信息List
+     * @return
+     */
+    public List<SysMenu> getMenuList(){
+    	return me.find( "SELECT * FROM sys_menu " ) ;
     }
     
     /**

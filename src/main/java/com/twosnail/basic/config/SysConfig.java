@@ -36,6 +36,7 @@ import com.twosnail.init.ExtRoutes;
  */
 public class SysConfig extends JFinalConfig {
 	
+	public static final SysConfig me = new SysConfig() ; 
 	private Routes routes;
 	/**
 	 * 配置常量
@@ -44,7 +45,7 @@ public class SysConfig extends JFinalConfig {
 		// 加载少量必要配置，随后可用getProperty(...)获取值
 		loadPropertyFile("jfinal.properties");
 		// 加载菜单权限
-		loadPropertyFile("menu-auth.properties");
+		loadPropertyFile("auth.properties");
         me.setDevMode(getPropertyToBoolean("devModel", false));
         
         // Beetl

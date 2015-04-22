@@ -31,7 +31,7 @@ public class MenuController extends Controller {
 	//@RequiresRoles(value = { "user", "admin" }, logical = Logical.OR)
 	public void index(){
 		try {
-			List<TreeNode<SysMenu>> list = SysMenu.me.getMenuList() ;
+			List<TreeNode<SysMenu>> list = SysMenu.me.getMenuTree() ;
 	        String tree = treeMenu( list,  new StringBuilder() ,  RequestHandler.getBasePath(getRequest()) ) ;
 	        setAttr( "tree", tree ) ;
 		} catch (Exception e) {

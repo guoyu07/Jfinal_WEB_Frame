@@ -3,6 +3,7 @@ package com.twosnail.basic.model;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Model;
+import com.twosnail.basic.config.SysConfig;
 import com.twosnail.basic.util.exception.BusiException;
 import com.twosnail.basic.util.tree.TreeList;
 import com.twosnail.basic.util.tree.TreeNode;
@@ -109,6 +110,26 @@ public class SysRole extends Model<SysRole>{
     	if( !me.deleteById(id)   ) {
             throw new BusiException( "修改信息失败" );
         }
+    }
+    
+    /**
+     * 获取权限
+     * @return
+     */
+    public List<TreeNode<SysMenu>> getPrimession(){
+    	List<SysMenu> list = SysMenu.me.getMenuList() ;
+    	for ( SysMenu menu : list ) {
+			menu.set( "permission" , SysConfig.me.getProperty( menu.getStr("id") ) ) ; 
+		}
+    	List<TreeNode<SysMenu>> tree =  TreeList.sort( list, new TreeList.SortHandler<SysMenu>() {
+			public int getId(SysMenu t){
+				return t.getInt("id");
+			}
+			public int getParentId(SysMenu t){
+				return t.getInt("parentId");
+			}
+    	});
+    	return tree ;
     }
     
     /**

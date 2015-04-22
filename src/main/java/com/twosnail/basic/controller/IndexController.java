@@ -64,7 +64,7 @@ public class IndexController extends Controller {
 	 */
 	public void main() {
 		//菜单
-		List<TreeNode<SysMenu>> list = SysMenu.me.getMenuList() ;
+		List<TreeNode<SysMenu>> list = SysMenu.me.getMenuTree() ;
         String tree = treeMenu( list,  new StringBuilder() ,  RequestHandler.getBasePath(getRequest()) ) ;
         setAttr( "tree", tree ) ;
 		render("main.html");
