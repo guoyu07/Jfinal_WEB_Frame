@@ -11,9 +11,9 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 -- 导出 twosnail_basic 的数据库结构
-DROP DATABASE IF EXISTS `twosnail_basic`;
-CREATE DATABASE IF NOT EXISTS `twosnail_basic` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `twosnail_basic`;
+DROP DATABASE IF EXISTS `basic`;
+CREATE DATABASE IF NOT EXISTS `basic` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `basic`;
 
 
 -- 导出  表 twosnail_basic.sysbuttonloghis 结构
@@ -290,7 +290,7 @@ CREATE TABLE IF NOT EXISTS `sys_user_role` (
 -- 正在导出表  twosnail_basic.sys_user_role 的数据：~1 rows (大约)
 DELETE FROM `sys_user_role`;
 /*!40000 ALTER TABLE `sys_user_role` DISABLE KEYS */;
-INSERT INTO `sys_user_role` (`id`, `userId`, `roleId`) VALUES
+INSERT INTO `sys_user_role` (`id`, `userId`, `roleId`) sys_user_role
 	(1, 9, 1);
 /*!40000 ALTER TABLE `sys_user_role` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
