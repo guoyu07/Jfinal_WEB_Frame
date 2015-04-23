@@ -2,8 +2,11 @@ package com.twosnail.basic.controller;
 
 import java.util.List;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Logger;
+import com.twosnail.basic.model.SysMenu;
+import com.twosnail.basic.model.SysPermission;
 import com.twosnail.basic.model.SysRole;
 import com.twosnail.basic.model.SysUser;
 import com.twosnail.basic.util.RequestHandler;
@@ -157,12 +160,82 @@ public class RoleController extends Controller {
 		}
     }
     
-   public void permissionview(){
-	   int id  = getParaToInt( "id" ) ;
-	   
-	   SysRole.me.getPrimession();
-   }
+    /**
+     * 用户授权页面
+     */
+	public void permissionview(){
+		JSONObject result = new JSONObject() ;
+		try {
+			Integer id  = getParaToInt( "id" ) ;
+			result.put( "menu" , SysRole.me.getPrimession() ) ;
+			List<TreeNode<SysMenu>> list  = SysRole.me.getPrimession() ;
+			List<SysPermission> permission = SysPermission.me.getPermissionByUserId( id ) ;
+			String  str = permission(list, permission, new StringBuilder() ,  RequestHandler.getBasePath(getRequest())  ) ;
+			setAttr( "id" , id ) ;
+			setAttr( "permission" , str ) ;
+			System.out.println(str);
+			render( "role_permission.html" );
+		} catch (Exception e) {
+			this.logger.warn( "获取用户授权信息失败！" , e  );
+			return ;
+		}
+	}
+	
+	/**
+	 * 保存用户权限
+	 */
+	public void permission() {
+		int id = getParaToInt( "id" ) ;
+		String[] permis = getParaValues( "permis" ) ;
+		try {
+			SysRole.me.addPermissionById( id, permis );
+			renderJson( new ResultObj( ResultObj.SUCCESS , null , null )) ;
+		} catch (BusiException e) {
+			this.logger.warn( "添加失败！" , e );
+			renderJson( new ResultObj( ResultObj.FAIL , "添加失败！" , null )) ;
+		} catch (Exception e) {
+			this.logger.warn( "系统异常！" , e );
+			renderJson( new ResultObj( ResultObj.FAIL , "系统异常！" , null )) ;
+		}
+	}
     
+	/**
+	 */
+	private String permission( List<TreeNode<SysMenu>> list , List<SysPermission> permission , StringBuilder str , String basePath ){    	
+		SysMenu menu = null ;
+		String permis = null ;
+		String[] permi = null ;
+    	for (TreeNode<SysMenu> node : list ){
+    		menu = node.get() ;	
+    		permis = menu.getStr( "permission" ) ;
+    		if( permis != null ) {
+				permi = permis.split( "_" ) ;
+			}    		
+			str.append( "<tr> " ) ;
+			
+			if( node.getChildren().size() > 0 ) {
+				//根菜单
+				str.append( "<td><input type=\"checkbox\" value='"+permi[0]+"' name=\"permis\"/><strong>" + menu.get("name") +"</strong></td>" ) ;				
+				permission( node.getChildren() , permission ,str , basePath );				
+			} else {
+				str.append( "<td>" ) ;
+				if( -1 != menu.getInt( "parentId" ) ){
+					str.append( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"checkbox\" value='"+permi[0]+"' name=\"permis\"/>" ) ;
+					str.append( menu.get("name") +"</td>" ) ;
+				} else{
+					//根菜单
+					str.append( "<input type=\"checkbox\" value='"+permi[0]+"' name=\"permis\"/><strong>" + menu.get("name") +"</strong></td>" ) ;
+				}
+				
+				for (int i = 1; i < permi.length; i++) {
+					str.append( "<td><input type=\"checkbox\" value='"+permi[1]+"' name=\"permis\"/>" + permi[i] +"</td>" ) ;
+				}
+			}
+			str.append( "</tr>" ) ;
+		}
+		return str.toString() ;
+	}
+	
 	public String treeMenu( List<TreeNode<SysRole>> list , StringBuilder str , String basePath ){    	
     	SysRole sysRole = null ;
     	for (TreeNode<SysRole> node : list){
@@ -172,7 +245,7 @@ public class RoleController extends Controller {
 				str.append( "class=\"admin-parent\" " ) ;
 			str.append( ">" ) ;
 			
-			str.append( " <a class=\"am-cf\" onclick=\"setidValue("+sysRole.get("id")+");\"  " ) ;
+			str.append( " <a class=\"am-cf\" onclick=\"setIdValue("+sysRole.get("id")+");\"  " ) ;
 			str.append( " href="+ basePath + "/sys/role/editview?id=" +sysRole.get("id") +" target=\"content_in\"  " ) ;
 			if( node.getChildren().size() > 0 ) {
 				

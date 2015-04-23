@@ -2,12 +2,7 @@ package com.twosnail.basic.controller;
 
 import java.util.List;
 
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.authz.annotation.RequiresUser;
 
 import com.jfinal.core.Controller;
 import com.jfinal.log.Logger;
@@ -43,7 +38,7 @@ public class MenuController extends Controller {
 	/**
      * 添加页面
      */
-	@RequiresPermissions("addview")
+	//@RequiresPermissions("addview")
     public void addview(){
     	
     	int id = getParaToInt( "id" ) ;
@@ -170,7 +165,7 @@ public class MenuController extends Controller {
 				str.append( "class=\"admin-parent\" " ) ;
 			str.append( ">" ) ;
 			
-			str.append( " <a class=\"am-cf\" onclick=\"setidValue("+sysMenu.get("id")+");\"  " ) ;
+			str.append( " <a class=\"am-cf\" " ) ;
 			str.append( " href="+ basePath + "/sys/menu/editview?id=" +sysMenu.get("id") +" target=\"content_in\"  " ) ;
 			if( node.getChildren().size() > 0 ) {
 				

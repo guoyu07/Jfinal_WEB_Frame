@@ -160,22 +160,6 @@
 <script src="assets/js/amazeui.min.js"></script>
 <!--<![endif]-->
 <script src="assets/js/app.js"></script>
-<script type="text/javascript">
-  //提示框
-	function tips( title , info ){
-		$('#alert_title').html(title) ;
-		if( info == null || info == '' ){
-			$('#alert_info').hide();
-		}
-		$('#my-alert').modal('open');
-	}
-  
-	function choseIco(){
-		$('#choseIco').modal('open');
-	}
-
-</script>
-
 <!-- modal -->
 	<div class="am-modal am-modal-alert" tabindex="-1" id="my-alert">
 	  <div class="am-modal-dialog">
@@ -228,19 +212,29 @@
     </div>
   </div>
 </div>
-
 <!-- modal end -->
-
-
 
 </body>
 <script type="text/javascript">
-	$("#div_setIoc").ready(function(){
-		$("#div_setIoc li").click(function(){
-			var value = $(this).attr('class') ;
-			content.window.content_in.window.setStyle( value ); 
-			$('#choseIco').modal('close');
-		});
+//提示框
+function tips( title , info ){
+	$('#alert_title').html(title) ;
+	if( info == null || info == '' ){
+		$('#alert_info').hide();
+	}
+	$('#my-alert').modal('open');
+}
+//菜单选择图标
+function choseIco(){
+	$('#choseIco').modal('open');
+}
+//监听图标点击事件
+$("#div_setIoc").ready(function(){
+	$("#div_setIoc li").click(function(){
+		var value = $(this).attr('class') ;
+		content.window.content_in.window.setStyle( value ); 
+		$('#choseIco').modal('close');
 	});
+});
 </script>
 </html>

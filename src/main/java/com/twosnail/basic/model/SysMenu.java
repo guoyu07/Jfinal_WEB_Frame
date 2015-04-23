@@ -121,10 +121,10 @@ public class SysMenu extends Model<SysMenu> {
     	List<Record> infoUrl = Db.find( 
     			"SELECT a.*,IFNULL((select a1.permValue from sys_privilege a1 where a.urlId = a1.urlId and a1.menuId=? ),-1) permValue "
     			+ "FROM sys_menu a ORDER BY a.sortNo" , menuId ) ;
-    	List<SysButton> buttonList = new ArrayList<SysButton>() ;
+    	List<SysRolePermission> buttonList = new ArrayList<SysRolePermission>() ;
     	for (Record sys_menu : infoUrl){
     		
-    		buttonList = new ArrayList<SysButton>() ;
+    		buttonList = new ArrayList<SysRolePermission>() ;
     		String permissionMethod = sys_menu.getStr( "permission" ) ;
     		//通过反射，找到所需节点名称，值
     		if(permissionMethod != null && !"".equals( permissionMethod )){
@@ -137,10 +137,10 @@ public class SysMenu extends Model<SysMenu> {
 	    			// 获取父类的所有属性，返回Field数组
 	    			Field[] fieldsSup = clz.getSuperclass().getDeclaredFields();
 	    			
-	    			SysButton button = null ;
+	    			SysRolePermission button = null ;
 	    			for(int i=0; i< fieldsSup.length; i++)
 	    	        {
-	    				button = new SysButton() ;
+	    				button = new SysRolePermission() ;
 	    				Field f = fieldsSup[i];	            
 	    	            PermissionName permission = f.getAnnotation(PermissionName.class); 
 	    	            button.set( "btnName" , permission.value() ) ;
@@ -166,7 +166,7 @@ public class SysMenu extends Model<SysMenu> {
 	    	            
 	    			for(int i=0; i< fields.length; i++)
 	    	        {
-	    				button = new SysButton() ;
+	    				button = new SysRolePermission() ;
 	    				Field f = fields[i];	            
 	    	            PermissionName permission = f.getAnnotation(PermissionName.class); 
 	    	            button.set( "btnName" ,permission.value()) ;

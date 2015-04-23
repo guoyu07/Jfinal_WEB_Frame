@@ -12,7 +12,6 @@ $(document).ready(function(){
     "../../sys/user/addinit" , 
     {}, 
     function ( data ) {
-    	debugger;
       if( data.status == 1 ) {
         var list = data.data.roles ;
         var html = "<select data-am-selected='{btnSize: \'sm\'}' name='roleId' id='roleId'>";

@@ -27,6 +27,7 @@ import com.twosnail.basic.model.SysLoginLog;
 import com.twosnail.basic.model.SysMenu;
 import com.twosnail.basic.model.SysPermission;
 import com.twosnail.basic.model.SysRole;
+import com.twosnail.basic.model.SysRolePermission;
 import com.twosnail.basic.model.SysUser;
 import com.twosnail.basic.util.tools.ShiroExt;
 import com.twosnail.init.ExtRoutes;
@@ -45,7 +46,7 @@ public class SysConfig extends JFinalConfig {
 		// 加载少量必要配置，随后可用getProperty(...)获取值
 		loadPropertyFile("jfinal.properties");
 		// 加载菜单权限
-		loadPropertyFile("auth.properties");
+		//loadPropertyFile("auth.properties");
         me.setDevMode(getPropertyToBoolean("devModel", false));
         
         // Beetl
@@ -108,11 +109,12 @@ public class SysConfig extends JFinalConfig {
 		
 		// 映射表到模型
 		arp.addMapping( "sys_user" , SysUser.class ) ;
-		arp.addMapping( "sys_button_log" , SysButtonLog.class ) ;
 		arp.addMapping( "sys_role" , SysRole.class ) ;
 		arp.addMapping( "sys_menu" , SysMenu.class ) ;
-		arp.addMapping( "sys_login_log" , SysLoginLog.class ) ;
 		arp.addMapping( "sys_permission" , SysPermission.class ) ;
+		arp.addMapping( "sys_role_permission" , SysRolePermission.class ) ;
+		arp.addMapping( "sys_login_log" , SysLoginLog.class ) ;
+		arp.addMapping( "sys_button_log" , SysButtonLog.class ) ;
 		
 		// 加载Shiro插件
 		me.add(new ShiroPlugin(routes));

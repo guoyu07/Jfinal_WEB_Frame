@@ -3,7 +3,6 @@ package com.twosnail.basic.model;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Model;
-import com.twosnail.basic.config.SysConfig;
 import com.twosnail.basic.util.exception.BusiException;
 import com.twosnail.basic.util.tree.TreeList;
 import com.twosnail.basic.util.tree.TreeNode;
@@ -57,6 +56,13 @@ public class SysRole extends Model<SysRole>{
 		return this.getRoleById(id).getStr("roleName") ;
 	}
 	
+	/**
+     * 获取所有角色
+     */
+    public List<SysRole> getSysByUserId( int userId ){
+    	return me.find( "SELECT a.* FROM sys_role a LEFT JOIN sys_user b ON a.id = b.roleId WHERE b.userId = ?" , userId ) ;
+    }
+    
 	/**
 	 * 添加角色信息
 	 * @param sysRole
@@ -118,9 +124,6 @@ public class SysRole extends Model<SysRole>{
      */
     public List<TreeNode<SysMenu>> getPrimession(){
     	List<SysMenu> list = SysMenu.me.getMenuList() ;
-    	for ( SysMenu menu : list ) {
-			menu.set( "permission" , SysConfig.me.getProperty( menu.getStr("id") ) ) ; 
-		}
     	List<TreeNode<SysMenu>> tree =  TreeList.sort( list, new TreeList.SortHandler<SysMenu>() {
 			public int getId(SysMenu t){
 				return t.getInt("id");
@@ -138,12 +141,12 @@ public class SysRole extends Model<SysRole>{
      * @param privilege
      * @throws BusiException
      */
-    public void addPrivilegeById( long id ,List<SysPermission> privilege) throws BusiException{
-    	for (SysPermission sysPrivilege : privilege) {
-    		sysPrivilege.set( "id" , id ) ;
-    		if( !me.save() ) {
-                throw new BusiException( "添加权限信息失败" );
-            }
+    public void addPermissionById( int id , String[] permis ) throws BusiException{
+    	SysRolePermission rolePermission = new SysRolePermission() ;
+    	rolePermission.set( "id" , id ) ;
+    	for (String string : permis) {
+    		rolePermission.set( "permission" , string ) ;
+    		SysRolePermission.me.save(rolePermission);
 		}
     }
     
