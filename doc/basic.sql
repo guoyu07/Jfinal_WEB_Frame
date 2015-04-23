@@ -48,9 +48,9 @@ CREATE TABLE IF NOT EXISTS `sys_login_log` (
   `lastlogTime` bigint(13) DEFAULT NULL COMMENT '上次登录时间',
   `status` int(1) DEFAULT NULL COMMENT '状态;1在线0下线',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='登录日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='登录日志表';
 
--- 正在导出表  basic.sys_login_log 的数据：~6 rows (大约)
+-- 正在导出表  basic.sys_login_log 的数据：~9 rows (大约)
 DELETE FROM `sys_login_log`;
 /*!40000 ALTER TABLE `sys_login_log` DISABLE KEYS */;
 INSERT INTO `sys_login_log` (`id`, `userId`, `loginTime`, `logoutTime`, `logIp`, `lastlogTime`, `status`) VALUES
@@ -60,7 +60,14 @@ INSERT INTO `sys_login_log` (`id`, `userId`, `loginTime`, `logoutTime`, `logIp`,
 	(11, -1, 1429758893362, NULL, '0:0:0:0:0:0:0:1', 1429683799592, 1),
 	(12, -1, 1429769367034, NULL, '0:0:0:0:0:0:0:1', 1429758893362, 1),
 	(13, -1, 1429777412607, NULL, '0:0:0:0:0:0:0:1', 1429769367034, 1),
-	(14, -1, 1429784229250, NULL, '0:0:0:0:0:0:0:1', 1429777412607, 1);
+	(14, -1, 1429784229250, NULL, '0:0:0:0:0:0:0:1', 1429777412607, 1),
+	(15, -1, 1429793543573, NULL, '0:0:0:0:0:0:0:1', 1429784229250, 1),
+	(16, -1, 1429795257817, NULL, '0:0:0:0:0:0:0:1', 1429793543573, 1),
+	(17, -1, 1429795496867, NULL, '0:0:0:0:0:0:0:1', 1429795257817, 1),
+	(18, -1, 1429795511540, NULL, '0:0:0:0:0:0:0:1', 1429795496867, 1),
+	(19, -1, 1429795526930, NULL, '0:0:0:0:0:0:0:1', 1429795511540, 1),
+	(20, -1, 1429795568699, NULL, '0:0:0:0:0:0:0:1', 1429795526930, 1),
+	(21, -1, 1429795761712, NULL, '0:0:0:0:0:0:0:1', 1429795568699, 1);
 /*!40000 ALTER TABLE `sys_login_log` ENABLE KEYS */;
 
 
@@ -79,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `sys_menu` (
   `createTime` bigint(13) DEFAULT NULL COMMENT '创建时间',
   `isUsed` int(1) NOT NULL DEFAULT '1' COMMENT '是否有效',
   `sortNo` int(8) DEFAULT NULL COMMENT '排序号',
-  `permission` varchar(64) DEFAULT NULL COMMENT '权限值',
+  `permission` varchar(255) DEFAULT NULL COMMENT '权限值',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='菜单表';
 
@@ -90,7 +97,7 @@ INSERT INTO `sys_menu` (`id`, `name`, `type`, `href`, `icon`, `description`, `ta
 	(11, '系统管理', 0, '', '', '', '', '', -1, 1407140785011, 1, 99, '1'),
 	(12, '角色列表', 0, '/sys/role/', 'am-icon-file ', '角色列表', 'navTab', 'user_role_listview', 11, 1407141914856, 1, 1, 'add_edit_delete'),
 	(13, '用户列表', 0, '/sys/user/', NULL, '用户列表', 'navTab', 'user_info_listview', 11, 1407141964456, 1, 2, 'add_edit_delete'),
-	(14, '菜单列表', 0, '/sys/menu/', NULL, '菜单列表', 'navTab', 'order_info_listview', 11, 1407142023060, 1, 3, 'add_edit_delete'),
+	(14, '菜单列表', 0, '/sys/menu/', NULL, '菜单列表', 'navTab', 'order_info_listview', 11, 1407142023060, 1, 3, 'MenuController_MenuController.addview_MenuController.editview_MenuController.editstatus_MenuController.delview'),
 	(15, '日志管理', 0, '', '', '', '', '', -1, 1409642077554, 1, 100, '1'),
 	(16, '操作日志', 0, '/sys/log/button', ' ', NULL, 'navTab', 'log_node_listview', 15, 1409642132551, 1, 1, 'add_edit_delete'),
 	(17, '登录日志', NULL, '/sys/log/login', ' ', '登录日志', 'navTab', 'log_login_listview', 15, 1409648279391, 1, 1, 'add_edit_delete_save'),
@@ -160,17 +167,22 @@ INSERT INTO `sys_role` (`id`, `roleCode`, `roleName`, `isUsed`, `createTime`, `p
 -- 导出  表 basic.sys_role_permission 结构
 DROP TABLE IF EXISTS `sys_role_permission`;
 CREATE TABLE IF NOT EXISTS `sys_role_permission` (
-  `id` int(8) NOT NULL,
+  `id` int(8) NOT NULL AUTO_INCREMENT,
   `roleId` int(8) NOT NULL,
   `permission` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='角色权限';
 
 -- 正在导出表  basic.sys_role_permission 的数据：~1 rows (大约)
 DELETE FROM `sys_role_permission`;
 /*!40000 ALTER TABLE `sys_role_permission` DISABLE KEYS */;
 INSERT INTO `sys_role_permission` (`id`, `roleId`, `permission`) VALUES
-	(1, 1, '140');
+	(1, 1, '140'),
+	(3, 2, 'MenuController'),
+	(4, 2, 'MenuController.addview'),
+	(5, 2, 'MenuController.addview'),
+	(6, 2, 'MenuController.addview'),
+	(7, 2, 'MenuController.addview');
 /*!40000 ALTER TABLE `sys_role_permission` ENABLE KEYS */;
 
 
@@ -203,8 +215,8 @@ CREATE TABLE IF NOT EXISTS `sys_user` (
 DELETE FROM `sys_user`;
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
 INSERT INTO `sys_user` (`id`, `roleId`, `userName`, `passWord`, `createTime`, `sex`, `birthday`, `idCard`, `mobile`, `phone`, `email`, `addr`, `createId`, `createIp`, `operateId`, `opetateTime`, `isDefPassWord`, `isUsed`, `sortNo`) VALUES
-	(9, 4, 'root', '14e1b600b1fd579f47433b88e8d85291', 1406691374696, 1, NULL, NULL, 0, NULL, NULL, NULL, -1, '0:0:0:0:0:0:0:1', 9, 1429494461796, 1, 1, 1),
-	(10, 4, 'admin', '14e1b600b1fd579f47433b88e8d85291', 1406691444637, 1, NULL, '', 15826008618, NULL, '', '', -1, '0:0:0:0:0:0:0:1', 9, 1428396852183, 1, 1, 1),
+	(9, 1, 'root', '14e1b600b1fd579f47433b88e8d85291', 1406691374696, 1, NULL, NULL, 0, NULL, NULL, NULL, -1, '0:0:0:0:0:0:0:1', 9, 1429494461796, 1, 1, 1),
+	(10, 2, 'admin', '14e1b600b1fd579f47433b88e8d85291', 1406691444637, 1, NULL, '', 15826008618, NULL, '', '', -1, '0:0:0:0:0:0:0:1', 9, 1428396852183, 1, 1, 1),
 	(11, 4, 'user01', '123456', 1428391501309, 0, '2015-01-02', '50023519941002927X', 15826008619, NULL, 'user01@qq.com', '重庆市云阳县', 9, '0:0:0:0:0:0:0:1', 9, 1428484824882, 1, 0, 15),
 	(12, 1, 'user03', '123456', 1428396925659, 1, NULL, '', 15826008617, NULL, '', '', 9, '0:0:0:0:0:0:0:1', 9, 1428397051036, 1, 1, 1),
 	(23, 4, '31', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL),
