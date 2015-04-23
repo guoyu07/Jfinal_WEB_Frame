@@ -8,6 +8,7 @@ import com.jfinal.log.Logger;
 import com.twosnail.basic.model.SysMenu;
 import com.twosnail.basic.model.SysPermission;
 import com.twosnail.basic.model.SysRole;
+import com.twosnail.basic.model.SysRolePermission;
 import com.twosnail.basic.model.SysUser;
 import com.twosnail.basic.util.RequestHandler;
 import com.twosnail.basic.util.exception.BusiException;
@@ -169,7 +170,7 @@ public class RoleController extends Controller {
 			Integer id  = getParaToInt( "id" ) ;
 			result.put( "menu" , SysRole.me.getPrimession() ) ;
 			List<TreeNode<SysMenu>> list  = SysRole.me.getPrimession() ;
-			List<SysPermission> permission = SysPermission.me.getPermissionByUserId( id ) ;
+			List<SysRolePermission> permission = SysRolePermission.me.getPermissionByUserId( id ) ;
 			String  str = permission(list, permission, new StringBuilder() ,  RequestHandler.getBasePath(getRequest())  ) ;
 			setAttr( "id" , id ) ;
 			setAttr( "permission" , str ) ;
@@ -201,7 +202,7 @@ public class RoleController extends Controller {
     
 	/**
 	 */
-	private String permission( List<TreeNode<SysMenu>> list , List<SysPermission> permission , StringBuilder str , String basePath ){    	
+	private String permission( List<TreeNode<SysMenu>> list , List<SysRolePermission> permission , StringBuilder str , String basePath ){    	
 		SysMenu menu = null ;
 		String permis = null ;
 		String[] permi = null ;
