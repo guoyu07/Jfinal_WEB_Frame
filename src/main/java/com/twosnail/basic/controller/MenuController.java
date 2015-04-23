@@ -24,6 +24,7 @@ public class MenuController extends Controller {
 	private Logger logger = Logger.getLogger(MenuController.class) ;	
 	
 	//@RequiresRoles(value = { "user", "admin" }, logical = Logical.OR)
+	@RequiresPermissions("MenuController")
 	public void index(){
 		try {
 			List<TreeNode<SysMenu>> list = SysMenu.me.getMenuTree() ;
@@ -38,7 +39,7 @@ public class MenuController extends Controller {
 	/**
      * 添加页面
      */
-	//@RequiresPermissions("addview")
+	@RequiresPermissions("MenuController.addview")
     public void addview(){
     	
     	int id = getParaToInt( "id" ) ;
@@ -74,6 +75,7 @@ public class MenuController extends Controller {
      * 修改页面
      * @return
      */
+    @RequiresPermissions("MenuController.editview")
     public void editview(){        
     	try {
     		setAttr( "sysMenu" , SysMenu.me.getMenuById( getParaToInt("id") )  ) ;
@@ -113,6 +115,7 @@ public class MenuController extends Controller {
      * @param isUsed
      * @return
      */
+    @RequiresPermissions("MenuController.editstatus")
     public void editstatus(){
     	int id  = getParaToInt( "id" ) ;
     	try {
@@ -134,6 +137,7 @@ public class MenuController extends Controller {
      * 删除
      * @return
      */
+    @RequiresPermissions("MenuController.delview")
     public void delview(){
     	int id  = getParaToInt( "id" ) ;
     	try {

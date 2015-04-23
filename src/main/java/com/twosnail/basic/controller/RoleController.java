@@ -189,7 +189,7 @@ public class RoleController extends Controller {
 		int id = getParaToInt( "id" ) ;
 		String[] permis = getParaValues( "permis" ) ;
 		try {
-			SysRole.me.addPermissionById( id, permis );
+			SysRolePermission.me.addPermissions( id, permis );
 			renderJson( new ResultObj( ResultObj.SUCCESS , null , null )) ;
 		} catch (BusiException e) {
 			this.logger.warn( "添加失败！" , e );

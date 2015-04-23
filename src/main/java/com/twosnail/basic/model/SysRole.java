@@ -113,7 +113,7 @@ public class SysRole extends Model<SysRole>{
      * @param id
      */
     public void delPrivilegeByid( long id ) throws BusiException{
-    	if( !me.deleteById(id)   ) {
+    	if( !me.deleteById(id)  ) {
             throw new BusiException( "修改信息失败" );
         }
     }
@@ -133,21 +133,6 @@ public class SysRole extends Model<SysRole>{
 			}
     	});
     	return tree ;
-    }
-    
-    /**
-     * 添加权限信息
-     * @param id
-     * @param privilege
-     * @throws BusiException
-     */
-    public void addPermissionById( int id , String[] permis ) throws BusiException{
-    	SysRolePermission rolePermission = new SysRolePermission() ;
-    	rolePermission.set( "id" , id ) ;
-    	for (String string : permis) {
-    		rolePermission.set( "permission" , string ) ;
-    		SysRolePermission.me.save(rolePermission);
-		}
     }
     
     

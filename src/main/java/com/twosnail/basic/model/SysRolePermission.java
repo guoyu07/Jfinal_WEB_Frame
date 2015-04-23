@@ -2,6 +2,7 @@ package com.twosnail.basic.model;
 
 import java.util.List;
 
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.twosnail.basic.util.exception.BusiException;
 
@@ -35,15 +36,35 @@ public class SysRolePermission extends Model<SysRolePermission>{
     	return  me.find( "SELECT p.* FROM sys_role_permission AS rp LEFT JOIN sys_role s ON rp.roleId = s.id AND s.id = ? " , roleId ) ;
     }
     
+    /**
+     * 添加权限信息
+     * @param roleId
+     * @param permis
+     * @throws BusiException
+     */
+    public void addPermissions( int roleId , String[] permis ) throws BusiException{
+    	//清空之前数据
+    	Db.update( "DELETE FROM sys_role_permission WHERE roleId=?" , roleId ) ;
+    	SysRolePermission rolePermission = null ;
+    	for (String string : permis) {
+    		rolePermission = new SysRolePermission() ;
+    		rolePermission.set( "roleId" , roleId ) ;
+    		rolePermission.set( "permission" , string ) ;
+    		addPermission(rolePermission);
+		}
+    }
+    
     
 	/**
 	 * 保存角色权限信息
-	 * @param role
+	 * @param rolePermission
 	 */
-	public void save( SysRolePermission rolePermission ) throws BusiException {
+	public void addPermission( SysRolePermission rolePermission ) throws BusiException {
 		if( !rolePermission.save() ) {
 			throw new BusiException( "保存角色权限信息失败" );
 		}
 	}
+	
+	
 	
 }
