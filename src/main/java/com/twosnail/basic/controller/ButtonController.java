@@ -81,7 +81,7 @@ public class ButtonController extends Controller {
         if( SysButton.me.checkButtonName( sysButton.getStr("userName")) )
         	renderJson( new ResultObj( ResultObj.FAIL , "新增失败，功能按钮名存在！" , null ) ) ;
     	try {
-             SysButton.me.addButton( sysButton , getRequest() );
+             SysButton.me.addButton( sysButton );
              renderJson( new ResultObj( ResultObj.SUCCESS , "添加成功！" , null ) ) ;
          } catch( BusiException e ) {
              this.logger.warn( "新增功能按钮失败" , e );

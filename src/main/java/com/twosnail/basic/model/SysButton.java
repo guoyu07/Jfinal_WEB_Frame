@@ -1,12 +1,16 @@
 package com.twosnail.basic.model;
 
+import java.lang.reflect.Method;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+
+import com.jfinal.log.Logger;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
-import com.twosnail.basic.util.RequestHandler;
 import com.twosnail.basic.util.exception.BusiException;
 
 /**   
@@ -21,10 +25,30 @@ import com.twosnail.basic.util.exception.BusiException;
 public class SysButton extends Model<SysButton>{
 	
 	public static final SysButton me = new SysButton() ; 
-	public static final int STATUS_NOMAL = 1;    
-	public static final int STATUS_FREEZE = 0;
+	private Logger logger = Logger.getLogger( SysButton.class ) ;
 	
-	
+	public void addSysButtons( String permissionMethod ){
+		//通过反射，找到所需节点名称，值
+		if(permissionMethod != null && !"".equals( permissionMethod )){
+			Class<?> clz;
+			try {
+				clz = Class.forName( "com.twosnail.basic.controller." + permissionMethod);
+				Method[] methods = clz.getMethods() ;
+				for (Method method : methods) {
+					RequiresPermissions permission = method.getAnnotation( RequiresPermissions.class ) ;
+					if( permission != null ){
+						String str = permission.value()[0] ;
+						System.out.println(str);
+					}
+				}
+    	            
+			} catch (ClassNotFoundException e){
+				logger.debug("不存在该类:"+e.getMessage()) ;
+			}
+		}
+	    	
+	}
+	 
 	/**
 	 * 获取功能按钮信息
 	 * @param menuId
@@ -71,7 +95,7 @@ public class SysButton extends Model<SysButton>{
 	 * @param sysButton
 	 * @throws BusiException
 	 */
-	public void addButton( SysButton sysButton , HttpServletRequest request ) throws BusiException{
+	public void addButton( SysButton sysButton ) throws BusiException{
 		if( !sysButton.save() ) {
             throw new BusiException( "添加信息失败!" );
         }

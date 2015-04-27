@@ -2,10 +2,9 @@ package com.twosnail.basic.controller;
 
 import java.util.List;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-
 import com.jfinal.core.Controller;
 import com.jfinal.log.Logger;
+import com.twosnail.basic.model.SysButton;
 import com.twosnail.basic.model.SysMenu;
 import com.twosnail.basic.model.SysUser;
 import com.twosnail.basic.util.RequestHandler;
@@ -60,6 +59,9 @@ public class MenuController extends Controller {
     	try {
             //添加菜单信息
     		SysMenu.me.addMenu( sysMenu );
+    		//添加功能节点
+    		SysButton.me.addSysButtons( sysMenu.getStr("permission") );
+    		
     		renderJson( new ResultObj( ResultObj.SUCCESS , "", null ) ) ;
     		return ;
         } catch( BusiException e ) {
@@ -95,6 +97,9 @@ public class MenuController extends Controller {
     	SysMenu sysMenu = getModel( SysMenu.class ) ;
     	try {
     		SysMenu.me.updMenu(sysMenu) ;
+    		//添加功能节点
+    		SysButton.me.addSysButtons( sysMenu.getStr("permission") );
+    		
         	renderJson( new ResultObj( ResultObj.SUCCESS , "" , null )) ;
         	return ;
         } catch( BusiException e ) {

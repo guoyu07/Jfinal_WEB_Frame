@@ -2,11 +2,12 @@ package com.twosnail.basic.controller;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Logger;
 import com.twosnail.basic.model.SysMenu;
-import com.twosnail.basic.model.SysPermission;
 import com.twosnail.basic.model.SysRole;
 import com.twosnail.basic.model.SysRolePermission;
 import com.twosnail.basic.model.SysUser;
@@ -26,6 +27,7 @@ public class RoleController extends Controller {
 	
 	private Logger logger = Logger.getLogger(RoleController.class) ;
 	
+	@RequiresPermissions("RoleController")
 	public void index(){
 		try {
 			List<TreeNode<SysRole>> list = SysRole.me.getRoleList() ;
@@ -41,6 +43,7 @@ public class RoleController extends Controller {
 	/**
      * 添加页面
      */
+	@RequiresPermissions("addview")
     public void addview(){
     	
     	int id = getParaToInt( "id" ) ;
@@ -81,6 +84,7 @@ public class RoleController extends Controller {
      * 修改页面
      * @return
      */
+    @RequiresPermissions("editview")
     public void editview(){        
     	try {
     		setAttr( "sysRole" , SysRole.me.getRoleById( getParaToInt("id") )  ) ;
@@ -120,6 +124,7 @@ public class RoleController extends Controller {
      * @param isUsed
      * @return
      */
+    @RequiresPermissions("editstatus")
     public void editstatus(){
     	int id  = getParaToInt( "id" ) ;
     	try {
@@ -141,6 +146,7 @@ public class RoleController extends Controller {
      * 删除
      * @return
      */
+    @RequiresPermissions("delview")
     public void delview(){
     	int id  = getParaToInt( "id" ) ;
     	try {
@@ -164,6 +170,7 @@ public class RoleController extends Controller {
     /**
      * 用户授权页面
      */
+    @RequiresPermissions("permissionview")
 	public void permissionview(){
 		JSONObject result = new JSONObject() ;
 		try {
