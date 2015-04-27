@@ -41,6 +41,24 @@
     	<groupId>com.jfinal</groupId>
     	<artifactId>jfinal-ext</artifactId>
     	<version>3.1.0</version>
+    	<exclusions>
+    		<exclusion>
+    			<artifactId>log4j</artifactId>
+    			<groupId>org.mod4j.org.eclipse.xtext</groupId>
+    		</exclusion>
+    		<exclusion>
+    			<artifactId>log4j</artifactId>
+    			<groupId>log4j</groupId>
+    		</exclusion>
+    		<exclusion>
+    			<artifactId>commons-logging</artifactId>
+    			<groupId>commons-logging</groupId>
+    		</exclusion>
+    		<exclusion>
+    			<artifactId>freemarker</artifactId>
+    			<groupId>org.freemarker</groupId>
+    		</exclusion>
+    	</exclusions>
     </dependency>
     
 	<!-- Jetty JSP：根据 Dependency Hierarchy 视图拆分成了七个 dependency，
@@ -111,16 +129,16 @@
     	<artifactId>c3p0</artifactId>
     	<version>0.9.1.2</version>
     </dependency> -->
-    <dependency>
+    <!-- <dependency>
     	<groupId>org.freemarker</groupId>
     	<artifactId>freemarker</artifactId>
     	<version>2.3.20</version>
-    </dependency>
-    <dependency>
+    </dependency> -->
+   <!--  <dependency>
     	<groupId>log4j</groupId>
     	<artifactId>log4j</artifactId>
     	<version>1.2.16</version>
-    </dependency>
+    </dependency> -->
     <dependency>
     	<groupId>mysql</groupId>
     	<artifactId>mysql-connector-java</artifactId>
@@ -150,6 +168,25 @@
 		<version>1.0.7</version>
 	</dependency>
 	
+	<!-- Logback -->
+	<dependency>
+	    <groupId>ch.qos.logback</groupId>
+	    <artifactId>logback-classic</artifactId>
+	    <version>1.1.2</version>
+	</dependency>
+
+	<!-- Log4j 的SLF4J 实现 -->
+	<dependency>
+	    <groupId>org.slf4j</groupId>
+	    <artifactId>log4j-over-slf4j</artifactId>
+	    <version>1.7.6</version>
+	</dependency>
+	<!-- Apache commons Logging 的SLF4J实现 -->
+	<dependency>
+	    <groupId>org.slf4j</groupId>
+	    <artifactId>jcl-over-slf4j</artifactId>
+	    <version>1.7.6</version>
+	</dependency>
 	
 	
   </dependencies>
