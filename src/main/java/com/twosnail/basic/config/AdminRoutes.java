@@ -1,6 +1,7 @@
 package com.twosnail.basic.config;
 
 import com.jfinal.config.Routes;
+import com.twosnail.basic.controller.ButtonController;
 import com.twosnail.basic.controller.IndexController;
 import com.twosnail.basic.controller.LogController;
 import com.twosnail.basic.controller.MenuController;
@@ -15,6 +16,7 @@ public class AdminRoutes extends Routes {
 		add( "/sys/user" , UserController.class  ) ;
 		add( "/sys/role" , RoleController.class  ) ;
 		add( "/sys/menu" , MenuController.class  ) ;
+		add( "/sys/btn" , ButtonController.class  ) ;
 		add( "/sys/log" , LogController.class  ) ;
 	}
 
