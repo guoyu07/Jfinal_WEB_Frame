@@ -24,25 +24,25 @@ CREATE TABLE IF NOT EXISTS `sys_button` (
   `name` varchar(32) NOT NULL COMMENT '显示名称',
   `value` varchar(32) NOT NULL COMMENT '功能值',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COMMENT='功能按钮';
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COMMENT='功能按钮';
 
 -- 正在导出表  basic.sys_button 的数据：~13 rows (大约)
 DELETE FROM `sys_button`;
 /*!40000 ALTER TABLE `sys_button` DISABLE KEYS */;
 INSERT INTO `sys_button` (`id`, `menuId`, `name`, `value`) VALUES
-	(20, 4, '添加', 'MenuController.addview'),
-	(21, 4, '修改', 'MenuController.editview'),
-	(22, 4, '修改状态', 'MenuController.editstatus'),
-	(23, 4, '删除', 'MenuController.delview'),
-	(24, 3, '删除', 'UserController.delete'),
-	(25, 3, '添加', 'UserController.addview'),
-	(26, 3, '修改', 'UserController.editview'),
-	(27, 3, '修改状态', 'UserController.upstatus'),
-	(28, 2, 'RoleController.permissionview', 'RoleController.permissionview'),
-	(29, 2, '添加', 'RoleController.addview'),
-	(30, 2, '修改', 'RoleController.editview'),
-	(31, 2, '修改状态', 'RoleController.editstatus'),
-	(32, 2, '删除', 'RoleController.delview');
+	(33, 2, '授权', 'RoleController.permissionview'),
+	(34, 2, '添加', 'RoleController.addview'),
+	(35, 2, '修改', 'RoleController.editview'),
+	(36, 2, '修改状态', 'RoleController.editstatus'),
+	(37, 2, '删除', 'RoleController.delview'),
+	(38, 3, '删除', 'UserController.delete'),
+	(39, 3, '添加', 'UserController.addview'),
+	(40, 3, '修改', 'UserController.editview'),
+	(41, 3, '修改状态', 'UserController.upstatus'),
+	(46, 4, '添加', 'MenuController.addview'),
+	(47, 4, '修改', 'MenuController.editview'),
+	(48, 4, '修改状态', 'MenuController.editstatus'),
+	(49, 4, '删除', 'MenuController.delview');
 /*!40000 ALTER TABLE `sys_button` ENABLE KEYS */;
 
 
@@ -78,9 +78,9 @@ CREATE TABLE IF NOT EXISTS `sys_login_log` (
   `lastlogTime` bigint(13) DEFAULT NULL COMMENT '上次登录时间',
   `status` int(1) NOT NULL DEFAULT '1' COMMENT '状态;1在线0下线',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COMMENT='登录日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT='登录日志表';
 
--- 正在导出表  basic.sys_login_log 的数据：~22 rows (大约)
+-- 正在导出表  basic.sys_login_log 的数据：~24 rows (大约)
 DELETE FROM `sys_login_log`;
 /*!40000 ALTER TABLE `sys_login_log` DISABLE KEYS */;
 INSERT INTO `sys_login_log` (`id`, `userId`, `loginTime`, `logoutTime`, `logIp`, `lastlogTime`, `status`) VALUES
@@ -106,7 +106,8 @@ INSERT INTO `sys_login_log` (`id`, `userId`, `loginTime`, `logoutTime`, `logIp`,
 	(27, -1, 1430199841740, NULL, '0:0:0:0:0:0:0:1', 1430199423581, 1),
 	(28, -1, 1430199895707, NULL, '0:0:0:0:0:0:0:1', 1430199841740, 1),
 	(29, 9, 1430224569529, NULL, '0:0:0:0:0:0:0:1', 0, 1),
-	(30, 9, 1430226437339, NULL, '0:0:0:0:0:0:0:1', 1430224569529, 1);
+	(30, 9, 1430226437339, NULL, '0:0:0:0:0:0:0:1', 1430224569529, 1),
+	(31, 9, 1430226559137, NULL, '0:0:0:0:0:0:0:1', 1430226437339, 1);
 /*!40000 ALTER TABLE `sys_login_log` ENABLE KEYS */;
 
 
@@ -130,13 +131,13 @@ CREATE TABLE IF NOT EXISTS `sys_menu` (
 DELETE FROM `sys_menu`;
 /*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
 INSERT INTO `sys_menu` (`id`, `name`, `href`, `icon`, `description`, `parentId`, `createTime`, `isUsed`, `sortNo`, `permission`) VALUES
-	(1, '系统管理', '', '', '', -1, 1407140785011, 1, 99, '1'),
-	(2, '角色列表', '/sys/role/', 'am-icon-file        ', '角色列表', 1, 1407141914856, 0, 2, 'RoleController'),
-	(3, '用户列表', '/sys/user/', 'am-icon-hand-o-up    ', '用户列表', 1, 1407141964456, 1, 1, 'UserController'),
-	(4, '菜单列表', '/sys/menu/', 'am-icon-file ', '菜单列表', 1, 1407142023060, 1, 3, 'MenuController'),
-	(5, '日志管理', '', '', '', -1, 1409642077554, 1, 100, '1'),
-	(6, '操作日志', '/sys/log/button', ' ', NULL, 5, 1409642132551, 1, 1, 'add_edit_delete'),
-	(7, '登录日志', '/sys/log/login', ' ', '登录日志', 5, 1409648279391, 1, 1, 'add_edit_delete_save');
+	(1, '系统管理', NULL, 'am-icon-wrench ', NULL, -1, 1407140785011, 1, 99, '1'),
+	(2, '角色列表', '/sys/role/', 'am-icon-user-secret ', '角色列表', 1, 1407141914856, 0, 2, 'RoleController'),
+	(3, '用户列表', '/sys/user/', 'am-icon-male ', '用户列表', 1, 1407141964456, 1, 1, 'UserController'),
+	(4, '菜单列表', '/sys/menu/', 'am-icon-reorder ', '菜单列表', 1, 1407142023060, 1, 3, 'MenuController'),
+	(5, '日志管理', NULL, 'am-icon-pencil-square-o ', NULL, -1, 1409642077554, 1, 100, '1'),
+	(6, '操作日志', '/sys/log/button', 'am-icon-pencil ', NULL, 5, 1409642132551, 1, 1, 'add_edit_delete'),
+	(7, '登录日志', '/sys/log/login', 'am-icon-pencil-square ', '登录日志', 5, 1409648279391, 1, 1, 'add_edit_delete_save');
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
 
 
