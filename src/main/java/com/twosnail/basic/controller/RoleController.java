@@ -60,10 +60,6 @@ public class RoleController extends Controller {
     
     /**
      * 保存页面
-     * @param infoUser
-     * @param request
-     * @param session
-     * @return
      */
     public void add() {
     	SysRole sysRole = getModel( SysRole.class ) ;
@@ -121,9 +117,6 @@ public class RoleController extends Controller {
 
     /**
      * 修改状态
-     * @param id
-     * @param isUsed
-     * @return
      */
     @RequiresPermissions("RoleController.editstatus")
     public void editstatus(){
@@ -145,7 +138,6 @@ public class RoleController extends Controller {
     
     /**
      * 删除
-     * @return
      */
     @RequiresPermissions("RoleController.delview")
     public void delview(){
@@ -175,14 +167,13 @@ public class RoleController extends Controller {
 	public void permissionview(){
 		JSONObject result = new JSONObject() ;
 		try {
-			Integer id  = getParaToInt( "id" ) ;
+			Integer id  = getParaToInt( "id" ) ; //角色Id
 			result.put( "menu" , SysRole.me.getPrimession() ) ;
 			List<TreeNode<SysMenu>> list  = SysRole.me.getPrimession() ;
-			List<String> permission = SysRolePermission.me.getPermissionByUserId( id ) ;
+			List<String> permission = SysRolePermission.me.getPermissionByRoleId( id ) ;
 			String str = permission( list, permission, new StringBuilder() ,  RequestHandler.getBasePath(getRequest())  ) ;
 			setAttr( "id" , id ) ;
 			setAttr( "permission" , str ) ;
-			System.out.println(str);
 			render( "role_permission.html" );
 		} catch (Exception e) {
 			this.logger.warn( "获取用户授权信息失败！" , e  );

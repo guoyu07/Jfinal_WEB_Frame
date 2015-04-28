@@ -25,15 +25,15 @@ public class SysRolePermission extends Model<SysRolePermission>{
 	 * @return
 	 */
 	public List<String> getPermissionByUserId( int id ) {
-		return Db.query( "SELECT rp.permission FROM sys_role_permission AS rp LEFT JOIN sys_role s ON rp.roleId = s.id AND s.id = (SELECT roleId FROM sys_user WHERE id = ? ) " , id ) ;
+		return Db.query( "SELECT rp.permission FROM sys_role_permission AS rp WHERE rp.roleId = (SELECT roleId FROM sys_user WHERE id = ? ) " , id ) ;
 	}
 	
 	/**
      * 获取角色权限
      * @param roleId
      */
-    public List<SysRolePermission> getPermissionByRoleId( int roleId ){
-    	return  me.find( "SELECT p.* FROM sys_role_permission AS rp LEFT JOIN sys_role s ON rp.roleId = s.id AND s.id = ? " , roleId ) ;
+    public List<String> getPermissionByRoleId( int roleId ){
+    	return Db.query( "SELECT rp.permission FROM sys_role_permission AS rp WHERE rp.roleId = ? " , roleId ) ;
     }
     
     /**

@@ -26,23 +26,23 @@ CREATE TABLE IF NOT EXISTS `sys_button` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COMMENT='功能按钮';
 
--- 正在导出表  basic.sys_button 的数据：~5 rows (大约)
+-- 正在导出表  basic.sys_button 的数据：~13 rows (大约)
 DELETE FROM `sys_button`;
 /*!40000 ALTER TABLE `sys_button` DISABLE KEYS */;
 INSERT INTO `sys_button` (`id`, `menuId`, `name`, `value`) VALUES
-	(20, 14, '添加', 'MenuController.addview'),
-	(21, 14, '修改', 'MenuController.editview'),
-	(22, 14, '修改状态', 'MenuController.editstatus'),
-	(23, 14, '删除', 'MenuController.delview'),
-	(24, 13, '删除', 'UserController.delete'),
-	(25, 13, '添加', 'UserController.addview'),
-	(26, 13, '修改', 'UserController.editview'),
-	(27, 13, '修改状态', 'UserController.upstatus'),
-	(28, 12, 'RoleController.permissionview', 'RoleController.permissionview'),
-	(29, 12, '添加', 'RoleController.addview'),
-	(30, 12, '修改', 'RoleController.editview'),
-	(31, 12, '修改状态', 'RoleController.editstatus'),
-	(32, 12, '删除', 'RoleController.delview');
+	(20, 4, '添加', 'MenuController.addview'),
+	(21, 4, '修改', 'MenuController.editview'),
+	(22, 4, '修改状态', 'MenuController.editstatus'),
+	(23, 4, '删除', 'MenuController.delview'),
+	(24, 3, '删除', 'UserController.delete'),
+	(25, 3, '添加', 'UserController.addview'),
+	(26, 3, '修改', 'UserController.editview'),
+	(27, 3, '修改状态', 'UserController.upstatus'),
+	(28, 2, 'RoleController.permissionview', 'RoleController.permissionview'),
+	(29, 2, '添加', 'RoleController.addview'),
+	(30, 2, '修改', 'RoleController.editview'),
+	(31, 2, '修改状态', 'RoleController.editstatus'),
+	(32, 2, '删除', 'RoleController.delview');
 /*!40000 ALTER TABLE `sys_button` ENABLE KEYS */;
 
 
@@ -78,9 +78,9 @@ CREATE TABLE IF NOT EXISTS `sys_login_log` (
   `lastlogTime` bigint(13) DEFAULT NULL COMMENT '上次登录时间',
   `status` int(1) NOT NULL DEFAULT '1' COMMENT '状态;1在线0下线',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COMMENT='登录日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COMMENT='登录日志表';
 
--- 正在导出表  basic.sys_login_log 的数据：~13 rows (大约)
+-- 正在导出表  basic.sys_login_log 的数据：~22 rows (大约)
 DELETE FROM `sys_login_log`;
 /*!40000 ALTER TABLE `sys_login_log` DISABLE KEYS */;
 INSERT INTO `sys_login_log` (`id`, `userId`, `loginTime`, `logoutTime`, `logIp`, `lastlogTime`, `status`) VALUES
@@ -104,7 +104,9 @@ INSERT INTO `sys_login_log` (`id`, `userId`, `loginTime`, `logoutTime`, `logIp`,
 	(25, -1, 1430199285822, NULL, '0:0:0:0:0:0:0:1', 1430198896866, 1),
 	(26, -1, 1430199423581, NULL, '0:0:0:0:0:0:0:1', 1430199285822, 1),
 	(27, -1, 1430199841740, NULL, '0:0:0:0:0:0:0:1', 1430199423581, 1),
-	(28, -1, 1430199895707, NULL, '0:0:0:0:0:0:0:1', 1430199841740, 1);
+	(28, -1, 1430199895707, NULL, '0:0:0:0:0:0:0:1', 1430199841740, 1),
+	(29, 9, 1430224569529, NULL, '0:0:0:0:0:0:0:1', 0, 1),
+	(30, 9, 1430226437339, NULL, '0:0:0:0:0:0:0:1', 1430224569529, 1);
 /*!40000 ALTER TABLE `sys_login_log` ENABLE KEYS */;
 
 
@@ -113,12 +115,9 @@ DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE IF NOT EXISTS `sys_menu` (
   `id` int(3) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
   `name` varchar(20) NOT NULL COMMENT '名称',
-  `type` int(4) DEFAULT NULL COMMENT '类型',
   `href` varchar(64) DEFAULT NULL COMMENT 'url地址',
   `icon` varchar(64) DEFAULT NULL COMMENT '图标',
   `description` varchar(64) DEFAULT NULL COMMENT '描述',
-  `target` varchar(20) DEFAULT NULL COMMENT '目标（mainFrame、 _blank、_self、_parent、_top）',
-  `rel` varchar(128) DEFAULT NULL COMMENT 'rel',
   `parentId` int(3) NOT NULL DEFAULT '-1' COMMENT '父级',
   `createTime` bigint(13) NOT NULL COMMENT '创建时间',
   `isUsed` int(1) NOT NULL DEFAULT '1' COMMENT '是否有效',
@@ -127,18 +126,17 @@ CREATE TABLE IF NOT EXISTS `sys_menu` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='菜单表';
 
--- 正在导出表  basic.sys_menu 的数据：~8 rows (大约)
+-- 正在导出表  basic.sys_menu 的数据：~7 rows (大约)
 DELETE FROM `sys_menu`;
 /*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
-INSERT INTO `sys_menu` (`id`, `name`, `type`, `href`, `icon`, `description`, `target`, `rel`, `parentId`, `createTime`, `isUsed`, `sortNo`, `permission`) VALUES
-	(11, '系统管理', 0, '', '', '', '', '', -1, 1407140785011, 1, 99, '1'),
-	(12, '角色列表', 0, '/sys/role/', 'am-icon-file        ', '角色列表', 'navTab', 'user_role_listview', 11, 1407141914856, 0, 2, 'RoleController'),
-	(13, '用户列表', 0, '/sys/user/', 'am-icon-hand-o-up    ', '用户列表', 'navTab', 'user_info_listview', 11, 1407141964456, 1, 1, 'UserController'),
-	(14, '菜单列表', 0, '/sys/menu/', 'am-icon-file ', '菜单列表', 'navTab', 'order_info_listview', 11, 1407142023060, 1, 3, 'MenuController'),
-	(15, '日志管理', 0, '', '', '', '', '', -1, 1409642077554, 1, 100, '1'),
-	(16, '操作日志', 0, '/sys/log/button', ' ', NULL, 'navTab', 'log_node_listview', 15, 1409642132551, 1, 1, 'add_edit_delete'),
-	(17, '登录日志', NULL, '/sys/log/login', ' ', '登录日志', 'navTab', 'log_login_listview', 15, 1409648279391, 1, 1, 'add_edit_delete_save'),
-	(18, '123', NULL, '123', 'am-icon-file ', '123', NULL, NULL, -1, 1429772404333, 1, 132, NULL);
+INSERT INTO `sys_menu` (`id`, `name`, `href`, `icon`, `description`, `parentId`, `createTime`, `isUsed`, `sortNo`, `permission`) VALUES
+	(1, '系统管理', '', '', '', -1, 1407140785011, 1, 99, '1'),
+	(2, '角色列表', '/sys/role/', 'am-icon-file        ', '角色列表', 1, 1407141914856, 0, 2, 'RoleController'),
+	(3, '用户列表', '/sys/user/', 'am-icon-hand-o-up    ', '用户列表', 1, 1407141964456, 1, 1, 'UserController'),
+	(4, '菜单列表', '/sys/menu/', 'am-icon-file ', '菜单列表', 1, 1407142023060, 1, 3, 'MenuController'),
+	(5, '日志管理', '', '', '', -1, 1409642077554, 1, 100, '1'),
+	(6, '操作日志', '/sys/log/button', ' ', NULL, 5, 1409642132551, 1, 1, 'add_edit_delete'),
+	(7, '登录日志', '/sys/log/login', ' ', '登录日志', 5, 1409648279391, 1, 1, 'add_edit_delete_save');
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
 
 
@@ -154,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `sys_role` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='角色表';
 
--- 正在导出表  basic.sys_role 的数据：~7 rows (大约)
+-- 正在导出表  basic.sys_role 的数据：~3 rows (大约)
 DELETE FROM `sys_role`;
 /*!40000 ALTER TABLE `sys_role` DISABLE KEYS */;
 INSERT INTO `sys_role` (`id`, `roleCode`, `roleName`, `isUsed`, `createTime`, `parentId`) VALUES
@@ -171,9 +169,9 @@ CREATE TABLE IF NOT EXISTS `sys_role_permission` (
   `roleId` int(4) NOT NULL COMMENT '角色Id',
   `permission` varchar(64) NOT NULL COMMENT '权限值（菜单和功能）',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COMMENT='角色权限';
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8 COMMENT='角色权限';
 
--- 正在导出表  basic.sys_role_permission 的数据：~8 rows (大约)
+-- 正在导出表  basic.sys_role_permission 的数据：~35 rows (大约)
 DELETE FROM `sys_role_permission`;
 /*!40000 ALTER TABLE `sys_role_permission` DISABLE KEYS */;
 INSERT INTO `sys_role_permission` (`id`, `roleId`, `permission`) VALUES
@@ -193,7 +191,25 @@ INSERT INTO `sys_role_permission` (`id`, `roleId`, `permission`) VALUES
 	(29, 1, 'MenuController.addview'),
 	(30, 1, 'MenuController.editview'),
 	(31, 1, 'MenuController.editstatus'),
-	(32, 1, 'MenuController.delview');
+	(32, 1, 'MenuController.delview'),
+	(69, 2, '1'),
+	(70, 2, 'RoleController'),
+	(71, 2, 'RoleController.permissionview'),
+	(72, 2, 'RoleController.addview'),
+	(73, 2, 'RoleController.editview'),
+	(74, 2, 'RoleController.editstatus'),
+	(75, 2, 'RoleController.delview'),
+	(76, 2, 'UserController'),
+	(77, 2, 'UserController.delete'),
+	(78, 2, 'UserController.addview'),
+	(79, 2, 'UserController.editview'),
+	(80, 2, 'UserController.upstatus'),
+	(81, 2, 'MenuController'),
+	(82, 2, 'MenuController.addview'),
+	(83, 2, 'MenuController.editview'),
+	(84, 2, 'MenuController.editstatus'),
+	(85, 2, 'MenuController.delview'),
+	(86, 2, '1');
 /*!40000 ALTER TABLE `sys_role_permission` ENABLE KEYS */;
 
 
@@ -222,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `sys_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
--- 正在导出表  basic.sys_user 的数据：~19 rows (大约)
+-- 正在导出表  basic.sys_user 的数据：~5 rows (大约)
 DELETE FROM `sys_user`;
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
 INSERT INTO `sys_user` (`id`, `roleId`, `userName`, `passWord`, `createTime`, `sex`, `birthday`, `idCard`, `mobile`, `phone`, `email`, `addr`, `createId`, `createIp`, `operateId`, `opetateTime`, `isDefPassWord`, `isUsed`, `sortNo`) VALUES
