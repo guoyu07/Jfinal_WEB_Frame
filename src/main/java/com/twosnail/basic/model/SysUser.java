@@ -1,8 +1,7 @@
 package com.twosnail.basic.model;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -18,7 +17,6 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.twosnail.basic.util.RequestHandler;
 import com.twosnail.basic.util.exception.BusiException;
-import com.twosnail.basic.util.user.UserInfo;
 
 /**   
  * @Title: SysUser.java
@@ -43,7 +41,7 @@ public class SysUser extends Model<SysUser>{
 	 * @param session
 	 * @throws BusiException  
 	 */
-	public void userLogin( 	String userName, String passWord, Boolean rm ) 
+	public void userLogin( 	String userName, String passWord, Boolean rm , HttpSession session ) 
 			throws BusiException {
 		
 		Subject currentUser = SecurityUtils.getSubject();
@@ -51,23 +49,15 @@ public class SysUser extends Model<SysUser>{
 		token.setRememberMe( rm );
 		try {
 			currentUser.login(token);
-			//登录前先清空session
-			//UserInfo.destory( session );
-			
-			Record user = Db.findFirst( 
-					"SELECT a.id,a.roleId,a.userName,a.createTime,a.createIp,a.isUsed,a.sortNo,b.roleCode,b.roleName  "
-					+ "FROM sys_user a left join sys_role b on a.id = b.id WHERE a.userName=?" , userName ) ;
+			SysUser user = me.findFirst( 
+					"SELECT a.id,a.roleId,a.userName,a.isUsed FROM sys_user a  WHERE a.userName=?" , userName ) ;
 			
 			if( user.getInt( "isUsed" ) != SysUser.STATUS_NOMAL ) {
 				//管理员被冻结
 				throw new BusiException("账号 [" +userName + "]已经冻结.") ;
-			} /*else {
-				//正常登陆 获取用户所有角色，所有权限
-				List<SysPrivilege> userPrivilege = SysPrivilege.me.getPrivilegeByUserId( user.getLong( "id" ) ) ;
-				
-				//设置session
-				UserInfo.setUserSession( session, user, userPrivilege );
-			}*/
+			}
+			session.setAttribute( "userId" , user.get("id"));
+			session.setAttribute( "userName" , user.get("userName"));
 			
 		} catch (UnknownAccountException e) {
 			throw new BusiException("未知账号") ;
@@ -135,9 +125,9 @@ public class SysUser extends Model<SysUser>{
 	 * @param sysUser
 	 * @throws BusiException
 	 */
-	public void addUser( SysUser sysUser , HttpServletRequest request ) throws BusiException{
+	public void addUser( SysUser sysUser , HttpServletRequest request , HttpSession session ) throws BusiException{
 		sysUser.set( "createTime" ,System.currentTimeMillis() );
-        sysUser.set( "createId" ,UserInfo.getId( request ) ) ;
+        sysUser.set( "createId" ,session.getAttribute("userId") ) ;
         sysUser.set( "createIp" ,RequestHandler.getIpAddr(request)) ;
 		if( !sysUser.save() ) {
             throw new BusiException( "添加信息失败!" );
@@ -160,8 +150,8 @@ public class SysUser extends Model<SysUser>{
 	 * @throws BusiException
 	 */
 	public void updUser( 
-			SysUser user , HttpServletRequest request ) throws BusiException{
-		user.set( "operateId" , UserInfo.getId(request) ) ;
+			SysUser user , HttpServletRequest request  , HttpSession session ) throws BusiException{
+		user.set( "operateId" , session.getAttribute("userId") ) ;
 		user.set( "opetateTime" , System.currentTimeMillis() ) ;
 		if( !user.update() ) {
             throw new BusiException( "添加信息失败!" );

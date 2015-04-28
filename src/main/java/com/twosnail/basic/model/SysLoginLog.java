@@ -1,6 +1,7 @@
 package com.twosnail.basic.model;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.jfinal.log.Logger;
 import com.jfinal.plugin.activerecord.Db;
@@ -9,7 +10,6 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.twosnail.basic.util.RequestHandler;
 import com.twosnail.basic.util.exception.BusiException;
-import com.twosnail.basic.util.user.UserInfo;
 
 /**   
  * @Title: SysLoginLog.java
@@ -29,13 +29,13 @@ public class SysLoginLog extends Model<SysLoginLog>{
 	 * 添加登录日志
 	 * @param request
 	 */
-	public void addLoginLog( HttpServletRequest request ) {
+	public void addLoginLog( HttpServletRequest request , HttpSession session ) {
 		SysLoginLog log = new SysLoginLog() ;
 		try {
-			log.set( "userId", UserInfo.getId(request) );
+			log.set( "userId", session.getAttribute("userId") );
 			log.set( "loginTime",System.currentTimeMillis());
 			log.set( "logIp",RequestHandler.getIpAddr(request));
-			log.set( "lastlogTime" ,getLastTime( UserInfo.getId(request) ) );
+			log.set( "lastlogTime" ,getLastTime( Long.parseLong(session.getAttribute("userId") +"") ) );
 			log.set( "status" ,1);
 			if( !log.save() ) {
 	            throw new BusiException( "添加信息失败!" );

@@ -27,16 +27,10 @@ public class IndexController extends Controller {
 	
 	private Logger logger = Logger.getLogger(IndexController.class) ;
 	
-	/**
-	 * 登录首页
-	 */
 	public void index() {
 		render("login.html");
 	}
 	
-	/**
-	 * 登录页面
-	 */
 	public void login(){
 		index() ;
 	}
@@ -47,9 +41,6 @@ public class IndexController extends Controller {
 		render(img);
 	}	
 	
-	/**
-	 * 登录校验
-	 */
 	public void check(){
 		try {
 			
@@ -65,9 +56,11 @@ public class IndexController extends Controller {
                 return;
             }
 			
-			SysUser.me.userLogin( getPara("loginName"), getPara("password") , getParaToBoolean("rm", true) );
+			SysUser.me.userLogin( 
+					getPara("loginName"), getPara("password") , getParaToBoolean("rm", true) , getSession() );
+			
 			//添加登录日志
-			SysLoginLog.me.addLoginLog( getRequest() );
+			SysLoginLog.me.addLoginLog( getRequest() , getSession() );
 			renderJson( new ResultObj( ResultObj.SUCCESS , null, null ) );
 		} catch( BusiException e ) {
 			logger.debug(  e.getMessage() );
@@ -86,6 +79,7 @@ public class IndexController extends Controller {
 		List<TreeNode<SysMenu>> list = SysMenu.me.getMenuTree() ;
         String tree = treeMenu( list,  new StringBuilder() ,  RequestHandler.getBasePath(getRequest()) ) ;
         setAttr( "tree", tree ) ;
+        setAttr( "userName", getSessionAttr( "userName" ) ) ;
 		render("main.html");
 	}
 	
@@ -117,7 +111,7 @@ public class IndexController extends Controller {
 				str.append( "class=\"admin-parent\" " ) ;
 			str.append( ">" ) ;
 			
-			str.append( " <a class=\"am-cf\" onclick=\"setidValue("+sysMenu.get("id")+");\"  " ) ;
+			str.append( " <a class=\"am-cf\" " ) ;
 			if( node.getChildren().size() > 0 ) {
 				str.append( " data-am-collapse=\"{target: '#"+ sysMenu.get("id") +"'}\"" ) ;
 				str.append( "><span class=\""+sysMenu.get("icon")+"\"></span> " ) ;

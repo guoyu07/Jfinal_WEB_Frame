@@ -87,7 +87,7 @@ public class UserController extends Controller {
         if( SysUser.me.checkUserName( sysUser.getStr("userName")) )
         	renderJson( new ResultObj( ResultObj.FAIL , "新增失败，用户名存在！" , null ) ) ;
     	try {
-             SysUser.me.addUser( sysUser , getRequest() );
+             SysUser.me.addUser( sysUser , getRequest() , getSession() );
              renderJson( new ResultObj( ResultObj.SUCCESS , "添加成功！" , null ) ) ;
          } catch( BusiException e ) {
              this.logger.warn( "新增用户失败" , e );
@@ -128,7 +128,7 @@ public class UserController extends Controller {
             if( sysUser == null || sysUser.get("") == null ){
             	renderJson(  new ResultObj( ResultObj.FAIL , "用户名不能为空！" , null ) );
             }
-            SysUser.me.updUser( sysUser , getRequest() ) ;
+            SysUser.me.updUser( sysUser , getRequest() , getSession() ) ;
             renderJson( new ResultObj( ResultObj.SUCCESS , null , null ) ) ;
             return ;
         } catch( BusiException e ) {
