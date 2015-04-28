@@ -178,8 +178,8 @@ public class RoleController extends Controller {
 			Integer id  = getParaToInt( "id" ) ;
 			result.put( "menu" , SysRole.me.getPrimession() ) ;
 			List<TreeNode<SysMenu>> list  = SysRole.me.getPrimession() ;
-			List<SysRolePermission> permission = SysRolePermission.me.getPermissionByUserId( id ) ;
-			String  str = permission(list, permission, new StringBuilder() ,  RequestHandler.getBasePath(getRequest())  ) ;
+			List<String> permission = SysRolePermission.me.getPermissionByUserId( id ) ;
+			String str = permission( list, permission, new StringBuilder() ,  RequestHandler.getBasePath(getRequest())  ) ;
 			setAttr( "id" , id ) ;
 			setAttr( "permission" , str ) ;
 			System.out.println(str);
@@ -210,32 +210,34 @@ public class RoleController extends Controller {
     
 	/**
 	 */
-	private String permission( List<TreeNode<SysMenu>> list , List<SysRolePermission> permission , StringBuilder str , String basePath ){    	
+	private String permission( List<TreeNode<SysMenu>> list , List<String> permission , StringBuilder str , String basePath ){    	
 		SysMenu menu = null ;
 		int id = -1 ;
 		List<SysButton> button = null ;
+		String checked = null ;
     	for (TreeNode<SysMenu> node : list ){
     		menu = node.get() ;	
     		id = menu.getInt("id") ;
     		button = SysButton.me.getButton(id) ;   		
 			str.append( "<tr> " ) ;
-			
+			checked = permission.contains(menu.get("permission"))?"checked":"" ;
 			if( node.getChildren().size() > 0 ) {
 				//根菜单
-				str.append( "<td><input type=\"checkbox\" value='"+menu.get("permission")+"' name=\"permis\"/><strong>" + menu.get("name") +"</strong></td>" ) ;				
+				str.append( "<td><label class=\"am-checkbox-inline\"><input type=\"checkbox\" "+checked+" value='"+menu.get("permission")+"' name=\"permis\"/><strong>" + menu.get("name") +"</strong></label></td>" ) ;				
 				permission( node.getChildren() , permission ,str , basePath );				
 			} else {
 				str.append( "<td>" ) ;
 				if( -1 != menu.getInt( "parentId" ) ){
-					str.append( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"checkbox\" value='"+menu.get("permission")+"' name=\"permis\"/>" ) ;
-					str.append( menu.get("name") +"</td>" ) ;
+					str.append( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class=\"am-checkbox-inline\"><input type=\"checkbox\" "+checked+" value='"+menu.get("permission")+"' name=\"permis\"/>" ) ;
+					str.append( menu.get("name") +"</label></td>" ) ;
 				} else{
 					//根菜单
-					str.append( "<input type=\"checkbox\" value='"+menu.get("permission")+"' name=\"permis\"/><strong>" + menu.get("name") +"</strong></td>" ) ;
+					str.append( "<label class=\"am-checkbox-inline\"><input type=\"checkbox\" "+checked+" value='"+menu.get("permission")+"' name=\"permis\"/><strong>" + menu.get("name") +"</strong></label></td>" ) ;
 				}
 				
 				for (SysButton sysButton : button) {
-					str.append( "<td><input type=\"checkbox\" value='"+sysButton.getStr("value")+"' name=\"permis\"/>" + sysButton.getStr("name") +"</td>" ) ;
+					checked = permission.contains(sysButton.getStr("value"))?"checked":"" ;
+					str.append( "<td><label class=\"am-checkbox-inline\"><input type=\"checkbox\" "+checked+" value='"+sysButton.getStr("value")+"' name=\"permis\"/>" + sysButton.getStr("name") +"</label></td>" ) ;
 				}
 				
 			}

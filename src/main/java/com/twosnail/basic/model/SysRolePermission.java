@@ -24,8 +24,8 @@ public class SysRolePermission extends Model<SysRolePermission>{
 	 * @param id
 	 * @return
 	 */
-	public List<SysRolePermission> getPermissionByUserId( int id ) {
-		return me.find( "SELECT rp.* FROM sys_role_permission AS rp LEFT JOIN sys_role s ON rp.roleId = s.id AND s.id = (SELECT roleId FROM sys_user WHERE id = ? ) " , id ) ;
+	public List<String> getPermissionByUserId( int id ) {
+		return Db.query( "SELECT rp.permission FROM sys_role_permission AS rp LEFT JOIN sys_role s ON rp.roleId = s.id AND s.id = (SELECT roleId FROM sys_user WHERE id = ? ) " , id ) ;
 	}
 	
 	/**

@@ -58,6 +58,8 @@ public class SysButton extends Model<SysButton>{
 								button.set( "name" , "修改状态" ) ;
 							else if( (value.contains( "del" ) ) )
 								button.set( "name" , "删除" ) ;
+							else if( (value.contains( "permission" ) ) )
+								button.set( "name" , "授权" ) ;
 							else button.set( "name" , value ) ;
 							addButton( button );
 						}
