@@ -259,7 +259,7 @@ public class RoleController extends Controller {
 				
 				str.append( " data-am-collapse=\"{target: '#"+ sysRole.get("id") +"'}\"" ) ;
 				
-				str.append( "><span class=\"am-icon-file\"></span> " ) ;
+				str.append( "><span class=\"am-icon-users\"></span> " ) ;
 				str.append( sysRole.get("roleName") ) ;
 				str.append( "<span class=\"am-icon-angle-right am-fr am-margin-right\"></span>" ) ;
 				str.append( "</a>" ) ;
@@ -269,7 +269,7 @@ public class RoleController extends Controller {
 				str.append("</ul>") ;
 				
 			} else {
-				str.append( "><span class=\"am-icon-file\"></span> " ) ;
+				str.append( "><span class=\"am-icon-user-secret\"></span> " ) ;
 				str.append( sysRole.get("roleName") ) ;
 				str.append( "</a>" ) ;
 			}
