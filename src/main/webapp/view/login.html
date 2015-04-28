@@ -2,13 +2,13 @@
 <html>
 <head lang="en">
   <meta charset="UTF-8">
-  <title>Login Page | Amaze UI Example</title>
+  <title>两只蜗牛|基础架构平台</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="format-detection" content="telephone=no">
   <meta name="renderer" content="webkit">
   <meta http-equiv="Cache-Control" content="no-siteapp" />
-  <link rel="alternate icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="alternate icon" type="image/png" href="ext/i/favicon.png">
   <link rel="stylesheet" href="assets/css/amazeui.min.css"/>
   <script type="text/javascript" src="ext/js/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="ext/js/jquery.cookie.js"></script>
@@ -26,26 +26,24 @@
       font-size: 14px;
     }
   </style>
-  
 	<script type="text/javascript">
 	$(function(){
-		setInterval("choose_bg()",30000);
-		var errorMessage = $( ".error_message" );
+		var errorMsg = $( "#error_msg" );
 		var form = $( "form[name='login']" );
 		form.submit( function () {
 			var email = $( "input[name='email']" );
 			var passwordObj = $( "input[name='password']" );
 			var codeObj = $( "input[name='code']" );
 			if( email.val() == '' ) {
-				errorMessage.text( "请输入用户名！" );
+				errorMsg.text( "请输入用户名！" );
 				return false;
 			}
 			if( passwordObj.val() == '' ) {
-				errorMessage.text( "请输入密码！" );
+				errorMsg.text( "请输入密码！" );
 				return false;
 			}
 			if( codeObj.val() == '' ) {
-				errorMessage.text( "请输入验证码！" );
+				errorMsg.text( "请输入验证码！" );
 				return false;
 			}
 			$.post( form.attr( "action" ), { 
@@ -56,7 +54,7 @@
 					if( data.status == 1 ) {
 						location.href="./main";
 					} else {
-						errorMessage.text( data.message );
+						errorMsg.text( data.message );
 						refushcode();
 					}
 			}, "json" );
@@ -74,33 +72,56 @@
 <body>
 <div class="header">
   <div class="am-g">
-    <h1>Web ide</h1>
-    <p>Integrated Development Environment<br/>代码编辑，代码生成，界面设计，调试，编译</p>
+    <h1>两只蜗牛 | 基础架构平台</h1>
+    <p>为自由而生<br/>坚信，存在的就是合理的！不抱怨，不言弃！</p>
   </div>
   <hr />
 </div>
 <div class="am-g">
   <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
 
-	<form  name="login" id="login" action="./check" method="post"  class="am-form">
-		<label for="email">邮箱:</label>
-		<input type="text" name="email" id="email"  value="">
-		<br>
-      	<label for="password">密码:</label>
-      	<input type="password" name="password" id="password" value="">
-      	<br>
-		<label for="code" class="t">验证码：</label> 
-		<input name="code" id="code" class="code form-control x200 in" type="text" size="5" />
-		<span><img id="code_imge" src="./img" width="100" height="24" onclick="refushcode()" /></span>
-      
-      <br />
-      <div class="am-cf">
-        <input type="submit" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl">
-        <input type="submit" name="" value="忘记密码 ^_^? " class="am-btn am-btn-default am-btn-sm am-fr">
-      </div>
+	<form  name="login" id="login" action="./check" method="post"  class="am-form  am-form-horizontal">
+		<div class="am-g">
+			<br>
+			<div class="am-form-group">
+				<label for="email" class="am-u-sm-2 am-form-label">账号:</label>
+				<div class="am-u-sm-10">
+					<input type="text" name="email" id="email"  value="" placeholder="输入账号 ">
+				</div>
+			</div>
+			<br>
+			<div class="am-form-group">
+				<label for="password" class="am-u-sm-2 am-form-label">密码:</label>
+				<div class="am-u-sm-10">
+      				<input type="password" name="password" id="password" value="" placeholder="输入密码 ">
+      			</div>
+			</div>
+			<br>
+			<div class="am-form-group">
+				<label for="code"  class="am-u-sm-2 am-form-label" >验证码：</label> 
+				<div class="am-u-sm-7">
+					<input name="code" id="code" class="code form-control x200 in" type="text" placeholder="输入验证码"/>
+				</div>
+				<div class="am-u-sm-3">
+					<span><img id="code_imge" src="./img" width="120" height="42" class="am-fr" onclick="refushcode()" /></span>
+				</div>
+			</div>
+			<br>
+			<div class="am-form-group">
+				<div class="am-u-sm-3 am-u-md-push-2">
+					<input type="submit" name="" value="登 录" class=" am-btn am-btn-primary am-btn-sm am-fl ">
+				</div>
+				<span class="am-u-sm-3" id="error_msg" style="text-align: center;color: red;margin-left: 10px;"></span>
+				<div class="am-u-sm-3">
+		        	<input type="submit" id="forget" name="forget" value="忘记密码 ^_^? " class="am-btn am-btn-default am-btn-sm am-fr">
+		        </div>
+			</div>
+			<br>
+		</div>
+		
     </form>
     <hr>
-    <p>© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
+    <p>© 2015 AllMobilize, Inc. Licensed under MIT license.</p>
   </div>
 </div>
 </body>
