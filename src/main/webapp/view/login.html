@@ -57,17 +57,13 @@
 						location.href="./main";
 					} else {
 						errorMessage.text( data.message );
-						changeCodeImage();
+						refushcode();
 					}
 			}, "json" );
 			return false;
 		} );
 	});
 	
-	//切换图片
-	function changeCodeImage() {
-		$( "#code_imge" ).attr( "src", "./code.jsp?timestemp=" + new Date().getTime() );
-	}
 	function refushcode(){
         //为了避免服务器或者浏览器缓存，添加了一个额外的参数
         $( "#code_imge" ).attr( "src", "./img?t=" + new Date().getTime() );

@@ -2,6 +2,8 @@ package com.twosnail.basic.controller;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import com.jfinal.core.Controller;
 import com.jfinal.log.Logger;
 import com.twosnail.basic.model.SysButton;
@@ -23,7 +25,7 @@ public class MenuController extends Controller {
 	private Logger logger = Logger.getLogger(MenuController.class) ;	
 	
 	//@RequiresRoles(value = { "user", "admin" }, logical = Logical.OR)
-	//@RequiresPermissions("MenuController")
+	@RequiresPermissions("MenuController")
 	public void index(){
 		try {
 			List<TreeNode<SysMenu>> list = SysMenu.me.getMenuTree() ;
@@ -38,7 +40,7 @@ public class MenuController extends Controller {
 	/**
      * 添加页面
      */
-	//@RequiresPermissions("MenuController.addview")
+	@RequiresPermissions("MenuController.addview")
     public void addview(){
     	
     	int id = getParaToInt( "id" ) ;
@@ -77,7 +79,7 @@ public class MenuController extends Controller {
      * 修改页面
      * @return
      */
-    //@RequiresPermissions("MenuController.editview")
+    @RequiresPermissions("MenuController.editview")
     public void editview(){        
     	try {
     		setAttr( "sysMenu" , SysMenu.me.getMenuById( getParaToInt("id") )  ) ;
@@ -123,7 +125,7 @@ public class MenuController extends Controller {
      * @param isUsed
      * @return
      */
-    //@RequiresPermissions("MenuController.editstatus")
+    @RequiresPermissions("MenuController.editstatus")
     public void editstatus(){
     	int id  = getParaToInt( "id" ) ;
     	try {
@@ -145,7 +147,7 @@ public class MenuController extends Controller {
      * 删除
      * @return
      */
-   // @RequiresPermissions("MenuController.delview")
+    @RequiresPermissions("MenuController.delview")
     public void delview(){
     	int id  = getParaToInt( "id" ) ;
     	try {

@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.jfinal.plugin.activerecord.Record;
-import com.twosnail.basic.model.SysPermission;
+import com.twosnail.basic.model.SysRolePermission;
 
 /**   
  * @Title: UserInfo.java
@@ -20,7 +20,7 @@ public class UserInfo {
 	
 	public static void setUserSession( 
 			HttpSession session, 
-			Record userInfo , List<SysPermission> userPrivilege ) {
+			Record userInfo , List<SysRolePermission> userPrivilege ) {
 		session.setAttribute( "userInfo", userInfo );
 		session.setAttribute( "userPrivilege", userPrivilege );
 	}
@@ -112,8 +112,8 @@ public class UserInfo {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static List<SysPermission> getUserPrivilege( HttpSession session ) {
-		return (List<SysPermission>) session.getAttribute( "userPrivilege" );
+	public static List<SysRolePermission> getUserPrivilege( HttpSession session ) {
+		return (List<SysRolePermission>) session.getAttribute( "userPrivilege" );
 	}
 	
 	public static void destory( HttpSession session ) {

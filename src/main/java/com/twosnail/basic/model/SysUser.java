@@ -1,5 +1,7 @@
 package com.twosnail.basic.model;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
@@ -185,9 +187,12 @@ public class SysUser extends Model<SysUser>{
      * @param id
      * @throws BusiException
      */
-    public void delUserTx( String[] ids ) throws BusiException{
-		for (String id : ids) {
-			if( !me.deleteById( id ) ) {
+    public void delUser( String[] ids ) throws BusiException{
+    	Record record = null ;
+    	for (String id : ids) {
+    		record = new Record() ;
+    		record.set( "id" , id ) ;
+			if( !Db.delete( "sys_user" , record ) ) {
 	            throw new BusiException( "删除用户失败!" );
 	        }
 		}

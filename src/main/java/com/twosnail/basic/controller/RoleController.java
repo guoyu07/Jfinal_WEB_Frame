@@ -44,7 +44,7 @@ public class RoleController extends Controller {
 	/**
      * 添加页面
      */
-	@RequiresPermissions("addview")
+	@RequiresPermissions("RoleController.addview")
     public void addview(){
     	
     	int id = getParaToInt( "id" ) ;
@@ -85,7 +85,7 @@ public class RoleController extends Controller {
      * 修改页面
      * @return
      */
-    @RequiresPermissions("editview")
+    @RequiresPermissions("RoleController.editview")
     public void editview(){        
     	try {
     		setAttr( "sysRole" , SysRole.me.getRoleById( getParaToInt("id") )  ) ;
@@ -125,7 +125,7 @@ public class RoleController extends Controller {
      * @param isUsed
      * @return
      */
-    @RequiresPermissions("editstatus")
+    @RequiresPermissions("RoleController.editstatus")
     public void editstatus(){
     	int id  = getParaToInt( "id" ) ;
     	try {
@@ -147,7 +147,7 @@ public class RoleController extends Controller {
      * 删除
      * @return
      */
-    @RequiresPermissions("delview")
+    @RequiresPermissions("RoleController.delview")
     public void delview(){
     	int id  = getParaToInt( "id" ) ;
     	try {
@@ -171,7 +171,7 @@ public class RoleController extends Controller {
     /**
      * 用户授权页面
      */
-    @RequiresPermissions("permissionview")
+    @RequiresPermissions("RoleController.permissionview")
 	public void permissionview(){
 		JSONObject result = new JSONObject() ;
 		try {

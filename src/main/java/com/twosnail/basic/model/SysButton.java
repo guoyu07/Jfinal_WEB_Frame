@@ -48,15 +48,15 @@ public class SysButton extends Model<SysButton>{
 						String value = permission.value()[0] ;
 						if( value != null && !permissionMethod.equals( value ) ){
 							button.set( "menuId" , menuId ) ;
-							button.set( "value" , permissionMethod+"."+value ) ;
-							if( value.startsWith( "add" ) )
+							button.set( "value" , value ) ;
+							if( value.contains( "add" ) )
 								button.set( "name" , "添加" ) ;
-							else if( ( value.startsWith( "edit" ) || value.startsWith("upd") ) && 
+							else if( ( value.contains( "edit" ) || value.contains("upd") ) && 
 									!(value.contains( "Status" ) || value.contains( "status" )) )
 								button.set( "name" , "修改" ) ;
 							else if( (value.contains( "Status" ) || value.contains( "status" )) )
 								button.set( "name" , "修改状态" ) ;
-							else if( (value.startsWith( "del" ) ) )
+							else if( (value.contains( "del" ) ) )
 								button.set( "name" , "删除" ) ;
 							else button.set( "name" , value ) ;
 							addButton( button );

@@ -26,7 +26,6 @@ import com.twosnail.basic.model.SysButton;
 import com.twosnail.basic.model.SysButtonLog;
 import com.twosnail.basic.model.SysLoginLog;
 import com.twosnail.basic.model.SysMenu;
-import com.twosnail.basic.model.SysPermission;
 import com.twosnail.basic.model.SysRole;
 import com.twosnail.basic.model.SysRolePermission;
 import com.twosnail.basic.model.SysUser;
@@ -113,7 +112,6 @@ public class SysConfig extends JFinalConfig {
 		arp.addMapping( "sys_role" , SysRole.class ) ;
 		arp.addMapping( "sys_menu" , SysMenu.class ) ;
 		arp.addMapping( "sys_button" , SysButton.class ) ;
-		arp.addMapping( "sys_permission" , SysPermission.class ) ;
 		arp.addMapping( "sys_role_permission" , SysRolePermission.class ) ;
 		arp.addMapping( "sys_login_log" , SysLoginLog.class ) ;
 		arp.addMapping( "sys_button_log" , SysButtonLog.class ) ;

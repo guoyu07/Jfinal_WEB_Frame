@@ -177,11 +177,14 @@ public class UserController extends Controller {
         		renderJson( new ResultObj( ResultObj.FAIL , "参数Ids不能为空！" , null ) );
         	} else {
         		String[] ids =  id.split(",") ;
-        		SysUser.me.delUserTx(  ids );
+        		SysUser.me.delUser(  ids );
         	}            
         	renderJson( new ResultObj( ResultObj.SUCCESS , null , null ) );
         } catch ( BusiException e ) {
             this.logger.info( "删除失败！", e );
+            renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null ) );
+        } catch ( Exception e ) {
+            this.logger.info( "系统异常，删除失败！", e );
             renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null ) );
         }
     }
