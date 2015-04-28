@@ -1,7 +1,6 @@
 package com.twosnail.basic.model;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -42,15 +41,8 @@ public class SysUser extends Model<SysUser>{
 	 * @param session
 	 * @throws BusiException  
 	 */
-	public void userLogin( 
-			String userName, String passWord,String code, Boolean rm , HttpServletRequest request) 
+	public void userLogin( 	String userName, String passWord, Boolean rm ) 
 			throws BusiException {
-		
-		HttpSession session =  request.getSession() ;
-		Object obj = session.getAttribute("code");
-		if( !code.equals(obj) ){
-			throw new BusiException( "验证码错误！" ); 
-		}
 		
 		Subject currentUser = SecurityUtils.getSubject();
 		UsernamePasswordToken token = new UsernamePasswordToken( userName, passWord );

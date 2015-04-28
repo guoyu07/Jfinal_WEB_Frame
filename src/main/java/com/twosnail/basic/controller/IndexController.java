@@ -7,6 +7,7 @@ import org.apache.shiro.subject.Subject;
 
 import com.jfinal.core.Controller;
 import com.jfinal.log.Logger;
+import com.twosnail.basic.ext.CaptchaRender;
 import com.twosnail.basic.model.SysLoginLog;
 import com.twosnail.basic.model.SysMenu;
 import com.twosnail.basic.model.SysUser;
@@ -40,13 +41,31 @@ public class IndexController extends Controller {
 		index() ;
 	}
 	
+	public void img(){
+		CaptchaRender img = new CaptchaRender(4); 
+		this.setSessionAttr( CaptchaRender.DEFAULT_CAPTCHA_MD5_CODE_KEY, img.getMd5RandonCode() );
+		render(img);
+	}	
+	
 	/**
 	 * 登录校验
 	 */
 	public void check(){
 		try {
-			SysUser.me.userLogin( 
-					getPara("loginName"), getPara("password"), getPara( "code" ) , getParaToBoolean("rm", true) , getRequest() );
+			
+			String captchaCode = getPara("code");
+			Object objMd5RandomCode = this.getSessionAttr(CaptchaRender.DEFAULT_CAPTCHA_MD5_CODE_KEY);
+            String md5RandomCode = null;
+            if(objMd5RandomCode != null){
+                md5RandomCode = objMd5RandomCode.toString();
+                this.removeSessionAttr(CaptchaRender.DEFAULT_CAPTCHA_MD5_CODE_KEY);
+            }
+            if(!CaptchaRender.validate( md5RandomCode, captchaCode )){
+            	renderJson( new ResultObj( ResultObj.FAIL , "验证码错误，请重新输入！" , null ) );
+                return;
+            }
+			
+			SysUser.me.userLogin( getPara("loginName"), getPara("password") , getParaToBoolean("rm", true) );
 			//添加登录日志
 			SysLoginLog.me.addLoginLog( getRequest() );
 			renderJson( new ResultObj( ResultObj.SUCCESS , null, null ) );

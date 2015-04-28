@@ -1,6 +1,7 @@
 package com.twosnail.basic.model;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,7 +11,6 @@ import com.jfinal.log.Logger;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
-import com.jfinal.plugin.activerecord.Record;
 import com.twosnail.basic.util.exception.BusiException;
 
 /**   
@@ -27,21 +27,42 @@ public class SysButton extends Model<SysButton>{
 	public static final SysButton me = new SysButton() ; 
 	private Logger logger = Logger.getLogger( SysButton.class ) ;
 	
-	public void addSysButtons( String permissionMethod ){
+	/**
+	 * 通过菜单权限值添加功能按钮
+	 * @param menuId
+	 * @param permissionMethod
+	 * @throws BusiException
+	 */
+	public void addSysButtons( int menuId ,String permissionMethod ) throws BusiException {
 		//通过反射，找到所需节点名称，值
 		if(permissionMethod != null && !"".equals( permissionMethod )){
 			Class<?> clz;
+			SysButton button = null ;
 			try {
 				clz = Class.forName( "com.twosnail.basic.controller." + permissionMethod);
 				Method[] methods = clz.getMethods() ;
 				for (Method method : methods) {
+					button = new SysButton() ;
 					RequiresPermissions permission = method.getAnnotation( RequiresPermissions.class ) ;
 					if( permission != null ){
-						String str = permission.value()[0] ;
-						System.out.println(str);
+						String value = permission.value()[0] ;
+						if( value != null && !permissionMethod.equals( value ) ){
+							button.set( "menuId" , menuId ) ;
+							button.set( "value" , permissionMethod+"."+value ) ;
+							if( value.startsWith( "add" ) )
+								button.set( "name" , "添加" ) ;
+							else if( ( value.startsWith( "edit" ) || value.startsWith("upd") ) && 
+									!(value.contains( "Status" ) || value.contains( "status" )) )
+								button.set( "name" , "修改" ) ;
+							else if( (value.contains( "Status" ) || value.contains( "status" )) )
+								button.set( "name" , "修改状态" ) ;
+							else if( (value.startsWith( "del" ) ) )
+								button.set( "name" , "删除" ) ;
+							else button.set( "name" , value ) ;
+							addButton( button );
+						}
 					}
 				}
-    	            
 			} catch (ClassNotFoundException e){
 				logger.debug("不存在该类:"+e.getMessage()) ;
 			}
@@ -56,9 +77,19 @@ public class SysButton extends Model<SysButton>{
 	 * @param pageSize
 	 * @return
 	 */
-	public Page<Record> getButton( int menuId , int pageNumber, int pageSize) {
-		return Db.paginate(pageNumber, pageSize, 
+	public Page<SysButton> getButton( int menuId , int pageNumber, int pageSize) {
+		return me.paginate(pageNumber, pageSize, 
 				"SELECT a.* " , "FROM sys_button a WHERE menuId=? " , menuId );
+			
+	}
+	
+	/**
+	 * 通过菜单Id查找功能信息
+	 * @param menuId
+	 * @return
+	 */
+	public List<SysButton> getButton( int menuId ) {
+		return me.find( "SELECT a.*  FROM sys_button a WHERE menuId=? ", menuId );
 			
 	}
 
@@ -138,4 +169,7 @@ public class SysButton extends Model<SysButton>{
 		}
     }
     
+    public void delButtonByMenuId( int menuId ) throws BusiException{
+    	Db.update( "DELETE FROM sys_button WHERE menuId = ? ", menuId ) ;
+    }
 }

@@ -71,11 +71,12 @@ public class SysMenu extends Model<SysMenu> {
 	 * @param SysMenu
 	 * @throws BusiException
 	 */
-	public void addMenu( SysMenu menu) throws BusiException {
+	public int addMenu( SysMenu menu) throws BusiException {
 		menu.set( "createTime" , System.currentTimeMillis() );
 		if( !menu.save() ) {
             throw new BusiException( "添加信息失败!" );
         }
+		return menu.getInt("id") ;
 	}
     
 	/**

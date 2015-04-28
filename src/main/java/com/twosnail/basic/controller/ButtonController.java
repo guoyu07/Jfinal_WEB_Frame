@@ -6,7 +6,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Logger;
 import com.jfinal.plugin.activerecord.Page;
-import com.jfinal.plugin.activerecord.Record;
 import com.twosnail.basic.model.SysButton;
 import com.twosnail.basic.model.SysRole;
 import com.twosnail.basic.util.exception.BusiException;
@@ -31,7 +30,7 @@ public class ButtonController extends Controller {
 	        pageNum = pageNum == null ? 1 : pageNum;
 	        numPerPage = ( numPerPage == null || numPerPage == 0 ) ? 5 : numPerPage;
 	        
-	        Page<Record> list = SysButton.me.getButton( menuId , pageNum, numPerPage );
+	        Page<SysButton> list = SysButton.me.getButton( menuId , pageNum, numPerPage );
 	        setAttr( "list", list );
 	        setAttr( "menuId", menuId );
 	        

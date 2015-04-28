@@ -2,6 +2,8 @@ package com.twosnail.basic.controller;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Logger;
@@ -23,6 +25,7 @@ public class UserController extends Controller {
 	
 	private Logger logger = Logger.getLogger(UserController.class) ;
 	
+	@RequiresPermissions("UserController")
 	public void index(){
 		try {
 			Integer pageNum = getParaToInt( "pageNum" ) ;
@@ -46,6 +49,7 @@ public class UserController extends Controller {
 	/**
      * 添加页面
      */
+	@RequiresPermissions("UserController.addview")
     public void addview(){
     	render( "user_add.html" ) ;
     }
@@ -95,6 +99,7 @@ public class UserController extends Controller {
      * 修改页面
      * @return
      */
+    @RequiresPermissions("UserController.editview")
     public void editview(){
         
         try {
@@ -143,6 +148,7 @@ public class UserController extends Controller {
      * @param isUsed
      * @return
      */
+    @RequiresPermissions("UserController.upstatus")
     public void upstatus(){
         try {
             SysUser.me.updUserStasus( getParaToLong("id") , getParaToInt("isUsed") );
@@ -163,6 +169,7 @@ public class UserController extends Controller {
      * 删除
      * @return
      */
+    @RequiresPermissions("UserController.delete")
     public void delete(){
     	String id  = getPara( "id" ) ;
         try {
@@ -194,32 +201,5 @@ public class UserController extends Controller {
 		}
         render( "user_info.html" );
     }
-    
-    /**
-     * 选择用户
-     * @param id
-     * @return
-     */
-    /*public ModelAndView infoChooseRole( Integer pageNum, String keyWord, Integer numPerPage, HttpSession session )
-    {
-        ModelAndView view = new ModelAndView( "/system/user/role_user_choose" );
-        pageNum = pageNum == null ? 1 : pageNum;
-        numPerPage = ( numPerPage == null || numPerPage == 0 ) ? 20 : numPerPage;
-        PageList<Map> list = SyssysUser.me.getUserInfo(1, -1 , keyWord, pageNum, numPerPage );
-        List<Map> listMap =  list.getDatalist() ;
-        for (Map<String, Object> map : listMap)
-		{
-			JSONObject obj = new JSONObject() ;
-			obj.put( "ids", map.get ("id" )) ;
-			obj.put( "userName" , map.get( "userName" ) ) ;
-			obj.put( "id" , map.get( "id" ) ) ;
-			map.put("checkbox", obj.toString().replace("\"", "\'")) ;
-		}
-        list.setDatalist( listMap ) ;
-        view.addObject( "list", list );
-        view.addObject( "keyWord", keyWord );
-        return view ;
-    }*/
-	
 	
 }

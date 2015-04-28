@@ -7,6 +7,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Logger;
+import com.twosnail.basic.model.SysButton;
 import com.twosnail.basic.model.SysMenu;
 import com.twosnail.basic.model.SysRole;
 import com.twosnail.basic.model.SysRolePermission;
@@ -211,33 +212,32 @@ public class RoleController extends Controller {
 	 */
 	private String permission( List<TreeNode<SysMenu>> list , List<SysRolePermission> permission , StringBuilder str , String basePath ){    	
 		SysMenu menu = null ;
-		String permis = null ;
-		String[] permi = null ;
+		int id = -1 ;
+		List<SysButton> button = null ;
     	for (TreeNode<SysMenu> node : list ){
     		menu = node.get() ;	
-    		permis = menu.getStr( "permission" ) ;
-    		if( permis != null ) {
-				permi = permis.split( "_" ) ;
-			}    		
+    		id = menu.getInt("id") ;
+    		button = SysButton.me.getButton(id) ;   		
 			str.append( "<tr> " ) ;
 			
 			if( node.getChildren().size() > 0 ) {
 				//根菜单
-				str.append( "<td><input type=\"checkbox\" value='"+permi[0]+"' name=\"permis\"/><strong>" + menu.get("name") +"</strong></td>" ) ;				
+				str.append( "<td><input type=\"checkbox\" value='"+menu.get("permission")+"' name=\"permis\"/><strong>" + menu.get("name") +"</strong></td>" ) ;				
 				permission( node.getChildren() , permission ,str , basePath );				
 			} else {
 				str.append( "<td>" ) ;
 				if( -1 != menu.getInt( "parentId" ) ){
-					str.append( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"checkbox\" value='"+permi[0]+"' name=\"permis\"/>" ) ;
+					str.append( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"checkbox\" value='"+menu.get("permission")+"' name=\"permis\"/>" ) ;
 					str.append( menu.get("name") +"</td>" ) ;
 				} else{
 					//根菜单
-					str.append( "<input type=\"checkbox\" value='"+permi[0]+"' name=\"permis\"/><strong>" + menu.get("name") +"</strong></td>" ) ;
+					str.append( "<input type=\"checkbox\" value='"+menu.get("permission")+"' name=\"permis\"/><strong>" + menu.get("name") +"</strong></td>" ) ;
 				}
 				
-				for (int i = 1; i < permi.length; i++) {
-					str.append( "<td><input type=\"checkbox\" value='"+permi[1]+"' name=\"permis\"/>" + permi[i] +"</td>" ) ;
+				for (SysButton sysButton : button) {
+					str.append( "<td><input type=\"checkbox\" value='"+sysButton.getStr("value")+"' name=\"permis\"/>" + sysButton.getStr("name") +"</td>" ) ;
 				}
+				
 			}
 			str.append( "</tr>" ) ;
 		}

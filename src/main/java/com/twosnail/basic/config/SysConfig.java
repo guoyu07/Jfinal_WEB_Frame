@@ -22,6 +22,7 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.tx.TxByRegex;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
+import com.twosnail.basic.model.SysButton;
 import com.twosnail.basic.model.SysButtonLog;
 import com.twosnail.basic.model.SysLoginLog;
 import com.twosnail.basic.model.SysMenu;
@@ -111,6 +112,7 @@ public class SysConfig extends JFinalConfig {
 		arp.addMapping( "sys_user" , SysUser.class ) ;
 		arp.addMapping( "sys_role" , SysRole.class ) ;
 		arp.addMapping( "sys_menu" , SysMenu.class ) ;
+		arp.addMapping( "sys_button" , SysButton.class ) ;
 		arp.addMapping( "sys_permission" , SysPermission.class ) ;
 		arp.addMapping( "sys_role_permission" , SysRolePermission.class ) ;
 		arp.addMapping( "sys_login_log" , SysLoginLog.class ) ;

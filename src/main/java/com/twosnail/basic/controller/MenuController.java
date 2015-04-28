@@ -58,9 +58,9 @@ public class MenuController extends Controller {
     	SysMenu sysMenu = getModel( SysMenu.class ) ;
     	try {
             //添加菜单信息
-    		SysMenu.me.addMenu( sysMenu );
+    		int id = SysMenu.me.addMenu( sysMenu );
     		//添加功能节点
-    		SysButton.me.addSysButtons( sysMenu.getStr("permission") );
+    		SysButton.me.addSysButtons( id , sysMenu.getStr("permission") );
     		
     		renderJson( new ResultObj( ResultObj.SUCCESS , "", null ) ) ;
     		return ;
@@ -97,8 +97,11 @@ public class MenuController extends Controller {
     	SysMenu sysMenu = getModel( SysMenu.class ) ;
     	try {
     		SysMenu.me.updMenu(sysMenu) ;
+    		
+    		//delButtonByMenuId
+    		SysButton.me.delButtonByMenuId( sysMenu.getInt("id") );
     		//添加功能节点
-    		SysButton.me.addSysButtons( sysMenu.getStr("permission") );
+    		SysButton.me.addSysButtons( sysMenu.getInt("id") , sysMenu.getStr("permission") );
     		
         	renderJson( new ResultObj( ResultObj.SUCCESS , "" , null )) ;
         	return ;
