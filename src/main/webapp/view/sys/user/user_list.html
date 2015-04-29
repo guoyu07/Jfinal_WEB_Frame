@@ -65,7 +65,7 @@
 	        <form class="am-form">
 	          	<table class="am-table am-table-striped am-table-hover table-main">
 		            <thead>
-		            	<tr>
+		            	<tr class="am-active">
 							<th class="table-check"><input type="checkbox" onclick="checkbox( this.checked ,'checkbox_list')" /></th>
 							<th class="table-id">ID</th>
 							<th class="table-title">用户名称</th>
@@ -88,8 +88,8 @@
 					            <td>${data.sex==1?"男":'女'}</td>
 					            <td> ${data.roleName} </td>
 					            <td class="am-hide-sm-only"> ${data.mobile} </td>
-					            <td class="am-hide-sm-only">${data.isUsed==1?"正常":'无效'}</td>
-					            <td class="am-hide-sm-only"> ${data.createDate} </td>
+					            <td class="am-hide-sm-only ">${data.isUsed==1?'<span style="color: green;"> 正常 </span>':'<span style="color:red;"> 无效 </span>'}</td>
+					            <td class="am-hide-sm-only"> ${data.createTime} </td>
 					            <td>
 					              <div class="am-btn-toolbar">
 					                <div class="am-btn-group am-btn-group-xs">

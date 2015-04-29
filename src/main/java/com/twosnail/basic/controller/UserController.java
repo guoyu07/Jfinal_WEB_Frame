@@ -31,14 +31,18 @@ public class UserController extends Controller {
 			Integer pageNum = getParaToInt( "pageNum" ) ;
 			Integer numPerPage = getParaToInt( "numPerPage" ) ;
 			String keyWord = getPara("keyWord") ;
+			Integer roleId = getParaToInt("roleId") ;
+			
 	        pageNum = pageNum == null ? 1 : pageNum;
 	        numPerPage = ( numPerPage == null || numPerPage == 0 ) ? 5 : numPerPage;
 	        
-	        Page<Record> list = SysUser.me.getUser( -1 , getPara("keyWord"), pageNum, numPerPage );
+	        Page<Record> list = SysUser.me.getUser( roleId , getPara("keyWord") , pageNum, numPerPage );
 	        List<SysRole> roles = SysRole.me.getSysRoles();
+	        
 	        setAttr( "list", list );
 	        setAttr( "roles", roles );
 	        setAttr( "keyWord", keyWord );
+	        setAttr( "roleId", roleId );
 	        
 		} catch (Exception e) {
 			this.logger.warn( "用户列表信息，初始化失败！" , e );

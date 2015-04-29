@@ -79,12 +79,12 @@ public class SysUser extends Model<SysUser>{
 	 * @param pageSize
 	 * @return
 	 */
-	public Page<Record> getUser( int roleId ,String keyWord , int pageNumber, int pageSize) {
+	public Page<Record> getUser( Integer roleId ,String keyWord , int pageNumber, int pageSize) {
 		StringBuffer sb = new StringBuffer(" FROM sys_user a WHERE 1=1 ");
 		if( keyWord != null && "".equals( keyWord = keyWord.trim() ) ) {
 			sb.append( " AND (a.userName LIKE '%"+keyWord+"%' or a.id LIKE '%"+keyWord+"%')" ) ;
 		}
-		if( roleId != -1 ) {
+		if( roleId != null && roleId != -1 ) {
 			sb.append( " AND a.roleId = " + roleId ) ;
 		}
 		return Db.paginate(pageNumber, pageSize, 
