@@ -24,9 +24,9 @@ CREATE TABLE IF NOT EXISTS `sys_button` (
   `name` varchar(32) NOT NULL COMMENT '显示名称',
   `value` varchar(32) NOT NULL COMMENT '功能值',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COMMENT='功能按钮';
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COMMENT='功能按钮';
 
--- 正在导出表  basic.sys_button 的数据：~13 rows (大约)
+-- 正在导出表  basic.sys_button 的数据：~15 rows (大约)
 DELETE FROM `sys_button`;
 /*!40000 ALTER TABLE `sys_button` DISABLE KEYS */;
 INSERT INTO `sys_button` (`id`, `menuId`, `name`, `value`) VALUES
@@ -39,10 +39,12 @@ INSERT INTO `sys_button` (`id`, `menuId`, `name`, `value`) VALUES
 	(39, 3, '添加', 'UserController.addview'),
 	(40, 3, '修改', 'UserController.editview'),
 	(41, 3, '修改状态', 'UserController.upstatus'),
-	(46, 4, '添加', 'MenuController.addview'),
-	(47, 4, '修改', 'MenuController.editview'),
-	(48, 4, '修改状态', 'MenuController.editstatus'),
-	(49, 4, '删除', 'MenuController.delview');
+	(50, 4, '添加', 'MenuController.addview'),
+	(51, 4, '修改', 'MenuController.editview'),
+	(52, 4, '修改状态', 'MenuController.editstatus'),
+	(53, 4, '删除', 'MenuController.delview'),
+	(54, 6, '删除', 'BtnLogController.delbotton'),
+	(55, 7, '删除', 'LoginLogController.dellogin');
 /*!40000 ALTER TABLE `sys_button` ENABLE KEYS */;
 
 
@@ -78,9 +80,9 @@ CREATE TABLE IF NOT EXISTS `sys_login_log` (
   `lastlogTime` bigint(13) DEFAULT NULL COMMENT '上次登录时间',
   `status` int(1) NOT NULL DEFAULT '1' COMMENT '状态;1在线0下线',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT='登录日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8 COMMENT='登录日志表';
 
--- 正在导出表  basic.sys_login_log 的数据：~24 rows (大约)
+-- 正在导出表  basic.sys_login_log 的数据：~36 rows (大约)
 DELETE FROM `sys_login_log`;
 /*!40000 ALTER TABLE `sys_login_log` DISABLE KEYS */;
 INSERT INTO `sys_login_log` (`id`, `userId`, `loginTime`, `logoutTime`, `logIp`, `lastlogTime`, `status`) VALUES
@@ -107,7 +109,19 @@ INSERT INTO `sys_login_log` (`id`, `userId`, `loginTime`, `logoutTime`, `logIp`,
 	(28, -1, 1430199895707, NULL, '0:0:0:0:0:0:0:1', 1430199841740, 1),
 	(29, 9, 1430224569529, NULL, '0:0:0:0:0:0:0:1', 0, 1),
 	(30, 9, 1430226437339, NULL, '0:0:0:0:0:0:0:1', 1430224569529, 1),
-	(31, 9, 1430226559137, NULL, '0:0:0:0:0:0:0:1', 1430226437339, 1);
+	(31, 9, 1430226559137, NULL, '0:0:0:0:0:0:0:1', 1430226437339, 1),
+	(32, 9, 1430270176496, NULL, '0:0:0:0:0:0:0:1', 1430226559137, 1),
+	(33, 9, 1430272453489, NULL, '0:0:0:0:0:0:0:1', 1430270176496, 1),
+	(34, 9, 1430273030407, NULL, '0:0:0:0:0:0:0:1', 1430272453489, 1),
+	(35, 9, 1430273130310, NULL, '0:0:0:0:0:0:0:1', 1430273030407, 1),
+	(36, 9, 1430273924571, NULL, '0:0:0:0:0:0:0:1', 1430273130310, 1),
+	(37, 9, 1430277596042, NULL, '0:0:0:0:0:0:0:1', 1430273924571, 1),
+	(38, 9, 1430277696803, NULL, '0:0:0:0:0:0:0:1', 1430277596042, 1),
+	(39, 9, 1430280691905, NULL, '0:0:0:0:0:0:0:1', 1430277696803, 1),
+	(40, 9, 1430288112034, NULL, '0:0:0:0:0:0:0:1', 1430280691905, 1),
+	(41, 9, 1430288208360, NULL, '0:0:0:0:0:0:0:1', 1430288112034, 1),
+	(42, 9, 1430298288301, NULL, '0:0:0:0:0:0:0:1', 1430288208360, 1),
+	(43, 9, 1430298410509, NULL, '0:0:0:0:0:0:0:1', 1430298288301, 1);
 /*!40000 ALTER TABLE `sys_login_log` ENABLE KEYS */;
 
 
@@ -125,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `sys_menu` (
   `sortNo` int(8) DEFAULT NULL COMMENT '排序号',
   `permission` varchar(64) DEFAULT NULL COMMENT '菜单权限值',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COMMENT='菜单表';
 
 -- 正在导出表  basic.sys_menu 的数据：~7 rows (大约)
 DELETE FROM `sys_menu`;
@@ -134,10 +148,10 @@ INSERT INTO `sys_menu` (`id`, `name`, `href`, `icon`, `description`, `parentId`,
 	(1, '系统管理', NULL, 'am-icon-wrench ', NULL, -1, 1407140785011, 1, 99, '1'),
 	(2, '角色列表', '/sys/role/', 'am-icon-user-secret ', '角色列表', 1, 1407141914856, 0, 2, 'RoleController'),
 	(3, '用户列表', '/sys/user/', 'am-icon-male ', '用户列表', 1, 1407141964456, 1, 1, 'UserController'),
-	(4, '菜单列表', '/sys/menu/', 'am-icon-reorder ', '菜单列表', 1, 1407142023060, 1, 3, 'MenuController'),
+	(4, '菜单列表', '/sys/menu/', 'am-icon-reorder  ', '菜单列表', 1, 1407142023060, 1, 3, 'MenuController'),
 	(5, '日志管理', NULL, 'am-icon-pencil-square-o ', NULL, -1, 1409642077554, 1, 100, '1'),
-	(6, '操作日志', '/sys/log/button', 'am-icon-pencil ', NULL, 5, 1409642132551, 1, 1, 'add_edit_delete'),
-	(7, '登录日志', '/sys/log/login', 'am-icon-pencil-square ', '登录日志', 5, 1409648279391, 1, 1, 'add_edit_delete_save');
+	(6, '操作日志', '/sys/log/btn', 'am-icon-pencil  ', NULL, 5, 1409642132551, 1, 1, 'BtnLogController'),
+	(7, '登录日志', '/sys/log/login', 'am-icon-pencil-square  ', '登录日志', 5, 1409648279391, 1, 2, 'LoginLogController');
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
 
 
@@ -151,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `sys_role` (
   `createTime` bigint(13) NOT NULL COMMENT '创建时间',
   `parentId` int(4) NOT NULL COMMENT '父级角色',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='角色表';
 
 -- 正在导出表  basic.sys_role 的数据：~3 rows (大约)
 DELETE FROM `sys_role`;
@@ -170,29 +184,12 @@ CREATE TABLE IF NOT EXISTS `sys_role_permission` (
   `roleId` int(4) NOT NULL COMMENT '角色Id',
   `permission` varchar(64) NOT NULL COMMENT '权限值（菜单和功能）',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8 COMMENT='角色权限';
+) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8 COMMENT='角色权限';
 
--- 正在导出表  basic.sys_role_permission 的数据：~35 rows (大约)
+-- 正在导出表  basic.sys_role_permission 的数据：~40 rows (大约)
 DELETE FROM `sys_role_permission`;
 /*!40000 ALTER TABLE `sys_role_permission` DISABLE KEYS */;
 INSERT INTO `sys_role_permission` (`id`, `roleId`, `permission`) VALUES
-	(16, 1, '1'),
-	(17, 1, 'RoleController'),
-	(18, 1, 'RoleController.permissionview'),
-	(19, 1, 'RoleController.addview'),
-	(20, 1, 'RoleController.editview'),
-	(21, 1, 'RoleController.editstatus'),
-	(22, 1, 'RoleController.delview'),
-	(23, 1, 'UserController'),
-	(24, 1, 'UserController.delete'),
-	(25, 1, 'UserController.addview'),
-	(26, 1, 'UserController.editview'),
-	(27, 1, 'UserController.upstatus'),
-	(28, 1, 'MenuController'),
-	(29, 1, 'MenuController.addview'),
-	(30, 1, 'MenuController.editview'),
-	(31, 1, 'MenuController.editstatus'),
-	(32, 1, 'MenuController.delview'),
 	(69, 2, '1'),
 	(70, 2, 'RoleController'),
 	(71, 2, 'RoleController.permissionview'),
@@ -210,7 +207,29 @@ INSERT INTO `sys_role_permission` (`id`, `roleId`, `permission`) VALUES
 	(83, 2, 'MenuController.editview'),
 	(84, 2, 'MenuController.editstatus'),
 	(85, 2, 'MenuController.delview'),
-	(86, 2, '1');
+	(86, 2, '1'),
+	(87, 1, '1'),
+	(88, 1, 'RoleController'),
+	(89, 1, 'RoleController.permissionview'),
+	(90, 1, 'RoleController.addview'),
+	(91, 1, 'RoleController.editview'),
+	(92, 1, 'RoleController.editstatus'),
+	(93, 1, 'RoleController.delview'),
+	(94, 1, 'UserController'),
+	(95, 1, 'UserController.delete'),
+	(96, 1, 'UserController.addview'),
+	(97, 1, 'UserController.editview'),
+	(98, 1, 'UserController.upstatus'),
+	(99, 1, 'MenuController'),
+	(100, 1, 'MenuController.addview'),
+	(101, 1, 'MenuController.editview'),
+	(102, 1, 'MenuController.editstatus'),
+	(103, 1, 'MenuController.delview'),
+	(104, 1, '1'),
+	(105, 1, 'BtnLogController'),
+	(106, 1, 'BtnLogController.delbotton'),
+	(107, 1, 'LoginLogController'),
+	(108, 1, 'LoginLogController.dellogin');
 /*!40000 ALTER TABLE `sys_role_permission` ENABLE KEYS */;
 
 
@@ -246,7 +265,7 @@ INSERT INTO `sys_user` (`id`, `roleId`, `userName`, `passWord`, `createTime`, `s
 	(9, 1, 'root', '14e1b600b1fd579f47433b88e8d85291', 1406691374696, 1, NULL, NULL, 0, NULL, NULL, NULL, -1, '0:0:0:0:0:0:0:1', 9, 1429494461796, 1, 1, 1),
 	(12, 1, 'user03', '123456', 1428396925659, 1, NULL, '', 15826008617, NULL, '', '', 9, '0:0:0:0:0:0:0:1', 9, 1428397051036, 1, 1, 1),
 	(36, 4, '45', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL),
-	(37, 4, '46', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL),
+	(37, 4, '46', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL),
 	(38, 4, '47', '1', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, NULL);
 /*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

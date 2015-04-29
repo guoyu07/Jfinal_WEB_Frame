@@ -1,11 +1,12 @@
 package com.twosnail.basic.controller;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import com.jfinal.core.Controller;
 import com.jfinal.log.Logger;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.twosnail.basic.model.SysButtonLog;
-import com.twosnail.basic.model.SysLoginLog;
 import com.twosnail.basic.util.exception.BusiException;
 import com.twosnail.basic.util.result.ResultObj;
 
@@ -16,57 +17,15 @@ import com.twosnail.basic.util.result.ResultObj;
  * @date 2015年4月17日 上午9:26:37 
  * @version V1.0   
  */
-public class LogController extends Controller {
+public class BtnLogController extends Controller {
 	
-	private Logger logger = Logger.getLogger(LogController.class) ;
-	
-	/**
-	 * 登录日志
-	 */
-	public void login(){
-		try {
-			Integer pageNum = getParaToInt( "pageNum" ) ;
-			Integer numPerPage = getParaToInt( "numPerPage" ) ;
-			String keyWord = getPara("keyWord") ;
-	        pageNum = pageNum == null ? 1 : pageNum;
-	        numPerPage = ( numPerPage == null || numPerPage == 0 ) ? 5 : numPerPage;
-	        
-	        Page<Record> list = SysLoginLog.me.getLoginLog(  getPara("keyWord"), pageNum, numPerPage );
-	        setAttr( "list", list );
-	        setAttr( "keyWord", keyWord );	        
-		} catch (Exception e) {
-			this.logger.warn( "用户列表信息，初始化失败！" , e );
-		}
-        render( "login_log_list.html" );
-	}
-	
-	/**
-     * 删除登录日志
-     */
-    public void dellogin(){
-    	String id  = getPara( "id" ) ;
-        try {
-        	if( id == null || "".equals( id ) ) {
-        		renderJson( new ResultObj( ResultObj.FAIL , "参数Ids不能为空！" , null ) );
-        	} else {
-        		String[] ids =  id.split(",") ;
-        		SysLoginLog.me.delUserTx(  ids );
-        	}            
-        	renderJson( new ResultObj( ResultObj.SUCCESS , null , null ) );
-        } catch ( BusiException e ) {
-            this.logger.warn( "删除失败！", e );
-            renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null ) );
-        } catch (Exception e) {
-        	this.logger.warn( "系统异常，删除失败！", e );
-            renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null ) );
-		}
-    }
-	
+	private Logger logger = Logger.getLogger(BtnLogController.class) ;
 	
 	/**
 	 * 按钮日志
 	 */
-	public void button(){
+	@RequiresPermissions("BtnLogController")
+	public void index(){
 		try {
 			Integer pageNum = getParaToInt( "pageNum" ) ;
 			Integer numPerPage = getParaToInt( "numPerPage" ) ;
@@ -86,6 +45,7 @@ public class LogController extends Controller {
 	/**
      * 删除操作日志
      */
+	@RequiresPermissions("BtnLogController.delbotton")
     public void delbotton(){
     	String id  = getPara( "id" ) ;
         try {
