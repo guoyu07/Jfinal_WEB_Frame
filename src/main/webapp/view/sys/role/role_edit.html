@@ -9,11 +9,11 @@
 //表单提交
 function save(){
 	if( $( "#roleName" ).val() == '' ) {
-		window.parent.tips( "角色名称不能为空！" );
+		window.top.tips( "角色名称不能为空！" );
 		return ;
 	}
 	if(  $( "#roleCode" ).val() == '' ) {
-		window.parent.tips( "角色编号，不能为空！" );
+		window.top.tips( "角色编号，不能为空！" );
 		return ;
 	}
 	var sysRole = $("form").serialize();
@@ -36,7 +36,7 @@ function save(){
     </div>
     <hr/>
     <div class="am-g">
-		<form class="am-form am-form-horizontal">
+		<form class="am-form am-form-horizontal" id="form-with-tooltip">
 			<input type="hidden" value="${sysRole.id}" id="id" name="sysRole.id">
 			<div class="am-u-sm-12">	        
 		        <div class="am-form-group">
@@ -49,14 +49,14 @@ function save(){
 		        <div class="am-form-group">
 		            <label for="roleCode" class="am-u-sm-3 am-form-label">角色编号</label>
 		            <div class="am-u-sm-9">
-		              	<input type="text" id="roleCode" name="sysRole.roleCode" value="${sysRole.roleCode}" placeholder="填写角色对应的角色编号">
+		              	<input type="text" id="roleCode" name="sysRole.roleCode" id="roleCode"  data-foolish-msg="角色编号,不能为空" required value="${sysRole.roleCode}" placeholder="填写角色对应的角色编号">
 		            </div>
 		        </div>
 
 		        <div class="am-form-group">
 		            <label for="roleName" class="am-u-sm-3 am-form-label">角色名称</label>
 		            <div class="am-u-sm-9">
-		              	<input type="text" id="roleName" name="sysRole.roleName" value="${sysRole.roleName}" placeholder="输入角色名称">
+		              	<input type="text" id="roleName" name="sysRole.roleName" id="roleName"  data-foolish-msg="角色名称,不能为空" required value="${sysRole.roleName}" placeholder="输入角色名称">
 		            </div>
 		        </div>
 				
@@ -87,6 +87,7 @@ function save(){
 </div>
 <!-- content end -->
 
+</body>
 <!--[if lt IE 9]>
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
@@ -100,5 +101,7 @@ function save(){
 <script src="${rootPath}/assets/js/amazeui.min.js"></script>
 <!--<![endif]-->
 <script src="${rootPath}/assets/js/app.js"></script>
-</body>
+<!-- 校验 -->
+<link rel="stylesheet" href="${rootPath}/ext/css/validator-tooltip.css">
+<script src="${rootPath}/ext/js/validator-tooltip.js"></script>
 </html>
