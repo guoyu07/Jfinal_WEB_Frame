@@ -60,9 +60,9 @@ public class SysUser extends Model<SysUser>{
 			session.setAttribute( "userName" , user.get("userName"));
 			
 		} catch (UnknownAccountException e) {
-			throw new BusiException("未知账号") ;
+			throw new BusiException("未知账号！") ;
 		} catch (IncorrectCredentialsException e) {
-			throw new BusiException("密码错误") ;
+			throw new BusiException("密码错误！") ;
 		} catch (LockedAccountException e) {
 			throw new BusiException("账号已经冻结！") ;
 		} catch (Exception e) {
