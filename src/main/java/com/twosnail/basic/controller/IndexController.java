@@ -77,7 +77,7 @@ public class IndexController extends Controller {
 	public void main() {
 		//菜单
 		List<TreeNode<SysMenu>> list = SysMenu.me.getMenuTree() ;
-        String tree = treeMenu( list,  new StringBuilder() ,  RequestHandler.getBasePath(getRequest()) ) ;
+        String tree = treeMenu( list,  new StringBuilder() , SecurityUtils.getSubject() , RequestHandler.getBasePath(getRequest()) ) ;
         setAttr( "tree", tree ) ;
         setAttr( "userName", getSessionAttr( "userName" ) ) ;
 		render("main.html");
@@ -102,34 +102,37 @@ public class IndexController extends Controller {
 	}
 	
 	
-	public String treeMenu( List<TreeNode<SysMenu>> list , StringBuilder str , String basePath ){    	
+	public String treeMenu( List<TreeNode<SysMenu>> list , StringBuilder str , Subject currentUser ,String basePath ){    	
     	SysMenu sysMenu = null ;
     	for (TreeNode<SysMenu> node : list){
-			sysMenu = node.get() ;	
-			str.append( "<li " ) ;
-			if( -1 == sysMenu.getInt( "parentId" ) ) ;
-				str.append( "class=\"admin-parent\" " ) ;
-			str.append( ">" ) ;
-			
-			str.append( " <a class=\"am-cf\" " ) ;
-			if( node.getChildren().size() > 0 ) {
-				str.append( " data-am-collapse=\"{target: '#"+ sysMenu.get("id") +"'}\"" ) ;
-				str.append( "><span class=\""+sysMenu.get("icon")+"\"></span> " ) ;
-				str.append( sysMenu.get("name") ) ;
-				str.append( "<span class=\"am-icon-angle-right am-fr am-margin-right\"></span>" ) ;
-				str.append( "</a>" ) ;
+    		sysMenu = node.get() ;
+    		
+    		if(currentUser.isPermitted( sysMenu.getStr("permission") )){
+				str.append( "<li " ) ;
+				if( -1 == sysMenu.getInt( "parentId" ) ) ;
+					str.append( "class=\"admin-parent\" " ) ;
+				str.append( ">" ) ;
 				
-				str.append("<ul class=\"am-list am-collapse admin-sidebar-sub am-in\" id=\""+ sysMenu.get("id") +"\">") ;
-				treeMenu( node.getChildren() , str , basePath );
-				str.append("</ul>") ;
-				
-			} else {
-				str.append( " href="+ basePath + sysMenu.get("href") +" target=\"content\"  " ) ;
-				str.append( "><span class=\""+sysMenu.get("icon")+"\"></span> " ) ;
-				str.append( sysMenu.get("name") ) ;
-				str.append( "</a>" ) ;
-			}
-			str.append( "</li>" ) ;
+				str.append( " <a class=\"am-cf\" " ) ;
+				if( node.getChildren().size() > 0 ) {
+					str.append( " data-am-collapse=\"{target: '#"+ sysMenu.get("id") +"'}\"" ) ;
+					str.append( "><span class=\""+sysMenu.get("icon")+"\"></span> " ) ;
+					str.append( sysMenu.get("name") ) ;
+					str.append( "<span class=\"am-icon-angle-right am-fr am-margin-right\"></span>" ) ;
+					str.append( "</a>" ) ;
+					
+					str.append("<ul class=\"am-list am-collapse admin-sidebar-sub am-in\" id=\""+ sysMenu.get("id") +"\">") ;
+					treeMenu( node.getChildren() , str , currentUser , basePath  );
+					str.append("</ul>") ;
+					
+				} else {
+					str.append( " href="+ basePath + sysMenu.get("href") +" target=\"content\"  " ) ;
+					str.append( "><span class=\""+sysMenu.get("icon")+"\"></span> " ) ;
+					str.append( sysMenu.get("name") ) ;
+					str.append( "</a>" ) ;
+				}
+				str.append( "</li>" ) ;
+    		}
 		}
 		return str.toString() ;
 	}
