@@ -23,14 +23,16 @@
       	<div class="am-u-sm-12 am-u-md-6">
 	        <div class="am-btn-toolbar">
 	          	<div class="am-btn-group am-btn-group-xs">
-	            	<button onclick="del('');" type="button" class="am-btn am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button>
+	            	<%if(so.hasPermission("BtnLogController.delbotton")){%>
+	            		<button onclick="del('');" type="button" class="am-btn am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button>
+	          		<%}%>
 	          	</div>
 	        </div>
       	</div>
       	<!-- 左边，功能键结束 -->
 
       	<!-- 右边，搜索 开始 -->
-      	<form action="${rootPath}/sys/user/listview" method="get">
+      	<form action="${rootPath}/sys/log/btn" method="get">
 	      	<div class="am-u-sm-12 am-u-md-3">
 	        	<div class="am-input-group am-input-group-sm">
 	          		<input type="text" class="am-form-field" id="keyWord" name="keyWord" value="${keyWord!}">
@@ -131,11 +133,11 @@
 		$('#my-confirm', window.top.document ).modal({
 	        relatedTarget: this,
 	        onConfirm: function(options) {
-	        	$.post( "${rootPath}/sys/log/dellogin", {		
+	        	$.post( "${rootPath}/sys/log/btn/dellogin", {		
 						"id":id
 					}, function ( data ) {
 						if ( data.status == 1 ) {
-							location.href="${rootPath}/sys/log/login";
+							location.href="${rootPath}/sys/log/btn";
 						} else {
 							window.top.tips( data.msg );
 						}
