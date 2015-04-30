@@ -1,14 +1,8 @@
 package com.twosnail.basic.model;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.jfinal.log.Logger;
-import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
-import com.jfinal.plugin.activerecord.Record;
-import com.twosnail.basic.util.PermissionName;
 import com.twosnail.basic.util.exception.BusiException;
 import com.twosnail.basic.util.tree.TreeList;
 import com.twosnail.basic.util.tree.TreeNode;
@@ -22,7 +16,6 @@ import com.twosnail.basic.util.tree.TreeNode;
  */
 @SuppressWarnings("serial")
 public class SysMenu extends Model<SysMenu> {
-	private Logger logger = Logger.getLogger( SysMenu.class );
 	public static final SysMenu me = new SysMenu() ; 
 	
 	/**

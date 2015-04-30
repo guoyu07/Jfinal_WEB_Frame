@@ -9,8 +9,6 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
-import org.eclipse.jetty.util.security.Credential.MD5;
-
 /**
  * 
  * <p>
@@ -49,6 +47,7 @@ public class FileHandler {
 	 * @param unique - 是否每次生成的地址都是唯一的。
 	 * @return
 	 */
+	@SuppressWarnings("null")
 	public static String createHashPath( String rootPath, String key, int deep, boolean unique ) {
 		
 		String keys = null;
@@ -463,6 +462,7 @@ public class FileHandler {
 }
 
 class GetFileSize {
+	@SuppressWarnings("resource")
 	private BigDecimal getFileSizes(File f) throws Exception {// 取得文件大小
 		BigDecimal s = new BigDecimal("0");
 		if (f.exists()) {
@@ -491,6 +491,8 @@ class GetFileSize {
 		return size;
 	}
 
+	
+	@SuppressWarnings("unused")
 	private String FormetFileSize(long fileS) {// 转换文件大小
 		DecimalFormat df = new DecimalFormat("#.00");
 		String fileSizeString = "";
@@ -527,6 +529,7 @@ class GetFileSize {
 	 * */
 	public static long fileCount(String path) {
 		GetFileSize g = new GetFileSize();
+		@SuppressWarnings("unused")
 		long l = 0;
 
 		File ff = new File(path);

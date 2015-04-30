@@ -11,7 +11,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 
-import com.jfinal.kit.StringKit;
+import com.jfinal.kit.StrKit;
 import com.jfinal.render.Render;
 
 /**
@@ -212,9 +212,8 @@ public class CaptchaRender extends Render {
      * @param inputRandomCode 用户输入的验证码
      * @return 若二者一致，返回true，否则返回false
      */
-    @SuppressWarnings("deprecation")
 	public static boolean validate(String md5RandomCode, String inputRandomCode) {
-        if ( StringKit.isBlank(md5RandomCode) || StringKit.isBlank(inputRandomCode))
+        if ( StrKit.isBlank(md5RandomCode) || StrKit.isBlank(inputRandomCode))
             return false;
         try {
             inputRandomCode = inputRandomCode.toUpperCase();
