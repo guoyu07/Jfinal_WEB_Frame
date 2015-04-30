@@ -22,6 +22,7 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.tx.TxByRegex;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
+import com.twosnail.basic.interceptor.AuthInterceptor;
 import com.twosnail.basic.model.SysButton;
 import com.twosnail.basic.model.SysButtonLog;
 import com.twosnail.basic.model.SysLoginLog;
@@ -127,7 +128,8 @@ public class SysConfig extends JFinalConfig {
 	 * 配置全局拦截器
 	 */
 	public void configInterceptor(Interceptors me) {
-		//me.add(new SessionInViewInterceptor());
+		
+		me.add(new AuthInterceptor());
 		//添加shrio权限管理拦截器
 		me.add(new ShiroInterceptor());
 		

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 
+import com.jfinal.aop.ClearInterceptor;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Logger;
 import com.twosnail.basic.ext.CaptchaRender;
@@ -23,24 +24,29 @@ import com.twosnail.basic.util.tree.TreeNode;
  * @date 2015年4月17日 上午9:26:37 
  * @version V1.0   
  */
+
 public class IndexController extends Controller {
 	
 	private Logger logger = Logger.getLogger(IndexController.class) ;
 	
+	@ClearInterceptor
 	public void index() {
 		render("login.html");
 	}
 	
+	@ClearInterceptor
 	public void login(){
 		index() ;
 	}
 	
+	@ClearInterceptor
 	public void img(){
 		CaptchaRender img = new CaptchaRender(4); 
 		this.setSessionAttr( CaptchaRender.DEFAULT_CAPTCHA_MD5_CODE_KEY, img.getMd5RandonCode() );
 		render(img);
 	}	
 	
+	@ClearInterceptor
 	public void check(){
 		try {
 			
