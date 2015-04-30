@@ -1,4 +1,4 @@
-/*! Amaze UI v2.3.0 | by Amaze UI Team | (c) 2015 AllMobilize, Inc. | Licensed under MIT | 2015-04-08T06:04:29 UTC */
+/*! Amaze UI v2.2.1 | by Amaze UI Team | (c) 2015 AllMobilize, Inc. | Licensed under MIT | 2015-01-29T06:01:38 UTC */
 (function e(t, n, r) {
   function s(o, u) {
     if (!n[o]) {
@@ -39,8 +39,7 @@
           var selector = {
             item: '.am-accordion-item',
             title: '.am-accordion-title',
-            body: '.am-accordion-bd',
-            disabled: '.am-disabled'
+            body: '.am-accordion-bd'
           };
 
           $accordion.each(function(i, item) {
@@ -53,10 +52,6 @@
               var $parent = $(this).parent(selector.item);
               var data = $collapse.data('amui.collapse');
 
-              if ($parent.is(selector.disabled)) {
-                return;
-              }
-
               $parent.toggleClass('am-active');
 
               if (!data) {
@@ -67,8 +62,7 @@
 
               !options.multiple &&
                 $(item).children('.am-active').
-              not($parent).not(selector.disabled).removeClass(
-                'am-active').
+              not($parent).removeClass('am-active').
               find(selector.body + '.am-in').collapse('close');
             });
           });
@@ -80,7 +74,7 @@
         });
 
         module.exports = $.AMUI.accordion = {
-          VERSION: '2.1.0',
+          VERSION: '2.0.1',
           init: accordionInit
         };
 
@@ -282,7 +276,7 @@
         var doc = window.document;
         var $html = $('html');
 
-        UI.VERSION = '2.3.0';
+        UI.VERSION = '2.0.0';
 
         UI.support = {};
 
@@ -687,7 +681,7 @@
         UI.ready = function(callback) {
           UI.DOMWatchers.push(callback);
           if (UI.DOMReady) {
-            // console.log('Ready call');
+            console.log('ready call');
             callback(document);
           }
         };
@@ -740,13 +734,8 @@
           $html.addClass('am-touch');
 
           $(function() {
-            var FastClick = UI.FastClick;
-            if (FastClick) {
-              // Fixes contenteditable elements don't editable on touch devices
-              $('[contenteditable]').addClass('needsclick');
-
-              FastClick.attach(document.body);
-            }
+            var FastClick = $.AMUI.FastClick;
+            FastClick && FastClick.attach(document.body);
           });
         }
 
@@ -911,24 +900,14 @@
           $('.am-figure').each(function(i, item) {
             var options = UI.utils.parseOptions($(item).attr(
               'data-am-figure'));
-            var $item = $(item);
-            var data;
 
             if (options.pureview) {
               if (options.pureview === 'auto') {
-                var zoomAble = $.isImgZoomAble($item.find('img')[0]);
-                zoomAble && $item.pureview();
+                var zoomAble = $.isImgZoomAble($(item).find('img')[0]);
+                zoomAble && $(item).pureview();
               } else {
-                $item.addClass('am-figure-zoomable').pureview();
+                $(item).addClass('am-figure-zoomable').pureview();
               }
-            }
-
-            data = $item.data('amui.pureview');
-
-            if (data) {
-              $item.on('click', ':not(img)', function() {
-                data.open(0);
-              });
             }
           });
         }
@@ -938,7 +917,7 @@
         });
 
         module.exports = $.AMUI.figure = {
-          VERSION: '2.0.3',
+          VERSION: '2.0.2',
           init: figureInit
         };
 
@@ -1015,6 +994,7 @@
 
         function galleryInit() {
           var $gallery = $('[data-am-widget="gallery"]');
+          var $galleryOne = $gallery.filter('.am-gallery-one');
 
           $gallery.each(function() {
             var options = UI.utils.parseOptions($(this).attr(
@@ -1025,6 +1005,31 @@
                 $(this).pureview(options.pureview) : $(this).pureview();
             }
           });
+
+          $galleryOne.each(function() {
+            galleryMore($(this));
+          });
+        }
+
+        function galleryMore($elements) {
+          var moreData = $('<li class=\'am-gallery-more\'>' +
+            '<a href="javascript:;">更多 &gt;&gt;</a></li>');
+
+          if ($elements.children().length > 6) {
+            $elements.children().each(function(index) {
+              if (index > 5) {
+                $(this).hide();
+              }
+            });
+
+            $elements.find('.am-gallery-more').remove();
+            $elements.append(moreData);
+          }
+
+          $elements.find('.am-gallery-more').on('click', function() {
+            $elements.children().show();
+            $(this).hide();
+          });
         }
 
         $(function() {
@@ -1032,7 +1037,7 @@
         });
 
         module.exports = $.AMUI.gallery = {
-          VERSION: '3.0.0',
+          VERSION: '2.0.2',
           init: galleryInit
         };
 
@@ -1151,9 +1156,44 @@
           "undefined" ? global.jQuery : null);
         require('./core');
 
+        function listNewsInit() {
+          $('.am-list-news-one').each(function() {
+            amListNewsMore($(this));
+          });
+        }
+
+        function amListNewsMore($element) {
+          var $amList = $element.find('.am-list');
+
+          var $listMore =
+            '<a class="am-list-news-more am-btn am-btn-default" ' +
+            'href="javascript:;">更多 &gt;&gt;</a>';
+
+          if ($amList.children().length > 6) {
+
+            $amList.children().each(function(index) {
+              if (index > 5) {
+                $(this).hide();
+              }
+            });
+
+            $element.find('.am-list-news-more').remove();
+            $element.append($listMore);
+          }
+
+          $element.find('.am-list-news-more').on('click', function() {
+            $amList.children().show();
+            $(this).hide();
+          });
+        }
+
+        $(function() {
+          listNewsInit();
+        });
+
         module.exports = $.AMUI.listNews = {
-          VERSION: '4.0.0',
-          init: function() {}
+          VERSION: '3.0.2',
+          init: listNewsInit
         };
 
       }).call(this, typeof global !== "undefined" ? global : typeof self !==
@@ -1497,7 +1537,7 @@
         });
 
         module.exports = $.AMUI.menu = {
-          VERSION: '4.0.3',
+          VERSION: '4.0.2',
           init: menuInit
         };
 
@@ -3069,12 +3109,11 @@
             e.preventDefault();
           }
           var that = this;
-          $doc.on('mousedown.datapicker.amui touchstart.datepicker.amui',
-            function(ev) {
-              if ($(ev.target).closest('.am-datepicker').length === 0) {
-                that.close();
-              }
-            });
+          $(document).on('click.datepicker.amui', function(ev) {
+            if ($(ev.target).closest('.am-datepicker').length === 0) {
+              that.close();
+            }
+          });
           this.$element.trigger({
             type: 'open.datepicker.amui',
             date: this.date
@@ -3087,9 +3126,7 @@
           this.viewMode = this.startViewMode;
           this.showMode();
           if (!this.isInput) {
-            $(document).off(
-              'mousedown.datapicker.amui touchstart.datepicker.amui', this.close
-            );
+            $(document).off('click.datepicker.amui', this.close);
           }
           // this.set();
           this.$element.trigger({
@@ -3251,32 +3288,22 @@
               html.push('</tr>');
             }
             prevMonth.setDate(prevMonth.getDate() + 1);
+
           }
 
           this.$picker.find('.am-datepicker-days tbody')
             .empty().append(html.join(''));
 
           var currentYear = this.date.getFullYear();
+
           var months = this.$picker.find('.am-datepicker-months')
             .find('.am-datepicker-select')
             .text(year);
           months = months.end()
-            .find('span').removeClass('am-active').removeClass(
-              'am-disabled');
-
-          var monthLen = 0;
-
-          while (monthLen < 12) {
-            if (this.onRender(d.setFullYear(year, monthLen))) {
-              months.eq(monthLen).addClass('am-disabled');
-            }
-            monthLen++;
-          }
+            .find('span').removeClass('am-active');
 
           if (currentYear === year) {
-            months.eq(this.date.getMonth())
-              .removeClass('am-disabled')
-              .addClass('am-active');
+            months.eq(this.date.getMonth()).addClass('am-active');
           }
 
           html = '';
@@ -3288,11 +3315,9 @@
             .end()
             .find('td');
 
-          var yearClassName;
           year -= 1;
           for (var i = -1; i < 11; i++) {
-            yearClassName = this.onRender(d.setFullYear(year));
-            html += '<span class="' + yearClassName + '' +
+            html += '<span class="' +
               (i === -1 || i === 10 ? ' am-datepicker-old' : '') +
               (currentYear === year ? ' am-active' : '') + '">' + year +
               '</span>';
@@ -3306,10 +3331,6 @@
           event.preventDefault();
           var month;
           var year;
-          var $dayActive = this.$picker.find('.am-datepicker-days').find(
-            '.am-active');
-          var $months = this.$picker.find('.am-datepicker-months');
-          var $monthIndex = $months.find('.am-active').index();
 
           var $target = $(event.target).closest('span, td, th');
           if ($target.length === 1) {
@@ -3337,28 +3358,12 @@
                 }
                 break;
               case 'span':
-                if ($target.is('.am-disabled')) {
-                  return
-                }
-
                 if ($target.is('.am-datepicker-month')) {
                   month = $target.parent().find('span').index($target);
-
-                  if ($target.is('.am-active')) {
-                    this.viewDate.setMonth(month, $dayActive.text());
-                  } else {
-                    this.viewDate.setMonth(month);
-                  }
-
+                  this.viewDate.setMonth(month);
                 } else {
                   year = parseInt($target.text(), 10) || 0;
-                  if ($target.is('.am-active')) {
-                    this.viewDate.setFullYear(year, $monthIndex, $dayActive
-                      .text());
-                  } else {
-                    this.viewDate.setFullYear(year);
-                  }
-
+                  this.viewDate.setFullYear(year);
                 }
 
                 if (this.viewMode !== 0) {
@@ -3648,7 +3653,7 @@
         $.fn.datepicker.Constructor = Datepicker;
 
         // Init code
-        UI.ready(function(context) {
+        $(document).on('ready', function(e) {
           $('[data-am-datepicker]').datepicker();
         });
 
@@ -6571,8 +6576,6 @@
 
           this.isPopup = this.$element.hasClass('am-popup');
           this.isActions = this.$element.hasClass('am-modal-actions');
-          this.isPrompt = this.$element.hasClass('am-modal-prompt');
-          this.isLoading = this.$element.hasClass('am-modal-loading');
           this.active = this.transitioning = this.relatedTarget = null;
 
           this.events();
@@ -6676,11 +6679,6 @@
               relatedTarget: relatedTarget
             }));
             this.transitioning = 0;
-
-            // Prompt auto focus
-            if (this.isPrompt) {
-              this.$dialog.find('input').eq(0).focus();
-            }
           };
 
           if (!supportTransition) {
@@ -6761,7 +6759,7 @@
           }
 
           // Close Modal when dimmer clicked
-          if (this.options.closeViaDimmer && !this.isLoading) {
+          if (this.options.closeViaDimmer) {
             dimmer.$element.on('click.dimmer.modal.amui', function(e) {
               that.close();
             });
@@ -8745,9 +8743,8 @@
           var total = $images.length;
           this.$slider = $pureview.find(options.selector.slider);
           this.$nav = $pureview.find(options.selector.nav);
+          this.imgUrls = []; // for WeChat Image Preview
           var viewedFlag = 'data-am-pureviewed';
-          // for WeChat Image Preview
-          this.imgUrls = this.imgUrls || [];
 
           if (!total) {
             return;
@@ -8766,8 +8763,6 @@
               src = item.href; // to absolute path
               title = item.title || '';
             } else {
-              // NOTE: `data-rel` should be a full URL, otherwise,
-              //        WeChat images preview will not work
               src = $(item).data('rel') || item.src; // <img src='' data-rel='' />
               title = $(item).attr('alt') || '';
             }
@@ -9328,7 +9323,6 @@
           maxHeight: null,
           noSelectedText: '点击选择...',
           selectedClass: 'am-checked',
-          disabledClass: 'am-disabled',
           searchBox: false,
           tpl: '<div class="am-selected am-dropdown ' +
             '<%= dropUp ? \'am-dropdown-up\': \'\' %>" id="<%= id %>" data-am-dropdown>' +
@@ -9352,7 +9346,7 @@
             '  <li data-group="<%= option.group %>" class="am-selected-list-header">' +
             '       <%= option.text %></li>' +
             '       <% } else { %>' +
-            '       <li class="<%= option.classNames%>" ' +
+            '       <li class=<%= option.active %> ' +
             '         data-index="<%= option.index %>" ' +
             '         data-group="<%= option.group || 0 %>" ' +
             '         data-value="<%= option.value %>" >' +
@@ -9363,40 +9357,57 @@
             '    </ul>' +
             '    <div class="am-selected-hint"></div>' +
             '  </div>' +
-            '</div>',
-          listTpl: '<% for (var i = 0; i < options.length; i++) { %>' +
-            '       <% var option = options[i] %>' +
-            '       <% if (option.header) { %>' +
-            '  <li data-group="<%= option.group %>" class="am-selected-list-header">' +
-            '       <%= option.text %></li>' +
-            '       <% } else { %>' +
-            '       <li class="<%= option.classNames %>" ' +
-            '         data-index="<%= option.index %>" ' +
-            '         data-group="<%= option.group || 0 %>" ' +
-            '         data-value="<%= option.value %>" >' +
-            '         <span class="am-selected-text"><%= option.text %></span>' +
-            '         <i class="am-icon-check"></i></li>' +
-            '      <% } %>' +
-            '      <% } %>'
+            '</div>'
         };
 
         Selected.prototype.init = function() {
-          var _this = this;
           var $element = this.$element;
           var options = this.options;
+          var optionItems = [];
+          var $optgroup = $element.find('optgroup');
 
           $element.hide();
 
+          function pushOption(index, item, group) {
+            optionItems.push({
+              group: group,
+              index: index,
+              active: item.selected ? options.selectedClass : '',
+              text: item.text,
+              value: item.value
+            });
+          }
+
+          // select with option groups
+          if ($optgroup.length) {
+            $optgroup.each(function(i) {
+              // push group name
+              optionItems.push({
+                header: true,
+                group: i + 1,
+                text: this.label
+              });
+
+              $optgroup.eq(i).find('option').each(function(index, item) {
+                pushOption(index, item, i);
+              });
+            });
+          } else {
+            // without option groups
+            $element.find('option').each(function(index, item) {
+              pushOption(index, item, null);
+            });
+          }
+
           var data = {
             id: UI.utils.generateGUID('am-selected'),
-            multiple: this.multiple,
-            options: [],
+            multiple: $element.get(0).multiple,
+            options: optionItems,
             searchBox: options.searchBox,
             dropUp: options.dropUp
           };
 
-          this.$selector = $(UI.template(this.options.tpl, data));
-          this.$list = this.$selector.find('.am-selected-list');
+          this.$selector = $(this.render(data));
           this.$searchField = this.$selector.find(
             '.am-selected-search input');
           this.$hint = this.$selector.find('.am-selected-hint');
@@ -9440,74 +9451,23 @@
 
           this.$hint.text(hint.join('，'));
 
-          // render dropdown list
-          this.renderOptions();
-
           // append $selector after <select>
           this.$element.after(this.$selector);
           this.dropdown = this.$selector.data('amui.dropdown');
           this.$status = this.$selector.find('.am-selected-status');
 
-          // #try to fixes #476
-          setTimeout(function() {
-            _this.syncData();
-          }, 0);
-
+          this.getShadowOptions();
+          this.syncData();
           this.bindEvents();
         };
 
-        Selected.prototype.renderOptions = function() {
-          var $element = this.$element;
-          var options = this.options;
-          var optionItems = [];
-          var $optgroup = $element.find('optgroup');
-          this.$originalOptions = this.$element.find('option');
+        Selected.prototype.render = function(data) {
+          return UI.template(this.options.tpl, data);
+        };
 
-          // 单选框使用 JS 禁用已经选择的 option 以后，
-          // 浏览器会重新选定第一个 option，但有一定延迟，致使 JS 获取 value 时返回 null
-          if (!this.multiple && ($element.val() === null)) {
-            this.$originalOptions.get(0).selected = true;
-          }
-
-          function pushOption(index, item, group) {
-            var classNames = '';
-            item.disabled && (classNames += options.disabledClass);
-            !item.disabled && item.selected && (classNames += options.selectedClass);
-
-            optionItems.push({
-              group: group,
-              index: index,
-              classNames: classNames,
-              text: item.text,
-              value: item.value
-            });
-          }
-
-          // select with option groups
-          if ($optgroup.length) {
-            $optgroup.each(function(i) {
-              // push group name
-              optionItems.push({
-                header: true,
-                group: i + 1,
-                text: this.label
-              });
-
-              $optgroup.eq(i).find('option').each(function(index, item) {
-                pushOption(index, item, i);
-              });
-            });
-          } else {
-            // without option groups
-            this.$originalOptions.each(function(index, item) {
-              pushOption(index, item, null);
-            });
-          }
-
-          this.$list.html(UI.template(options.listTpl, {
-            options: optionItems
-          }));
-          this.$shadowOptions = this.$list.find('> li').
+        Selected.prototype.getShadowOptions = function() {
+          this.$shadowOptions = this.$selector.find('.am-selected-list li')
+            .
           not('.am-selected-list-header');
         };
 
@@ -9562,7 +9522,7 @@
 
           // nothing selected
           if (!this.$element.val()) {
-            status = [options.noSelectedText];
+            status.push(options.noSelectedText);
           }
 
           this.$status.text(status.join(', '));
@@ -9571,16 +9531,13 @@
 
         Selected.prototype.bindEvents = function() {
           var _this = this;
-          var header = 'am-selected-list-header';
           var handleKeyup = UI.utils.debounce(function(e) {
-            _this.$shadowOptions.not('.' + header).hide().
+            _this.$shadowOptions.not('.am-selcted-list-header').hide().
             filter(':containsNC("' + e.target.value + '")').show();
           }, 100);
 
-          this.$list.on('click', '> li', function(e) {
-            var $this = $(this);
-            !$this.hasClass(_this.options.disabledClass) &&
-              !$this.hasClass(header) && _this.setChecked(this);
+          this.$shadowOptions.on('click', function(e) {
+            _this.setChecked(this);
           });
 
           // simple search with jQuery :contains
@@ -9592,26 +9549,6 @@
             _this.$shadowOptions.css({
               display: ''
             });
-          });
-
-          // observe DOM
-          if (UI.support.mutationobserver) {
-            this.observer = new UI.support.mutationobserver(function() {
-              _this.$element.trigger('changed.selected.amui');
-            });
-
-            this.observer.observe(this.$element[0], {
-              childList: true,
-              attributes: true,
-              subtree: true,
-              characterData: true
-            });
-          }
-
-          // custom event
-          this.$element.on('changed.selected.amui', function() {
-            _this.renderOptions();
-            _this.syncData();
           });
         };
 
@@ -10244,23 +10181,16 @@
           }
 
           var $element = this.$element;
-          var $elementMargin = '';
-
-          $.each($element.css(
-              ['marginTop', 'marginRight', 'marginBottom', 'marginLeft']),
-            function(name, value) {
-              return $elementMargin += ' ' + value;
-            });
-
           var $holder = $('<div class="am-sticky-placeholder"></div>').css({
             height: $element.css('position') != 'absolute' ?
               $element.outerHeight() : '',
             float: $element.css('float') != 'none' ? $element.css(
               'float') : '',
-            margin: $elementMargin
+            margin: $element.css('margin')
           });
 
           this.$holder = $element.css('margin', 0).wrap($holder).parent();
+
           this.inited = 1;
 
           return true;
@@ -10466,9 +10396,9 @@
 
         Tabs.DEFAULTS = {
           selector: {
-            nav: '> .am-tabs-nav',
-            content: '> .am-tabs-bd',
-            panel: '> .am-tab-panel'
+            nav: '.am-tabs-nav',
+            content: '.am-tabs-bd',
+            panel: '.am-tab-panel'
           },
           className: {
             active: 'am-active'
@@ -10476,7 +10406,7 @@
         };
 
         Tabs.prototype.init = function() {
-          var _this = this;
+          var me = this;
           var options = this.options;
 
           // Activate the first Tab when no active Tab or multiple active Tabs
@@ -10488,10 +10418,9 @@
 
           this.$navs.on('click.tabs.amui', function(e) {
             e.preventDefault();
-            _this.open($(this));
+            me.open($(this));
           });
 
-          // TODO: nested Tabs touch events
           if (!options.noSwipe) {
             var hammer = new Hammer(this.$content[0]);
 
@@ -10510,8 +10439,8 @@
 
               $target.focus();
 
-              var $nav = _this.getNextNav($target);
-              $nav && _this.open($nav);
+              var $nav = me.getNextNav($target);
+              $nav && me.open($nav);
             }, 100));
 
             hammer.on('panright', UI.utils.debounce(function(e) {
@@ -10523,9 +10452,9 @@
                 $target = $target.closest(options.selector.panel);
               }
 
-              var $nav = _this.getPrevNav($target);
+              var $nav = me.getPrevNav($target);
 
-              $nav && _this.open($nav);
+              $nav && me.open($nav);
             }, 100));
           }
         };
@@ -10659,7 +10588,6 @@
 
         // TODO: 1. Ajax 支持
         //       2. touch 事件处理逻辑优化
-        //       3. 暴露方法 API
 
       }).call(this, typeof global !== "undefined" ? global : typeof self !==
         "undefined" ? self : typeof window !== "undefined" ? window : {})
@@ -10833,13 +10761,13 @@
           validateOnSubmit: true,
           // Elements to validate with allValid (only validating visible elements)
           // :input: selects all input, textarea, select and button elements.
-          allFields: ':input:visible:not(:submit, :button, :disabled, .am-novalidate)',
+          allFields: ':input:visible:not(:button, :disabled, .am-novalidate)',
 
           // Custom events
           customEvents: 'validate',
 
           // Keyboard events
-          keyboardFields: ':input:not(:submit, :button, :disabled, .am-novalidate)',
+          keyboardFields: ':input:not(:button, :disabled,.am-novalidate)',
           keyboardEvents: 'focusout, change', // keyup, focusin
 
           activeKeyup: true,
@@ -10886,8 +10814,6 @@
           submit: null
         };
 
-        Validator.VERSION = '2.0.0';
-
         /* jshint -W101 */
         Validator.patterns = {
           email: /^((([a-zA-Z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-zA-Z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/,
@@ -10903,7 +10829,7 @@
 
         Validator.validationMessages = {
           zh_CN: {
-            valueMissing: '请填写（选择）此字段',
+            valueMissing: '请填写此字段',
             customError: {
               tooShort: '至少填写 %s 个字符',
               checkedOverflow: '至多选择 %s 项',
@@ -10916,15 +10842,6 @@
             tooLong: '至多填写 %s 个字符',
             typeMismatch: '请按照要求的类型填写'
           }
-        };
-
-        Validator.ERROR_MAP = {
-          tooShort: 'minlength',
-          checkedOverflow: 'maxchecked',
-          checkedUnderflow: 'minchecked',
-          rangeOverflow: 'max',
-          rangeUnderflow: 'min',
-          tooLong: 'maxlength'
         };
 
         // TODO: 考虑表单元素不是 form 子元素的情形
@@ -10966,32 +10883,12 @@
           });
 
           $element.submit(function(e) {
-            // user custom submit handler
             if (typeof options.submit === 'function') {
               return options.submit.call(_this, e);
             }
 
             if (options.validateOnSubmit) {
-              var formValidity = _this.isFormValid();
-
-              // sync validate, return result
-              if ($.type(formValidity) === 'boolean') {
-                return formValidity;
-              }
-
-              if ($element.data('amui.checked')) {
-                return true;
-              } else {
-                $.when(formValidity).then(function() {
-                  // done, submit form
-                  $element.data('amui.checked', true).submit();
-                }, function() {
-                  // fail
-                  $element.data('amui.checked', false).
-                  find('.' + options.inValidClass).eq(0).focus();
-                });
-                return false;
-              }
+              return _this.isFormValid();
             }
           });
 
@@ -11017,15 +10914,6 @@
           // active filed
           bindEvents('.am-active', 'keyup', 50);
           bindEvents('textarea[maxlength]', 'keyup', 50);
-
-          /*if (options.errorMessage === 'tooltip') {
-    this.$tooltip = $('<div></div>', {
-      'class': 'am-validator-message',
-      id: UI.utils.generateGUID('am-validator-message')
-    });
-
-    $(document.body).append(this.$tooltip);
-  }*/
         };
 
         Validator.prototype.isValid = function(field) {
@@ -11054,7 +10942,6 @@
           var $radioGroup = null;
           var $checkboxGroup = null;
           // if checkbox, return `:chcked` length
-          // NOTE: checkbox and radio should have name attribute
           var value = ($field.is('[type=checkbox]')) ?
             ($checkboxGroup = $element.find('input[name="' + field.name +
               '"]')).
@@ -11065,7 +10952,6 @@
           // if checkbox, valid the first input of checkbox group
           $field = ($checkboxGroup && $checkboxGroup.length) ?
             $checkboxGroup.first() : $field;
-
           var required = ($field.attr('required') !== undefined) &&
             ($field.attr('required') !== 'false');
           var maxLength = parseInt($field.attr('maxlength'), 10);
@@ -11162,17 +11048,12 @@
           };
 
           // Run custom validate
-          // NOTE: async custom validate should return Deferred project
           var customValidate;
           (typeof options.validate === 'function') &&
             (customValidate = options.validate.call(this, validity));
 
-          // Deferred
           if (customValidate) {
-            var dfd = new $.Deferred();
-            $field.data('amui.dfdValidity', dfd.promise());
             return $.when(customValidate).always(function(validity) {
-              dfd[validity.valid ? 'resolve' : 'reject'](validity);
               validateComplete.call(_this, validity);
             });
           }
@@ -11187,7 +11068,7 @@
         };
 
         // check all fields in the form are valid
-        Validator.prototype.validateForm = function() {
+        Validator.prototype.validateAll = function() {
           var _this = this;
           var $element = this.$element;
           var options = this.options;
@@ -11196,14 +11077,11 @@
           var valid = true;
           var formValidity = [];
           var $inValidFields = $([]);
-          var promises = [];
-          // for async validate
-          var async = false;
 
           $element.trigger('validate.form.validator.amui');
 
           // Filter radio with the same name and keep only one,
-          //   since they will be checked as a group by validate()
+          // since they will be checked as a group by isValid()
           var $filteredFields = $allFields.filter(function(index) {
             var name;
             if (this.tagName === 'INPUT' && this.type === 'radio') {
@@ -11217,38 +11095,18 @@
           });
 
           $filteredFields.each(function() {
-            var $this = $(this);
             var fieldValid = _this.isValid(this);
-            var fieldValidity = $this.data('validity');
-
             valid = !!fieldValid && valid;
-            formValidity.push(fieldValidity);
-
+            formValidity.push($(this).data('validity'));
             if (!fieldValid) {
               $inValidFields = $inValidFields.add($(this), $element);
             }
-
-            // async validity
-            var promise = $this.data('amui.dfdValidity');
-
-            if (promise) {
-              promises.push(promise);
-              async = true;
-            } else {
-              // convert sync validity to Promise
-              var dfd = new $.Deferred();
-              promises.push(dfd.promise());
-              dfd[fieldValid ? 'resolve' : 'reject'](fieldValidity);
-            }
           });
 
-          // NOTE: If there are async validity, the valid may be not exact result.
           var validity = {
             valid: valid,
             $invalidFields: $inValidFields,
-            validity: formValidity,
-            promises: promises,
-            async: async
+            validity: formValidity
           };
 
           $element.trigger('validated.form.validator.amui', validity);
@@ -11257,34 +11115,14 @@
         };
 
         Validator.prototype.isFormValid = function() {
-          var _this = this;
-          var formValidity = this.validateForm();
-          var triggerValid = function(type) {
-            _this.$element.trigger(type + '.validator.amui');
-          };
-
-          if (formValidity.async) {
-            var masterDfd = new $.Deferred();
-
-            $.when.apply(null, formValidity.promises).then(function() {
-              masterDfd.resolve();
-              triggerValid('valid');
-            }, function() {
-              masterDfd.reject();
-              triggerValid('invalid');
-            });
-
-            return masterDfd.promise();
-          } else {
-            if (!formValidity.valid) {
-              formValidity.$invalidFields.first().focus();
-              triggerValid('invalid');
-              return false;
-            }
-
-            triggerValid('valid');
-            return true;
+          var formValid = this.validateAll();
+          if (!formValid.valid) {
+            formValid.$invalidFields.first().focus();
+            this.$element.trigger('invalid.validator.amui');
+            return false;
           }
+          this.$element.trigger('valid.validator.amui');
+          return true;
         };
 
         // customErrors:
@@ -11305,49 +11143,6 @@
             // Returns true if the element has no value but is a required field
             valueMissing: validity.valueMissing || false
           }, validity);
-        };
-
-        Validator.prototype.getValidationMessage = function(validity) {
-          var messages = Validator.validationMessages[this.options.locales];
-          var error;
-          var message;
-          var placeholder = '%s';
-          var $field = $(validity.field);
-
-          if ($field.is('[type="checkbox"]') || $field.is('[type="radio"]')) {
-            $field = this.$element.find('[name=' + $field.attr('name') +
-              ']').first();
-          }
-
-          // get error name
-          $.each(validity, function(key, val) {
-            // skip `field` and `valid`
-            if (key === 'field' || key === 'valid') {
-              return key;
-            }
-
-            // Amaze UI custom error type
-            if (key === 'customError' && val) {
-              error = val;
-              messages = messages.customError;
-              return false;
-            }
-
-            // W3C specs error type
-            if (val === true) {
-              error = key;
-              return false;
-            }
-          });
-
-          message = messages[error] || undefined;
-
-          if (message && Validator.ERROR_MAP[error]) {
-            message = message.replace(placeholder,
-              $field.attr(Validator.ERROR_MAP[error]) || '规定的');
-          }
-
-          return message;
         };
 
         function Plugin(option) {
@@ -11464,10 +11259,10 @@
         /**
          * @preserve FastClick: polyfill to remove click delays on browsers with touch UIs.
          *
+         * @version 1.0.3
          * @codingstandard ftlabs-jsv2
          * @copyright The Financial Times Limited [All Rights Reserved]
          * @license MIT License (see LICENSE.txt)
-         * @version 1.0.6
          */
 
         /*jslint browser:true, node:true*/
@@ -11479,7 +11274,7 @@
          *
          * @constructor
          * @param {Element} layer The layer to listen on
-         * @param {Object} [options={}] The options to override the defaults
+         * @param {Object} options The options to override the defaults
          */
         function FastClick(layer, options) {
           var oldOnClick;
@@ -11555,13 +11350,6 @@
            * @type number
            */
           this.tapDelay = options.tapDelay || 200;
-
-          /**
-           * The maximum time for a tap
-           *
-           * @type number
-           */
-          this.tapTimeout = options.tapTimeout || 700;
 
           if (FastClick.notNeeded(layer)) {
             return;
@@ -11640,21 +11428,13 @@
           }
         }
 
-        /**
-         * Windows Phone 8.1 fakes user agent string to look like Android and iPhone.
-         *
-         * @type boolean
-         */
-        var deviceIsWindowsPhone = navigator.userAgent.indexOf(
-          "Windows Phone") >= 0;
 
         /**
          * Android requires exceptions.
          *
          * @type boolean
          */
-        var deviceIsAndroid = navigator.userAgent.indexOf('Android') > 0 &&
-          !deviceIsWindowsPhone;
+        var deviceIsAndroid = navigator.userAgent.indexOf('Android') > 0;
 
 
         /**
@@ -11662,8 +11442,7 @@
          *
          * @type boolean
          */
-        var deviceIsIOS = /iP(ad|hone|od)/.test(navigator.userAgent) && !
-          deviceIsWindowsPhone;
+        var deviceIsIOS = /iP(ad|hone|od)/.test(navigator.userAgent);
 
 
         /**
@@ -11675,12 +11454,12 @@
 
 
         /**
-         * iOS 6.0-7.* requires the target element to be manually derived
+         * iOS 6.0(+?) requires the target element to be manually derived
          *
          * @type boolean
          */
-        var deviceIsIOSWithBadTarget = deviceIsIOS && (/OS [6-7]_\d/).test(
-          navigator.userAgent);
+        var deviceIsIOSWithBadTarget = deviceIsIOS && (
+          /OS ([6-9]|\d{2})_\d/).test(navigator.userAgent);
 
         /**
          * BlackBerry requires exceptions.
@@ -11716,7 +11495,6 @@
 
               break;
             case 'label':
-            case 'iframe': // iOS8 homescreen apps can prevent events bubbling into frames
             case 'video':
               return true;
           }
@@ -11800,10 +11578,10 @@
         FastClick.prototype.focus = function(targetElement) {
           var length;
 
-          // Issue #160: on iOS 7, some input elements (e.g. date datetime month) throw a vague TypeError on setSelectionRange. These elements don't have an integer value for the selectionStart and selectionEnd properties, but unfortunately that can't be used for detection because accessing the properties also throws a TypeError. Just check the type instead. Filed as Apple bug #15122724.
+          // Issue #160: on iOS 7, some input elements (e.g. date datetime) throw a vague TypeError on setSelectionRange. These elements don't have an integer value for the selectionStart and selectionEnd properties, but unfortunately that can't be used for detection because accessing the properties also throws a TypeError. Just check the type instead. Filed as Apple bug #15122724.
           if (deviceIsIOS && targetElement.setSelectionRange &&
             targetElement.type.indexOf('date') !== 0 && targetElement.type !==
-            'time' && targetElement.type !== 'month') {
+            'time') {
             length = targetElement.value.length;
             targetElement.setSelectionRange(length, length);
           } else {
@@ -12015,10 +11793,6 @@
             return true;
           }
 
-          if ((event.timeStamp - this.trackingClickStart) > this.tapTimeout) {
-            return true;
-          }
-
           // Reset to prevent wrong click cancel on input (issue #156).
           this.cancelNextClick = false;
 
@@ -12224,7 +11998,6 @@
           var metaViewport;
           var chromeVersion;
           var blackberryVersion;
-          var firefoxVersion;
 
           // Devices that don't support touch don't need FastClick
           if (typeof window.ontouchstart === 'undefined') {
@@ -12281,50 +12054,23 @@
             }
           }
 
-          // IE10 with -ms-touch-action: none or manipulation, which disables double-tap-to-zoom (issue #97)
-          if (layer.style.msTouchAction === 'none' || layer.style.touchAction ===
-            'manipulation') {
-            return true;
-          }
-
-          // Firefox version - zero for other browsers
-          firefoxVersion = +(/Firefox\/([0-9]+)/.exec(navigator.userAgent) || [,
-            0
-          ])[1];
-
-          if (firefoxVersion >= 27) {
-            // Firefox 27+ does not have tap delay if the content is not zoomable - https://bugzilla.mozilla.org/show_bug.cgi?id=922896
-
-            metaViewport = document.querySelector('meta[name=viewport]');
-            if (metaViewport && (metaViewport.content.indexOf(
-                'user-scalable=no') !== -1 || document.documentElement.scrollWidth <=
-              window.outerWidth)) {
-              return true;
-            }
-          }
-
-          // IE11: prefixed -ms-touch-action is no longer supported and it's recomended to use non-prefixed version
-          // http://msdn.microsoft.com/en-us/library/windows/apps/Hh767313.aspx
-          if (layer.style.touchAction === 'none' || layer.style.touchAction ===
-            'manipulation') {
+          // IE10 with -ms-touch-action: none, which disables double-tap-to-zoom (issue #97)
+          if (layer.style.msTouchAction === 'none') {
             return true;
           }
 
           return false;
         };
 
-
         /**
          * Factory method for creating a FastClick object
          *
          * @param {Element} layer The layer to listen on
-         * @param {Object} [options={}] The options to override the defaults
+         * @param {Object} options The options to override the defaults
          */
         FastClick.attach = function(layer, options) {
           return new FastClick(layer, options);
         };
-
-        FastClick.VERSION = '1.0.6';
 
         $ && ($.AMUI ? $.AMUI.FastClick = FastClick : $.AMUI = {
           FastClick: FastClick

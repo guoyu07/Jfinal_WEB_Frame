@@ -57,7 +57,7 @@ function save(){
 				 <div class="am-form-group">
 				 	<label for="user-role" class="am-u-sm-3 am-form-label">角色</label>
 				 	<div class="am-u-sm-9" id="roleSelect">
-					 	<select data-am-selected='{btnSize: 'sm'}' name='sysUser.roleId' id='roleId'>
+					 	<select name='sysUser.roleId' id='roleId'>
 							<%for(role in roles){%>
 								<option value="${role.roleId}" ${sysUser.roleId==role.roleId?'selected = "selected"':'' }>${role.roleName!}</option>
 							<%}%>
