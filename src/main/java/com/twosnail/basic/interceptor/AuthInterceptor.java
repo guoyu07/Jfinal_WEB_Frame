@@ -26,6 +26,7 @@ public class AuthInterceptor implements Interceptor{
 		if( subject != null && subject.isAuthenticated()) {
 			ai.invoke();
 		} else {
+			//重新定向
 			controller.redirect( "/login" );
 		}
 	}
