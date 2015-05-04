@@ -116,15 +116,12 @@
 <script src="${rootPath}/ext/js/page.js"></script>
 <script type="text/javascript">
 	//删除
-	function del( logId  ) {
-		var id = "" ;
-		if( logId != null && logId != '' ) {
-			id = logId ;
-		} else {
+	function del( id  ) {
+		if( id == null || id == '' ) {
 			$(".checkbox_list").each(function() {  
 	            if ($(this).attr("checked")) {  
 	                id += $(this).val() + ",";  
-	            } 
+	            }
 	        });
 			id = id.substring(0,id.length-1) ;
 		}
@@ -144,7 +141,6 @@
 	        onCancel: function() {          
 	        }
 	    });	
-	    delete id;
 	}
 	
 </script>
