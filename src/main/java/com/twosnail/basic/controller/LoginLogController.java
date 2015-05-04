@@ -52,8 +52,7 @@ public class LoginLogController extends Controller {
         	if( id == null || "".equals( id ) ) {
         		renderJson( new ResultObj( ResultObj.FAIL , "参数Ids不能为空！" , null ) );
         	} else {
-        		String[] ids =  id.split(",") ;
-        		SysLoginLog.me.delUserTx(  ids );
+        		SysLoginLog.me.delUserTx(  id );
         	}
         	renderJson( new ResultObj( ResultObj.SUCCESS , null , null ) );
         } catch ( BusiException e ) {

@@ -116,9 +116,10 @@
 <script src="${rootPath}/ext/js/page.js"></script>
 <script type="text/javascript">
 	//删除
-	function del( id  ) {
-		if( id != null && id != '' ) {
-
+	function del( logId  ) {
+		var id = "" ;
+		if( logId != null && logId != '' ) {
+			id = logId ;
 		} else {
 			$(".checkbox_list").each(function() {  
 	            if ($(this).attr("checked")) {  
@@ -129,7 +130,6 @@
 		}
 		
 		$('#my-confirm', window.top.document ).modal({
-	        relatedTarget: this,
 	        onConfirm: function(options) {
 	        	$.post( "${rootPath}/sys/log/login/dellogin", {		
 						"id":id

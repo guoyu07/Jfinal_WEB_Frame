@@ -740,5 +740,11 @@ $("#div_setIoc").ready(function(){
 		$('#choseIco').modal('close');
 	});
 });
+$("#my-confirm").ready(function(){
+	$('#my-confirm').on('closed.modal.amui', function() {
+		alert('remove');
+		$(this).removeData('amui.modal');
+	});
+});
 </script>
 </html>

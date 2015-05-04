@@ -73,12 +73,8 @@ public class SysLoginLog extends Model<SysLoginLog>{
 				"SELECT a.* ,(select a1.userName from sys_user a1 WHERE a1.id = a.userId) userName" , sb.toString() );
 	}
 	
-	public void delUserTx( String[] ids ) throws BusiException{
-		for (String id : ids) {
-			if( !me.deleteById( id ) ) {
-	            throw new BusiException( "删除用户失败!" );
-	        }
-		}
+	public void delUserTx( String ids ) throws BusiException{
+		Db.update( "delete from `sys_login_log` where `id` in (?)" , ids ) ;
     }
 	
 }
