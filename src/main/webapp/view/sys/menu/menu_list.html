@@ -85,7 +85,7 @@
 	        <div class="am-btn-toolbar">
 	          	<div class="am-btn-group am-btn-group-xs">
 		          	<%if(so.hasPermission("MenuController.addview")){%>
-		          		<a href="${rootPath}/sys/menu/addview?id=-1" target="content_in" class="am-btn am-btn-success" ><span class="am-icon-plus"></span> 添加根目录 </a>
+		          		<a href="${rootPath}/sys/menu/addview?id=-1" target="content_in" class="am-btn am-btn-success" ><span class="am-icon-plus"></span> 添加根菜单 </a>
 		          	<%}%>
 		          	<%if(so.hasPermission("MenuController.editview")){%>
 		          		<a href="javascript:checkid('${rootPath}/sys/menu/addview/');" target="content_in" id="user_menu_addchiview"  class="am-btn am-btn-primary" ><span class="am-icon-plus"></span> 添加子菜单 </a>
@@ -116,7 +116,7 @@
 		<div class="am-u-sm-9" style="border: 1px solid #e9ecf1;">
 			<iframe id="content_in" name="content_in" 
 		  		width="100%" height="100%" 
-		  		src="${rootPath}/sys/menu/addview?id=-1" 
+		  		src="${rootPath}/sys/menu/intro" 
 		  		style="overflow-x:hidden" 
 		  		scrolling="no" 
 		  		frameborder=0   onload="javascript:menuContSize('content_in');" ></iframe>		

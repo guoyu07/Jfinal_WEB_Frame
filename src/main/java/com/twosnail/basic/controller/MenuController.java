@@ -38,6 +38,13 @@ public class MenuController extends Controller {
 	}
 	
 	/**
+	 * 简介
+	 */
+	public void intro(){
+		render( "menu_intro.html" );
+	}
+	
+	/**
      * 添加页面
      */
 	@RequiresPermissions("MenuController.addview")
