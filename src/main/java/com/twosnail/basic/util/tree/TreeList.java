@@ -54,7 +54,7 @@ public class TreeList {
 				it = unDealNodes.iterator();
 				while( it.hasNext() ) {
 					node = it.next();
-					parent = nodeMap.get( handler.getId( node.get() ) );
+					parent = nodeMap.get( handler.getParentId( node.get() ) );
 					if( parent != null ) {
 						parent.addChild( node );
 						it.remove();

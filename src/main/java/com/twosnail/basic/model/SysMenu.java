@@ -40,7 +40,7 @@ public class SysMenu extends Model<SysMenu> {
      * @return
      */
     public List<SysMenu> getMenuList(){
-    	return me.find( "SELECT * FROM sys_menu " ) ;
+    	return me.find( "SELECT * FROM sys_menu order by sortNo" ) ;
     }
     
     /**
