@@ -5,7 +5,7 @@ import org.apache.shiro.subject.Subject;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.core.ActionInvocation;
-import com.twosnail.basic.controller.IndexController;
+import com.jfinal.core.Controller;
 
 /**   
  * @Title: AuthInterceptor.java
@@ -20,13 +20,13 @@ public class AuthInterceptor implements Interceptor{
 	@Override
 	public void intercept(ActionInvocation ai) {
 		
-		IndexController controller = (IndexController)ai.getController();
+		Controller controller = ai.getController();
 		
 		Subject subject = SecurityUtils.getSubject() ;
 		if( subject != null && subject.isAuthenticated()) {
 			ai.invoke();
 		} else {
-			controller.login();
+			controller.redirect( "/login" );
 		}
 	}
 
