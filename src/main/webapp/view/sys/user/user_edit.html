@@ -59,7 +59,7 @@ function save(){
 				 	<div class="am-u-sm-9" id="roleSelect">
 					 	<select name='sysUser.roleId' id='roleId'>
 							<%for(role in roles){%>
-								<option value="${role.roleId}" ${sysUser.roleId==role.roleId?'selected = "selected"':'' }>${role.roleName!}</option>
+								<option value="${role.id}" ${sysUser.roleId==role.id?'selected = "selected"':'' }>${role.roleName!}</option>
 							<%}%>
 					 	</select>
 					</div>

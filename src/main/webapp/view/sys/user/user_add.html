@@ -16,7 +16,7 @@ $(document).ready(function(){
         var list = data.data.roles ;
         var html = "<select data-am-selected='{btnSize: \'sm\'}' name='roleId' id='roleId'>";
         for (var i = 0; i < list.length; i++) {
-          html += '<option value="' +list[i].roleId+ '" id="' +list[i].roleId+ '">'+ list[i].roleName+'</option>' ;
+          html += '<option value="' +list[i].id+ '" id="' +list[i].id+ '">'+ list[i].roleName+'</option>' ;
         };
         $("#roleSelect").append(html+'</select>');
       }
