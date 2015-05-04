@@ -13,7 +13,7 @@
 <!-- content start -->
 <div class="admin-content">
     <div class="am-cf am-padding">
-      	<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">个人资料</strong> / <small>Personal sysUserrmation</small></div>
+      	<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">用户信息</strong> / <small>Personal info</small></div>
     </div>
     <hr/>
     <div class="am-g">
@@ -35,20 +35,20 @@
 				 
 				 <div class="am-form-group">
 				 	<label class="am-u-sm-3 am-form-label">角色</label>
-				 	<div class="am-u-sm-9 p-top">${sysUser.roleId}</div>				 	
+				 	<div class="am-u-sm-9 p-top">${sysUser.roleName}</div>				 	
 				 </div>
 				 
 				 <div class="am-form-group">
 					<label for="user-role" class="am-u-sm-3 am-form-label">性别</label>
 					<div class="am-u-sm-9 p-top">			      
-			             ${sysUser.isUsed=1?'男':'女'}
+			             ${sysUser.isUsed==1?'男':'女'}
 					</div>
 				</div>
 				
 				<div class="am-form-group">
 					<label for="user-role" class="am-u-sm-3 am-form-label">状态</label>
 					<div class="am-u-sm-9 p-top">			      
-			            ${sysUser.isUsed=1?'正常':'无效'}
+			            ${sysUser.isUsed==1?'正常':'无效'}
 					</div>
 				</div>
 			 
@@ -95,7 +95,7 @@
 
 		         <div class="am-form-group">
 		            <div class="am-u-sm-9 am-u-sm-push-3">
-		              	<button type="button" onclick="history.go(-1);" class="am-btn am-btn-primary">返回</button>
+		              	<button type="button" onclick="history.go(-1);" class="am-btn am-btn-primary"><span class="am-icon-arrow-left"></span> 返回</button>
 		            </div>
 		        </div>
 	      	</div>

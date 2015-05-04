@@ -1,10 +1,7 @@
 package com.twosnail.basic.controller;
 
-import java.util.List;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
-import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Logger;
 import com.jfinal.plugin.activerecord.Page;
@@ -37,10 +34,9 @@ public class UserController extends Controller {
 	        numPerPage = ( numPerPage == null || numPerPage == 0 ) ? 5 : numPerPage;
 	        
 	        Page<Record> list = SysUser.me.getUser( roleId , getPara("keyWord") , pageNum, numPerPage );
-	        List<SysRole> roles = SysRole.me.getSysRoles();
 	        
 	        setAttr( "list", list );
-	        setAttr( "roles", roles );
+	        setAttr( "roles", SysRole.me.getSysRoles() );
 	        setAttr( "keyWord", keyWord );
 	        setAttr( "roleId", roleId );
 	        
@@ -50,29 +46,18 @@ public class UserController extends Controller {
         render( "user_list.html" );
 	}
 	
+	
 	/**
      * 添加页面
      */
 	@RequiresPermissions("UserController.addview")
     public void addview(){
-    	render( "user_add.html" ) ;
-    }
-    
-    /**
-     * 添加页面
-     */
-    public void addinit(){
-    	
-        JSONObject result = new JSONObject() ;
-        try {
-        	List<SysRole> roles = SysRole.me.getSysRoles();
-        	result.put( "roles" ,  roles ) ;
-        	renderJson(new ResultObj( ResultObj.SUCCESS , "", result )) ;
+		try {
+			setAttr( "roles" ,  SysRole.me.getSysRoles() ) ;
 		} catch (Exception e) {
-			this.logger.warn( "添加用户信息初始化失败！" , e );
-			renderJson(new ResultObj( ResultObj.FAIL , e.getMessage() , null ))  ;
+			this.logger.warn( "添加用户，初始化信息失败！" , e );
 		}
-        
+    	render( "user_add.html" ) ;
     }
     
     /**
@@ -101,16 +86,12 @@ public class UserController extends Controller {
     
     /**
      * 修改页面
-     * @return
      */
     @RequiresPermissions("UserController.editview")
     public void editview(){
-        
         try {
-        	List<SysRole> roles = SysRole.me.getSysRoles();
-            SysUser sysUser = SysUser.me.getUserById(getParaToInt("id")) ;        
-            setAttr( "sysUser" , sysUser ) ;
-            setAttr( "roles" ,  roles ) ;
+            setAttr( "sysUser" , SysUser.me.getUserById( getParaToInt("id") ) ) ;
+            setAttr( "roles" ,  SysRole.me.getSysRoles() ) ;
 		} catch (Exception e) {
 			this.logger.warn( "修改信息，初始化信息失败！" , e );
 		}
@@ -119,12 +100,9 @@ public class UserController extends Controller {
     
     /**
      * 修改保存页面
-     * @param sysUser
-     * @param request
      * @return
      */
     public void editsave(){
-    	
         String message = "" ;
         SysUser sysUser = getModel(SysUser.class ) ;
         try {
@@ -148,9 +126,6 @@ public class UserController extends Controller {
 
     /**
      * 修改状态
-     * @param id
-     * @param isUsed
-     * @return
      */
     @RequiresPermissions("UserController.upstatus")
     public void upstatus(){
@@ -180,13 +155,9 @@ public class UserController extends Controller {
         	if( id == null || "".equals( id ) ) {
         		renderJson( new ResultObj( ResultObj.FAIL , "参数Ids不能为空！" , null ) );
         	} else {
-        		String[] ids =  id.split(",") ;
-        		SysUser.me.delUser(  ids );
-        	}            
+        		SysUser.me.delUser(  id );
+        	}
         	renderJson( new ResultObj( ResultObj.SUCCESS , null , null ) );
-        } catch ( BusiException e ) {
-            this.logger.info( "删除失败！", e );
-            renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null ) );
         } catch ( Exception e ) {
             this.logger.info( "系统异常，删除失败！", e );
             renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null ) );
@@ -195,14 +166,10 @@ public class UserController extends Controller {
     
     /**
      * 用户信息
-     * @param id
-     * @param request
-     * @param response
-     * @return
      */
 	public void info(){		
 		try {
-	        setAttr( "sysUser" , SysUser.me.getUserById( getParaToInt("id") ) ) ;
+	        setAttr( "sysUser" , SysUser.me.getUserInfoById( getParaToInt("id") ) ) ;
 		} catch (Exception e) {
 			this.logger.warn( "添加信息，初始化失败！" , e );
 		}

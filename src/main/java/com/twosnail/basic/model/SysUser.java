@@ -144,6 +144,14 @@ public class SysUser extends Model<SysUser>{
 	}
 	
 	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Record getUserInfoById( long id ){
+		return Db.findFirst( "SELECT u.* , r.roleName FROM `sys_user` u LEFT JOIN sys_role r ON u.roleId=r.id where u.`id` = ? " , id ) ;
+	}
+	/**
 	 * 修改用户信息
 	 * @param user
 	 * @param request
@@ -174,18 +182,11 @@ public class SysUser extends Model<SysUser>{
     
     /**
      * 删除用户
-     * @param id
-     * @throws BusiException
+     * @param ids
+     * @throws Exception
      */
-    public void delUser( String[] ids ) throws BusiException{
-    	Record record = null ;
-    	for (String id : ids) {
-    		record = new Record() ;
-    		record.set( "id" , id ) ;
-			if( !Db.delete( "sys_user" , record ) ) {
-	            throw new BusiException( "删除用户失败!" );
-	        }
-		}
+    public void delUser( String ids ) throws Exception{
+    	Db.update( "delete from `sys_user` where `id` in (?)" , ids ) ;
     }
     
 }

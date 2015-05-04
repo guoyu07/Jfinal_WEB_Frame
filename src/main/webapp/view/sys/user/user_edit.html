@@ -3,8 +3,6 @@
 <head>
 	<link rel="stylesheet" href="${rootPath}/assets/css/amazeui.min.css"/>
 	<link rel="stylesheet" href="${rootPath}/assets/css/admin.css">
-<script type="text/javascript" src="${rootPath}/ext/js/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="${rootPath}/ext/js/jquery.md5.js"></script>
 <script type="text/javascript">
 //表单提交
 function save(){
@@ -17,7 +15,6 @@ function save(){
 		return ;
 	}
 	var sysUser = $("form").serialize();
-	debugger;
 	$.post( "${rootPath}/sys/user/editsave", sysUser , function ( data ) {
 			if ( data.status == 1 ) {
 				location.href="${rootPath}/sys/user/";
@@ -37,27 +34,27 @@ function save(){
     </div>
     <hr/>
     <div class="am-g">
-		<form class="am-form am-form-horizontal">
+		<form class="am-form am-form-horizontal" id="form-with-tooltip">
 		 	<div class="am-u-sm-12 am-u-md-6 am-u-md-push-6">
 	        
 		        <div class="am-form-group">
 		           	<label for="mobile" class="am-u-sm-3 am-form-label">手机号码 </label>
 		           	<div class="am-u-sm-9">
 		           	 	<input type="hidden" name="sysUser.id" id="id" value="${sysUser.id}">
-		            	<input type="text" id="mobile" name="sysUser.mobile" value="${sysUser.mobile}" placeholder="输入你的电话号码 ">
+		            	<input type="text" name="sysUser.mobile" value="${sysUser.mobile}" placeholder="输入你的电话号码 ">
 		           </div>
 		        </div>        
 				<div class="am-form-group">
 				 	<label for="birthday" class="am-u-sm-3 am-form-label">生日</label>
 					<div class="am-u-sm-9">
-					  	<input type="text" id="birthday" name="sysUser.birthday" value="${sysUser.birthday}" class="am-form-field" placeholder="请选择" data-am-datepicker="{theme: 'success'}" readonly/>
+					  	<input type="text" name="sysUser.birthday" value="${sysUser.birthday}" class="am-form-field" placeholder="请选择" data-am-datepicker="{theme: 'success'}" readonly/>
 					</div>
 				 </div>
 				 
 				 <div class="am-form-group">
-				 	<label for="user-role" class="am-u-sm-3 am-form-label">角色</label>
-				 	<div class="am-u-sm-9" id="roleSelect">
-					 	<select name='sysUser.roleId' id='roleId'>
+				 	<label for="roleId" class="am-u-sm-3 am-form-label">角色</label>
+				 	<div class="am-u-sm-9">
+					 	<select name='sysUser.roleId' id='roleId' data-foolish-msg="角色,不能为空" required >
 							<%for(role in roles){%>
 								<option value="${role.id}" ${sysUser.roleId==role.id?'selected = "selected"':'' }>${role.roleName!}</option>
 							<%}%>
@@ -96,28 +93,28 @@ function save(){
 		        <div class="am-form-group">
 		            <label for="userName" class="am-u-sm-3 am-form-label">姓名</label>
 		            <div class="am-u-sm-9">
-		              	<input type="text" id="userName" name="sysUser.userName" value="${sysUser.userName}" placeholder="输入你的名字，让我们记住你。">
+		              	<input type="text" id="userName" name="sysUser.userName" data-foolish-msg="姓名,不能为空！" required  value="${sysUser.userName}" placeholder="输入你的名字，让我们记住你。">
 		            </div>
 		        </div>
 
 		        <div class="am-form-group">
 		            <label for="email" class="am-u-sm-3 am-form-label">电子邮件</label>
 		            <div class="am-u-sm-9">
-		              	<input type="email" id="email" name="sysUser.email"  value="${sysUser.email}" placeholder="邮箱你懂得...">
+		              	<input type="email" name="sysUser.email"  value="${sysUser.email}" placeholder="邮箱你懂得...">
 		            </div>
 		        </div>
 
 		        <div class="am-form-group">
 		            <label for="idCard" class="am-u-sm-3 am-form-label">身份证</label>
 		            <div class="am-u-sm-9">
-		              	<input type="text" id="idCard" name="sysUser.idCard" value="${sysUser.idCard}" placeholder="输入你的身份证号码">
+		              	<input type="text" name="sysUser.idCard" value="${sysUser.idCard}" placeholder="输入你的身份证号码">
 		            </div>
 		        </div>
 				
 		        <div class="am-form-group">
 		            <label for="addr" class="am-u-sm-3 am-form-label">地址</label>
 		            <div class="am-u-sm-9">
-		              	<input type="text" id="addr" name="sysUser.addr" value="${sysUser.addr}" placeholder="输入你的地址">
+		              	<input type="text" name="sysUser.addr" value="${sysUser.addr}" placeholder="输入你的地址">
 		            </div>
 		        </div>
 
@@ -125,24 +122,26 @@ function save(){
 		        <div class="am-form-group">
 		            <label for="sortNo" class="am-u-sm-3 am-form-label">排序号</label>
 		            <div class="am-u-sm-9">
-		              	<input type="text" id="sortNo" name="sysUser.sortNo" value="${sysUser.sortNo}" placeholder="排序，越大越靠前">
+		              	<input type="number" name="sysUser.sortNo" value="${sysUser.sortNo}" placeholder="排序，越大越靠前 0-999999" min="0" max="999999">
 		            </div>
 		        </div>
 		          
 
 		         <div class="am-form-group">
 		            <div class="am-u-sm-3 am-u-sm-push-3">
-		              	<button type="button" onclick="history.go(-1);" class="am-btn am-btn-primary">返回</button>
+		              	<button type="button" onclick="history.go(-1);" class="am-btn am-btn-primary"><span class="am-icon-arrow-left"></span> 返回</button>
 		            </div>
 		            
 		            <div class="am-u-sm-6">
-		              	<button type="button" onclick="save()" class="am-btn am-btn-primary">修改信息</button>
+		              	<button type="button" onclick="save()" class="am-btn am-btn-primary"><span class="am-icon-save"></span> 保存</button>
 		            </div>
 		        </div>
 	      	</div>
 	     </form>
     </div>
 </div>
+
+</body>
 <!-- content end -->
 
 <!--[if lt IE 9]>
@@ -158,5 +157,7 @@ function save(){
 <script src="${rootPath}/assets/js/amazeui.min.js"></script>
 <!--<![endif]-->
 <script src="${rootPath}/assets/js/app.js"></script>
-</body>
+<!-- 校验 -->
+<link rel="stylesheet" href="${rootPath}/ext/css/validator-tooltip.css">
+<script src="${rootPath}/ext/js/validator-tooltip.js"></script>
 </html>
