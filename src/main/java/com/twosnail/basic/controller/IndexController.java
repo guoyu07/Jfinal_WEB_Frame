@@ -6,6 +6,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 
 import com.jfinal.aop.ClearInterceptor;
+import com.jfinal.aop.ClearLayer;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Logger;
 import com.twosnail.basic.ext.CaptchaRender;
@@ -29,28 +30,29 @@ public class IndexController extends Controller {
 	
 	private Logger logger = Logger.getLogger(IndexController.class) ;
 	
-	@ClearInterceptor
+	@ClearInterceptor(ClearLayer.ALL)
 	public void index() {
 		render("login.html");
 	}
 	
-	@ClearInterceptor
+	@ClearInterceptor(ClearLayer.ALL)
 	public void login(){
 		index() ;
 	}
 	
-	@ClearInterceptor
+	@ClearInterceptor(ClearLayer.ALL)
 	public void img(){
 		CaptchaRender img = new CaptchaRender(4); 
 		this.setSessionAttr( CaptchaRender.DEFAULT_CAPTCHA_MD5_CODE_KEY, img.getMd5RandonCode() );
 		render(img);
 	}	
 	
-	@ClearInterceptor
+	@ClearInterceptor(ClearLayer.ALL)
 	public void check(){
 		try {
 			
 			String captchaCode = getPara("code");
+			Boolean isRemember = getParaToBoolean( "isRemember" ) ;
 			Object objMd5RandomCode = this.getSessionAttr(CaptchaRender.DEFAULT_CAPTCHA_MD5_CODE_KEY);
             String md5RandomCode = null;
             if(objMd5RandomCode != null){
@@ -63,7 +65,7 @@ public class IndexController extends Controller {
             }
 			
 			SysUser.me.userLogin( 
-					getPara("loginName"), getPara("password") , getParaToBoolean("rm", true) , getSession() );
+					getPara("loginName"), getPara("password") , isRemember , getSession() );
 			
 			//添加登录日志
 			SysLoginLog.me.addLoginLog( getRequest() , getSession() );
