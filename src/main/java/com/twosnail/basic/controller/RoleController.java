@@ -42,6 +42,12 @@ public class RoleController extends Controller {
 	}
 	
 	/**
+	 * 简介
+	 */
+	public void intro(){
+		render( "role_intro.html" );
+	}
+	/**
      * 添加页面
      */
 	@RequiresPermissions("RoleController.addview")
