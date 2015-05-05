@@ -8,7 +8,7 @@ import com.jfinal.log.Logger;
 import com.jfinal.plugin.activerecord.Page;
 import com.twosnail.basic.model.SysButton;
 import com.twosnail.basic.model.SysRole;
-import com.twosnail.basic.util.exception.BusiException;
+import com.twosnail.basic.util.exception.BuziException;
 import com.twosnail.basic.util.result.ResultObj;
 
 /**   
@@ -82,7 +82,7 @@ public class ButtonController extends Controller {
     	try {
              SysButton.me.addButton( sysButton );
              renderJson( new ResultObj( ResultObj.SUCCESS , "添加成功！" , null ) ) ;
-         } catch( BusiException e ) {
+         } catch( BuziException e ) {
              this.logger.warn( "新增功能按钮失败" , e );
              renderJson( new ResultObj( ResultObj.FAIL , "添加失败"+e.getMessage() , null )) ;
          }
@@ -123,7 +123,7 @@ public class ButtonController extends Controller {
             SysButton.me.updButton( sysButton , getRequest() ) ;
             renderJson( new ResultObj( ResultObj.SUCCESS , null , null ) ) ;
             return ;
-        } catch( BusiException e ) {
+        } catch( BuziException e ) {
             this.logger.warn( "保存功能按钮信息失败！"  , e );
             message = "保存功能按钮信息失败！";
         } catch (Exception e) {
@@ -147,7 +147,7 @@ public class ButtonController extends Controller {
         		SysButton.me.delButtonTx(  ids );
         	}            
         	renderJson( new ResultObj( ResultObj.SUCCESS , null , null ) );
-        } catch ( BusiException e ) {
+        } catch ( BuziException e ) {
             this.logger.info( "删除失败！", e );
             renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null ) );
         }

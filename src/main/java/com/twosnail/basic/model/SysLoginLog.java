@@ -9,7 +9,7 @@ import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.twosnail.basic.util.RequestHandler;
-import com.twosnail.basic.util.exception.BusiException;
+import com.twosnail.basic.util.exception.BuziException;
 
 /**   
  * @Title: SysLoginLog.java
@@ -38,7 +38,7 @@ public class SysLoginLog extends Model<SysLoginLog>{
 			log.set( "lastlogTime" ,getLastTime( Long.parseLong(session.getAttribute("userId") +"") ) );
 			log.set( "status" ,1);
 			if( !log.save() ) {
-	            throw new BusiException( "添加信息失败!" );
+	            throw new BuziException( "添加信息失败!" );
 	        }
 		} catch (Exception e) {
 			logger.warn( "添加登录日志出错！" , e );
@@ -73,7 +73,7 @@ public class SysLoginLog extends Model<SysLoginLog>{
 				"SELECT a.* ,(select a1.userName from sys_user a1 WHERE a1.id = a.userId) userName" , sb.toString() );
 	}
 	
-	public void delUserTx( String ids ) throws BusiException{
+	public void delUserTx( String ids ) throws BuziException{
 		Db.update( "delete from `sys_login_log` where `id` in (?)" , ids ) ;
     }
 	

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
-import com.twosnail.basic.util.exception.BusiException;
+import com.twosnail.basic.util.exception.BuziException;
 
 /**   
  * @Title: SysRolePermission.java
@@ -40,9 +40,9 @@ public class SysRolePermission extends Model<SysRolePermission>{
      * 添加权限信息
      * @param roleId
      * @param permis
-     * @throws BusiException
+     * @throws BuziException
      */
-    public void addPermissions( int roleId , String[] permis ) throws BusiException{
+    public void addPermissions( int roleId , String[] permis ) throws BuziException{
     	//清空之前数据
     	Db.update( "DELETE FROM sys_role_permission WHERE roleId=?" , roleId ) ;
     	SysRolePermission rolePermission = null ;
@@ -59,9 +59,9 @@ public class SysRolePermission extends Model<SysRolePermission>{
 	 * 保存角色权限信息
 	 * @param rolePermission
 	 */
-	public void addPermission( SysRolePermission rolePermission ) throws BusiException {
+	public void addPermission( SysRolePermission rolePermission ) throws BuziException {
 		if( !rolePermission.save() ) {
-			throw new BusiException( "保存角色权限信息失败" );
+			throw new BuziException( "保存角色权限信息失败" );
 		}
 	}
 	

@@ -3,7 +3,7 @@ package com.twosnail.basic.model;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Model;
-import com.twosnail.basic.util.exception.BusiException;
+import com.twosnail.basic.util.exception.BuziException;
 import com.twosnail.basic.util.tree.TreeList;
 import com.twosnail.basic.util.tree.TreeNode;
 
@@ -66,45 +66,45 @@ public class SysRole extends Model<SysRole>{
 	/**
 	 * 添加角色信息
 	 * @param sysRole
-	 * @throws BusiException
+	 * @throws BuziException
 	 */
-	public void addRole( SysRole sysRole) throws BusiException {
+	public void addRole( SysRole sysRole) throws BuziException {
 		sysRole.set( "createTime" , System.currentTimeMillis() );
 		if( !sysRole.save() ) {
-            throw new BusiException( "添加信息失败!" );
+            throw new BuziException( "添加信息失败!" );
         }
 	}
 	
 	/**
 	 * 修改角色信息
 	 * @param sysRole
-	 * @throws BusiException
+	 * @throws BuziException
 	 */
-	public void updRole( SysRole sysRole ) throws BusiException {
+	public void updRole( SysRole sysRole ) throws BuziException {
 		if( !sysRole.update() ) {
-            throw new BusiException( "修改角色信息失败!" );
+            throw new BuziException( "修改角色信息失败!" );
         }
 	}
 	
 	/**
      * 修改角色信息状态
      * @param SysRole
-     * @throws BusiException
+     * @throws BuziException
      */
-    public void updRoleStasus( SysRole sysRole ) throws BusiException {
+    public void updRoleStasus( SysRole sysRole ) throws BuziException {
     	if(  !sysRole.update() ) {
-            throw new BusiException( "修改信息失败" );
+            throw new BuziException( "修改信息失败" );
         }
     }   
     
     /**
      * 删除 角色
      * @param id
-     * @throws BusiException
+     * @throws BuziException
      */
-    public void delRoleTx( int id ) throws BusiException{
+    public void delRoleTx( int id ) throws BuziException{
        if( !me.deleteById( id ) ) {
-           throw new BusiException( "修改信息失败" );
+           throw new BuziException( "修改信息失败" );
        }
     }
     
@@ -112,9 +112,9 @@ public class SysRole extends Model<SysRole>{
      * 删除该角色所有权限
      * @param id
      */
-    public void delPrivilegeByid( long id ) throws BusiException{
+    public void delPrivilegeByid( long id ) throws BuziException{
     	if( !me.deleteById(id)  ) {
-            throw new BusiException( "修改信息失败" );
+            throw new BuziException( "修改信息失败" );
         }
     }
     

@@ -10,7 +10,7 @@ import com.twosnail.basic.model.SysButton;
 import com.twosnail.basic.model.SysMenu;
 import com.twosnail.basic.model.SysUser;
 import com.twosnail.basic.util.RequestHandler;
-import com.twosnail.basic.util.exception.BusiException;
+import com.twosnail.basic.util.exception.BuziException;
 import com.twosnail.basic.util.result.ResultObj;
 import com.twosnail.basic.util.tree.TreeNode;
 
@@ -73,7 +73,7 @@ public class MenuController extends Controller {
     		
     		renderJson( new ResultObj( ResultObj.SUCCESS , "", null ) ) ;
     		return ;
-        } catch( BusiException e ) {
+        } catch( BuziException e ) {
             this.logger.warn( "添加失败！" , e );
             renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null )) ;
         } catch (Exception e) {
@@ -114,7 +114,7 @@ public class MenuController extends Controller {
     		
         	renderJson( new ResultObj( ResultObj.SUCCESS , "" , null )) ;
         	return ;
-        } catch( BusiException e ) {
+        } catch( BuziException e ) {
             this.logger.warn( "修改菜单信息失败！" ,e );
             renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null )) ;
             return ;
@@ -141,7 +141,7 @@ public class MenuController extends Controller {
             sysMenu.set( "isUsed" , isUsed );
             SysMenu.me.updMenuStasus( sysMenu );
             renderJson( new ResultObj( ResultObj.SUCCESS , "" , null )) ;
-        } catch ( BusiException e ) {
+        } catch ( BuziException e ) {
             this.logger.warn( e.getMessage() , e );
             renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null )) ;
         } catch (Exception e) {
@@ -162,7 +162,7 @@ public class MenuController extends Controller {
 	        	try {
 	        		SysMenu.me.delMenuTx( id );
 	        		renderJson( new ResultObj( ResultObj.SUCCESS , "删除成功" , null )) ;
-	        	} catch ( BusiException e ) {
+	        	} catch ( BuziException e ) {
 	        		this.logger.warn( "删除失败！" , e );
 	        		renderJson( new ResultObj( ResultObj.FAIL , "删除失败！" , null )) ;
 	        	}

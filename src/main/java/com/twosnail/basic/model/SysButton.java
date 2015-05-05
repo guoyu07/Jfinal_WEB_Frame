@@ -11,7 +11,7 @@ import com.jfinal.log.Logger;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
-import com.twosnail.basic.util.exception.BusiException;
+import com.twosnail.basic.util.exception.BuziException;
 
 /**   
  * @Title: SysButton.java
@@ -31,9 +31,9 @@ public class SysButton extends Model<SysButton>{
 	 * 通过菜单权限值添加功能按钮
 	 * @param menuId
 	 * @param permissionMethod
-	 * @throws BusiException
+	 * @throws BuziException
 	 */
-	public void addSysButtons( int menuId ,String permissionMethod ) throws BusiException {
+	public void addSysButtons( int menuId ,String permissionMethod ) throws BuziException {
 		//通过反射，找到所需节点名称，值
 		if(permissionMethod != null && !"".equals( permissionMethod )){
 			Class<?> clz;
@@ -116,7 +116,7 @@ public class SysButton extends Model<SysButton>{
      * 查看该角色下是否存在功能按钮
      * @param id
      * @return true 不存在
-     * @throws BusiException
+     * @throws BuziException
      */
     public boolean checkButtonById( int id ){
     	return Db.queryColumn("SELECT id FROM sys_user a WHERE a.roleId = ?" , id ) == null;
@@ -126,11 +126,11 @@ public class SysButton extends Model<SysButton>{
 	/**
 	 * 添加功能按钮信息
 	 * @param sysButton
-	 * @throws BusiException
+	 * @throws BuziException
 	 */
-	public void addButton( SysButton sysButton ) throws BusiException{
+	public void addButton( SysButton sysButton ) throws BuziException{
 		if( !sysButton.save() ) {
-            throw new BusiException( "添加信息失败!" );
+            throw new BuziException( "添加信息失败!" );
         }
 	}
 	
@@ -147,12 +147,12 @@ public class SysButton extends Model<SysButton>{
 	 * 修改功能按钮信息
 	 * @param user
 	 * @param request
-	 * @throws BusiException
+	 * @throws BuziException
 	 */
 	public void updButton( 
-			SysButton user , HttpServletRequest request ) throws BusiException{
+			SysButton user , HttpServletRequest request ) throws BuziException{
 		if( !user.update() ) {
-            throw new BusiException( "添加信息失败!" );
+            throw new BuziException( "添加信息失败!" );
         }
 	}
 	
@@ -161,17 +161,17 @@ public class SysButton extends Model<SysButton>{
     /**
      * 删除功能按钮
      * @param id
-     * @throws BusiException
+     * @throws BuziException
      */
-    public void delButtonTx( String[] ids ) throws BusiException{
+    public void delButtonTx( String[] ids ) throws BuziException{
 		for (String id : ids) {
 			if( !me.deleteById( id ) ) {
-	            throw new BusiException( "删除功能按钮失败!" );
+	            throw new BuziException( "删除功能按钮失败!" );
 	        }
 		}
     }
     
-    public void delButtonByMenuId( int menuId ) throws BusiException{
+    public void delButtonByMenuId( int menuId ) throws BuziException{
     	Db.update( "DELETE FROM sys_button WHERE menuId = ? ", menuId ) ;
     }
 }

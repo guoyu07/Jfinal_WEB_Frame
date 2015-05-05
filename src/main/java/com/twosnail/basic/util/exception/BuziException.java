@@ -6,19 +6,19 @@ package com.twosnail.basic.util.exception;
  * @date: 2015年4月18日 下午1:06:25
  * @version: V1.0
  */
-public class BusiException extends Exception{
+public class BuziException extends Exception{
 
 	private static final long serialVersionUID = 1L;
 
-	public BusiException(String message){
+	public BuziException(String message){
 		super(message);
 	}
 	
-	public BusiException(Throwable e){
+	public BuziException(Throwable e){
 		super(e);
 	}
 	
-	public BusiException(String message, Throwable e){
+	public BuziException(String message, Throwable e){
 		super(message, e);
 	}
 	

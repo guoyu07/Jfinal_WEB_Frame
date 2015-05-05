@@ -4,7 +4,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
-import com.twosnail.basic.util.exception.BusiException;
+import com.twosnail.basic.util.exception.BuziException;
 
 /**   
  * @Title: SysButtonLog.java
@@ -36,10 +36,10 @@ public class SysButtonLog extends Model<SysButtonLog>{
 			
 	}
 	
-	public void delUserTx( String[] ids ) throws BusiException{
+	public void delUserTx( String[] ids ) throws BuziException{
 		for (String id : ids) {
 			if( !me.deleteById( id ) ) {
-	            throw new BusiException( "删除用户失败!" );
+	            throw new BuziException( "删除用户失败!" );
 	        }
 		}
     }

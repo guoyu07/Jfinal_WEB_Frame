@@ -16,7 +16,7 @@ import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.twosnail.basic.util.RequestHandler;
-import com.twosnail.basic.util.exception.BusiException;
+import com.twosnail.basic.util.exception.BuziException;
 
 /**   
  * @Title: SysUser.java
@@ -39,10 +39,10 @@ public class SysUser extends Model<SysUser>{
 	 * @param loginName
 	 * @param password
 	 * @param session
-	 * @throws BusiException  
+	 * @throws BuziException  
 	 */
 	public void userLogin( 	String userName, String passWord, Boolean rm , HttpSession session ) 
-			throws BusiException {
+			throws BuziException {
 		
 		Subject currentUser = SecurityUtils.getSubject();
 		UsernamePasswordToken token = new UsernamePasswordToken( userName, passWord );
@@ -54,20 +54,20 @@ public class SysUser extends Model<SysUser>{
 			
 			if( user.getInt( "isUsed" ) != SysUser.STATUS_NOMAL ) {
 				//管理员被冻结
-				throw new BusiException("账号 [" +userName + "]已经冻结.") ;
+				throw new BuziException("账号 [" +userName + "]已经冻结.") ;
 			}
 			session.setAttribute( "userId" , user.get("id"));
 			session.setAttribute( "userName" , user.get("userName"));
 			
 		} catch (UnknownAccountException e) {
-			throw new BusiException("未知账号！") ;
+			throw new BuziException("未知账号！") ;
 		} catch (IncorrectCredentialsException e) {
-			throw new BusiException("密码错误！") ;
+			throw new BuziException("密码错误！") ;
 		} catch (LockedAccountException e) {
-			throw new BusiException("账号已经冻结！") ;
+			throw new BuziException("账号已经冻结！") ;
 		} catch (Exception e) {
 			this.logger.warn( "登录失败，系统异常！" , e );
-			throw new BusiException("登录失败，系统异常！") ;
+			throw new BuziException("登录失败，系统异常！") ;
 		}
 	}
 	
@@ -113,7 +113,7 @@ public class SysUser extends Model<SysUser>{
      * 查看该角色下是否存在用户
      * @param id
      * @return true 不存在
-     * @throws BusiException
+     * @throws BuziException
      */
     public boolean checkUserById( int id ){
     	return Db.queryColumn("SELECT id FROM sys_user a WHERE a.roleId = ?" , id ) == null;
@@ -123,14 +123,14 @@ public class SysUser extends Model<SysUser>{
 	/**
 	 * 添加用户信息
 	 * @param sysUser
-	 * @throws BusiException
+	 * @throws BuziException
 	 */
-	public void addUser( SysUser sysUser , HttpServletRequest request , HttpSession session ) throws BusiException{
+	public void addUser( SysUser sysUser , HttpServletRequest request , HttpSession session ) throws BuziException{
 		sysUser.set( "createTime" ,System.currentTimeMillis() );
         sysUser.set( "createId" ,session.getAttribute("userId") ) ;
         sysUser.set( "createIp" ,RequestHandler.getIpAddr(request)) ;
 		if( !sysUser.save() ) {
-            throw new BusiException( "添加信息失败!" );
+            throw new BuziException( "添加信息失败!" );
         }
 	}
 	
@@ -155,14 +155,14 @@ public class SysUser extends Model<SysUser>{
 	 * 修改用户信息
 	 * @param user
 	 * @param request
-	 * @throws BusiException
+	 * @throws BuziException
 	 */
 	public void updUser( 
-			SysUser user , HttpServletRequest request  , HttpSession session ) throws BusiException{
+			SysUser user , HttpServletRequest request  , HttpSession session ) throws BuziException{
 		user.set( "operateId" , session.getAttribute("userId") ) ;
 		user.set( "opetateTime" , System.currentTimeMillis() ) ;
 		if( !user.update() ) {
-            throw new BusiException( "添加信息失败!" );
+            throw new BuziException( "添加信息失败!" );
         }
 	}
 	
@@ -170,13 +170,13 @@ public class SysUser extends Model<SysUser>{
 	 * 修改用户状态
 	 * @param id
 	 * @param isUsed
-	 * @throws BusiException
+	 * @throws BuziException
 	 */
-    public void updUserStasus( long id , int isUsed ) throws BusiException{
+    public void updUserStasus( long id , int isUsed ) throws BuziException{
     	me.set( "id", id );
     	me.set( "isUsed", isUsed );
 		if( !me.update() ) {
-            throw new BusiException( "修改用户状态失败!" );
+            throw new BuziException( "修改用户状态失败!" );
         };
     }
     

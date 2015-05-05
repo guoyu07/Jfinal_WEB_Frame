@@ -13,7 +13,7 @@ import com.twosnail.basic.model.SysRole;
 import com.twosnail.basic.model.SysRolePermission;
 import com.twosnail.basic.model.SysUser;
 import com.twosnail.basic.util.RequestHandler;
-import com.twosnail.basic.util.exception.BusiException;
+import com.twosnail.basic.util.exception.BuziException;
 import com.twosnail.basic.util.result.ResultObj;
 import com.twosnail.basic.util.tree.TreeNode;
 
@@ -74,7 +74,7 @@ public class RoleController extends Controller {
     		SysRole.me.addRole( sysRole );
     		renderJson( new ResultObj( ResultObj.SUCCESS , "", null ) ) ;
     		return ;
-        } catch( BusiException e ) {
+        } catch( BuziException e ) {
             this.logger.warn( "添加失败！" , e );
             renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null )) ;
         } catch (Exception e) {
@@ -109,7 +109,7 @@ public class RoleController extends Controller {
     		SysRole.me.updRole(sysRole) ;
         	renderJson( new ResultObj( ResultObj.SUCCESS , "" , null )) ;
         	return ;
-        } catch( BusiException e ) {
+        } catch( BuziException e ) {
             this.logger.warn( "修改角色信息失败！" ,e );
             renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null )) ;
             return ;
@@ -133,7 +133,7 @@ public class RoleController extends Controller {
             sysRole.set( "isUsed" , isUsed );
             SysRole.me.updRoleStasus( sysRole );
             renderJson( new ResultObj( ResultObj.SUCCESS , "" , null )) ;
-        } catch ( BusiException e ) {
+        } catch ( BuziException e ) {
             this.logger.warn( e.getMessage() , e );
             renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null )) ;
         } catch (Exception e) {
@@ -153,7 +153,7 @@ public class RoleController extends Controller {
 	        	try {
 	        		SysRole.me.delRoleTx( id );
 	        		renderJson( new ResultObj( ResultObj.SUCCESS , "删除成功" , null )) ;
-	        	} catch ( BusiException e ) {
+	        	} catch ( BuziException e ) {
 	        		this.logger.warn( "删除失败！" , e );
 	        		renderJson( new ResultObj( ResultObj.FAIL , "删除失败！" , null )) ;
 	        	}
@@ -196,7 +196,7 @@ public class RoleController extends Controller {
 		try {
 			SysRolePermission.me.addPermissions( id, permis );
 			renderJson( new ResultObj( ResultObj.SUCCESS , null , null )) ;
-		} catch (BusiException e) {
+		} catch (BuziException e) {
 			this.logger.warn( "添加失败！" , e );
 			renderJson( new ResultObj( ResultObj.FAIL , "添加失败！" , null )) ;
 		} catch (Exception e) {

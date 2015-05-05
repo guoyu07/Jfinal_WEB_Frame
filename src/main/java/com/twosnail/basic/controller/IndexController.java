@@ -14,7 +14,7 @@ import com.twosnail.basic.model.SysLoginLog;
 import com.twosnail.basic.model.SysMenu;
 import com.twosnail.basic.model.SysUser;
 import com.twosnail.basic.util.RequestHandler;
-import com.twosnail.basic.util.exception.BusiException;
+import com.twosnail.basic.util.exception.BuziException;
 import com.twosnail.basic.util.result.ResultObj;
 import com.twosnail.basic.util.tree.TreeNode;
 
@@ -70,7 +70,7 @@ public class IndexController extends Controller {
 			//添加登录日志
 			SysLoginLog.me.addLoginLog( getRequest() , getSession() );
 			renderJson( new ResultObj( ResultObj.SUCCESS , null, null ) );
-		} catch( BusiException e ) {
+		} catch( BuziException e ) {
 			logger.debug(  e.getMessage() );
 			renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null ) );
 		} catch( Exception e ) {

@@ -7,7 +7,7 @@ import com.jfinal.log.Logger;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.twosnail.basic.model.SysLoginLog;
-import com.twosnail.basic.util.exception.BusiException;
+import com.twosnail.basic.util.exception.BuziException;
 import com.twosnail.basic.util.result.ResultObj;
 
 /**   
@@ -55,7 +55,7 @@ public class LoginLogController extends Controller {
         		SysLoginLog.me.delUserTx(  id );
         	}
         	renderJson( new ResultObj( ResultObj.SUCCESS , null , null ) );
-        } catch ( BusiException e ) {
+        } catch ( BuziException e ) {
             this.logger.warn( "删除失败！", e );
             renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null ) );
         } catch (Exception e) {

@@ -3,7 +3,7 @@ package com.twosnail.basic.model;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Model;
-import com.twosnail.basic.util.exception.BusiException;
+import com.twosnail.basic.util.exception.BuziException;
 import com.twosnail.basic.util.tree.TreeList;
 import com.twosnail.basic.util.tree.TreeNode;
 
@@ -62,12 +62,12 @@ public class SysMenu extends Model<SysMenu> {
 	/**
 	 * 添加菜单信息
 	 * @param SysMenu
-	 * @throws BusiException
+	 * @throws BuziException
 	 */
-	public int addMenu( SysMenu menu) throws BusiException {
+	public int addMenu( SysMenu menu) throws BuziException {
 		menu.set( "createTime" , System.currentTimeMillis() );
 		if( !menu.save() ) {
-            throw new BusiException( "添加信息失败!" );
+            throw new BuziException( "添加信息失败!" );
         }
 		return menu.getInt("id") ;
 	}
@@ -75,33 +75,33 @@ public class SysMenu extends Model<SysMenu> {
 	/**
 	 * 修改菜单信息
 	 * @param SysMenu
-	 * @throws BusiException
+	 * @throws BuziException
 	 */
-	public void updMenu( SysMenu menu ) throws BusiException {
+	public void updMenu( SysMenu menu ) throws BuziException {
 		if( !menu.update() ) {
-            throw new BusiException( "修改菜单信息失败!" );
+            throw new BuziException( "修改菜单信息失败!" );
         }
 	}
 	
 	/**
      * 修改菜单信息状态
      * @param SysMenu
-     * @throws BusiException
+     * @throws BuziException
      */
-    public void updMenuStasus( SysMenu menu ) throws BusiException {
+    public void updMenuStasus( SysMenu menu ) throws BuziException {
     	if(  !menu.update() ) {
-            throw new BusiException( "修改信息失败" );
+            throw new BuziException( "修改信息失败" );
         }
     }   
     
     /**
      * 删除 菜单
      * @param id
-     * @throws BusiException
+     * @throws BuziException
      */
-    public void delMenuTx( int id ) throws BusiException{
+    public void delMenuTx( int id ) throws BuziException{
        if( !me.deleteById( id ) ) {
-           throw new BusiException( "修改信息失败" );
+           throw new BuziException( "修改信息失败" );
        }
     }
 	

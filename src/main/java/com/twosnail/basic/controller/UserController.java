@@ -8,7 +8,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.twosnail.basic.model.SysRole;
 import com.twosnail.basic.model.SysUser;
-import com.twosnail.basic.util.exception.BusiException;
+import com.twosnail.basic.util.exception.BuziException;
 import com.twosnail.basic.util.result.ResultObj;
 
 /**   
@@ -78,7 +78,7 @@ public class UserController extends Controller {
     	try {
              SysUser.me.addUser( sysUser , getRequest() , getSession() );
              renderJson( new ResultObj( ResultObj.SUCCESS , "添加成功！" , null ) ) ;
-         } catch( BusiException e ) {
+         } catch( BuziException e ) {
              this.logger.warn( "新增用户失败" , e );
              renderJson( new ResultObj( ResultObj.FAIL , "添加失败"+e.getMessage() , null )) ;
          }
@@ -113,7 +113,7 @@ public class UserController extends Controller {
             SysUser.me.updUser( sysUser , getRequest() , getSession() ) ;
             renderJson( new ResultObj( ResultObj.SUCCESS , null , null ) ) ;
             return ;
-        } catch( BusiException e ) {
+        } catch( BuziException e ) {
             this.logger.warn( "保存用户信息失败！"  , e );
             message = "保存用户信息失败！";
         } catch (Exception e) {
@@ -133,7 +133,7 @@ public class UserController extends Controller {
             SysUser.me.updUserStasus( getParaToLong("id") , getParaToInt("isUsed") );
             renderJson( new ResultObj( ResultObj.SUCCESS , null , null ) );
             return ;
-        } catch ( BusiException e ) {
+        } catch ( BuziException e ) {
             this.logger.warn( "修改状态失败！", e );
             renderJson( new ResultObj( ResultObj.FAIL , e.getMessage() , null ) );
             return ;
