@@ -1,5 +1,5 @@
-#zhiyeyaoshi2:bowtie:
-### 执业药师项目
+# twosnail_frame:bowtie:
+### 两只蜗牛基础权限管理系统
 
 
 ### 后端使用jfinal
