@@ -10,13 +10,13 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- 导出 basic 的数据库结构
+-- 导出 frame 的数据库结构
 DROP DATABASE IF EXISTS `basic`;
 CREATE DATABASE IF NOT EXISTS `basic` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `basic`;
 
 
--- 导出  表 basic.sys_button 结构
+-- 导出  表 frame.sys_button 结构
 DROP TABLE IF EXISTS `sys_button`;
 CREATE TABLE IF NOT EXISTS `sys_button` (
   `id` int(6) NOT NULL AUTO_INCREMENT COMMENT '功能Id',
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `sys_button` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COMMENT='功能按钮';
 
--- 正在导出表  basic.sys_button 的数据：~15 rows (大约)
+-- 正在导出表  frame.sys_button 的数据：~15 rows (大约)
 DELETE FROM `sys_button`;
 /*!40000 ALTER TABLE `sys_button` DISABLE KEYS */;
 INSERT INTO `sys_button` (`id`, `menuId`, `name`, `value`) VALUES
@@ -48,7 +48,7 @@ INSERT INTO `sys_button` (`id`, `menuId`, `name`, `value`) VALUES
 /*!40000 ALTER TABLE `sys_button` ENABLE KEYS */;
 
 
--- 导出  表 basic.sys_button_log 结构
+-- 导出  表 frame.sys_button_log 结构
 DROP TABLE IF EXISTS `sys_button_log`;
 CREATE TABLE IF NOT EXISTS `sys_button_log` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '操作日志ID',
@@ -63,13 +63,13 @@ CREATE TABLE IF NOT EXISTS `sys_button_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作日志表';
 
--- 正在导出表  basic.sys_button_log 的数据：~0 rows (大约)
+-- 正在导出表  frame.sys_button_log 的数据：~0 rows (大约)
 DELETE FROM `sys_button_log`;
 /*!40000 ALTER TABLE `sys_button_log` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sys_button_log` ENABLE KEYS */;
 
 
--- 导出  表 basic.sys_login_log 结构
+-- 导出  表 frame.sys_login_log 结构
 DROP TABLE IF EXISTS `sys_login_log`;
 CREATE TABLE IF NOT EXISTS `sys_login_log` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '日志ID',
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `sys_login_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8 COMMENT='登录日志表';
 
--- 正在导出表  basic.sys_login_log 的数据：~36 rows (大约)
+-- 正在导出表  frame.sys_login_log 的数据：~36 rows (大约)
 DELETE FROM `sys_login_log`;
 /*!40000 ALTER TABLE `sys_login_log` DISABLE KEYS */;
 INSERT INTO `sys_login_log` (`id`, `userId`, `loginTime`, `logoutTime`, `logIp`, `lastlogTime`, `status`) VALUES
@@ -125,7 +125,7 @@ INSERT INTO `sys_login_log` (`id`, `userId`, `loginTime`, `logoutTime`, `logIp`,
 /*!40000 ALTER TABLE `sys_login_log` ENABLE KEYS */;
 
 
--- 导出  表 basic.sys_menu 结构
+-- 导出  表 frame.sys_menu 结构
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE IF NOT EXISTS `sys_menu` (
   `id` int(3) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `sys_menu` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COMMENT='菜单表';
 
--- 正在导出表  basic.sys_menu 的数据：~7 rows (大约)
+-- 正在导出表  frame.sys_menu 的数据：~7 rows (大约)
 DELETE FROM `sys_menu`;
 /*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
 INSERT INTO `sys_menu` (`id`, `name`, `href`, `icon`, `description`, `parentId`, `createTime`, `isUsed`, `sortNo`, `permission`) VALUES
@@ -155,7 +155,7 @@ INSERT INTO `sys_menu` (`id`, `name`, `href`, `icon`, `description`, `parentId`,
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
 
 
--- 导出  表 basic.sys_role 结构
+-- 导出  表 frame.sys_role 结构
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE IF NOT EXISTS `sys_role` (
   `id` int(4) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
@@ -167,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `sys_role` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='角色表';
 
--- 正在导出表  basic.sys_role 的数据：~3 rows (大约)
+-- 正在导出表  frame.sys_role 的数据：~3 rows (大约)
 DELETE FROM `sys_role`;
 /*!40000 ALTER TABLE `sys_role` DISABLE KEYS */;
 INSERT INTO `sys_role` (`id`, `roleCode`, `roleName`, `isUsed`, `createTime`, `parentId`) VALUES
@@ -177,7 +177,7 @@ INSERT INTO `sys_role` (`id`, `roleCode`, `roleName`, `isUsed`, `createTime`, `p
 /*!40000 ALTER TABLE `sys_role` ENABLE KEYS */;
 
 
--- 导出  表 basic.sys_role_permission 结构
+-- 导出  表 frame.sys_role_permission 结构
 DROP TABLE IF EXISTS `sys_role_permission`;
 CREATE TABLE IF NOT EXISTS `sys_role_permission` (
   `id` int(8) NOT NULL AUTO_INCREMENT COMMENT 'id',
@@ -186,7 +186,7 @@ CREATE TABLE IF NOT EXISTS `sys_role_permission` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8 COMMENT='角色权限';
 
--- 正在导出表  basic.sys_role_permission 的数据：~40 rows (大约)
+-- 正在导出表  frame.sys_role_permission 的数据：~40 rows (大约)
 DELETE FROM `sys_role_permission`;
 /*!40000 ALTER TABLE `sys_role_permission` DISABLE KEYS */;
 INSERT INTO `sys_role_permission` (`id`, `roleId`, `permission`) VALUES
@@ -233,7 +233,7 @@ INSERT INTO `sys_role_permission` (`id`, `roleId`, `permission`) VALUES
 /*!40000 ALTER TABLE `sys_role_permission` ENABLE KEYS */;
 
 
--- 导出  表 basic.sys_user 结构
+-- 导出  表 frame.sys_user 结构
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE IF NOT EXISTS `sys_user` (
   `id` int(8) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
@@ -258,7 +258,7 @@ CREATE TABLE IF NOT EXISTS `sys_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
--- 正在导出表  basic.sys_user 的数据：~5 rows (大约)
+-- 正在导出表  frame.sys_user 的数据：~5 rows (大约)
 DELETE FROM `sys_user`;
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
 INSERT INTO `sys_user` (`id`, `roleId`, `userName`, `passWord`, `createTime`, `sex`, `birthday`, `idCard`, `mobile`, `phone`, `email`, `addr`, `createId`, `createIp`, `operateId`, `opetateTime`, `isDefPassWord`, `isUsed`, `sortNo`) VALUES
