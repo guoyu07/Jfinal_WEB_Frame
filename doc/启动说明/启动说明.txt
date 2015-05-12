@@ -1,5 +1,6 @@
 
-项目启动步骤
+
+项目启动步骤：
 
 1： 使用 twosnail_frame.sql中的 sql 语句创建数据库与数据库表。
 
@@ -15,7 +16,10 @@
 
 7： 本版本 pom.mxl 对 JSP 相关配置以及JSTL进行了注释。
 
-注意： 请确保您安装了 JavaSE 1.6 或更高版本，tomcat下运行项目需要先删除 jetty-server-xxx.jar，否则会有冲突。
+
+注意：
+
+请确保您安装了 JavaSE 1.6 或更高版本，tomcat下运行项目需要先删除 jetty-server-xxx.jar，否则会有冲突。
 
 
 
