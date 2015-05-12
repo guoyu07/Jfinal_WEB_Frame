@@ -2,6 +2,7 @@ package com.twosnail.frame.controller;
 
 import java.util.List;
 
+import com.twosnail.frame.commin.util.kit.request.RequestKit;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 import com.jfinal.core.Controller;
@@ -9,8 +10,7 @@ import com.jfinal.log.Logger;
 import com.twosnail.frame.model.SysButton;
 import com.twosnail.frame.model.SysMenu;
 import com.twosnail.frame.model.SysUser;
-import com.twosnail.frame.commin.util.RequestHandler;
-import com.twosnail.frame.commin.util.exception.BuziException;
+import com.twosnail.frame.commin.exception.BuziException;
 import com.twosnail.frame.commin.util.result.ResultObj;
 import com.twosnail.frame.commin.util.tree.TreeNode;
 
@@ -29,7 +29,7 @@ public class MenuController extends Controller {
 	public void index(){
 		try {
 			List<TreeNode<SysMenu>> list = SysMenu.me.getMenuTree() ;
-	        String tree = treeMenu( list,  new StringBuilder() ,  RequestHandler.getBasePath(getRequest()) ) ;
+	        String tree = treeMenu( list,  new StringBuilder() ,  RequestKit.getBasePath(getRequest()) ) ;
 	        setAttr( "tree", tree ) ;
 		} catch (Exception e) {
 			this.logger.warn( "菜单列表信息，初始化失败！" , e );

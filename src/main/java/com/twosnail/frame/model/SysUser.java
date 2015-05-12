@@ -15,8 +15,8 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
-import com.twosnail.frame.commin.util.RequestHandler;
-import com.twosnail.frame.commin.util.exception.BuziException;
+import com.twosnail.frame.commin.util.kit.request.RequestKit;
+import com.twosnail.frame.commin.exception.BuziException;
 
 /**   
  * @Title: SysUser.java
@@ -128,7 +128,7 @@ public class SysUser extends Model<SysUser>{
 	public void addUser( SysUser sysUser , HttpServletRequest request , HttpSession session ) throws BuziException{
 		sysUser.set( "createTime" ,System.currentTimeMillis() );
         sysUser.set( "createId" ,session.getAttribute("userId") ) ;
-        sysUser.set( "createIp" ,RequestHandler.getIpAddr(request)) ;
+        sysUser.set( "createIp" , RequestKit.getIpAddr(request)) ;
 		if( !sysUser.save() ) {
             throw new BuziException( "添加信息失败!" );
         }

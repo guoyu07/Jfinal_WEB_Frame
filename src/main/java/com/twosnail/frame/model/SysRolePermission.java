@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
-import com.twosnail.frame.commin.util.exception.BuziException;
+import com.twosnail.frame.commin.exception.BuziException;
 
 /**   
  * @Title: SysRolePermission.java

@@ -25,6 +25,6 @@
 
 	<root level="DEBUG">
 		<appender-ref ref="console" />
-		<!-- <appender-ref ref="file" /> -->
+		<!-- <appender-ref ref="image" /> -->
 	</root>
 </configuration>

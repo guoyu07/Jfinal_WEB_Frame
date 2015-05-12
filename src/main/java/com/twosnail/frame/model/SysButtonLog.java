@@ -4,7 +4,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
-import com.twosnail.frame.commin.util.exception.BuziException;
+import com.twosnail.frame.commin.exception.BuziException;
 
 /**   
  * @Title: SysButtonLog.java

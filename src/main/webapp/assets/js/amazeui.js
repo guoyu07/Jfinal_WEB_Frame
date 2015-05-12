@@ -1232,10 +1232,10 @@
               script.textContent = '(' + callback.toString() + ')();';
               $('body')[0].appendChild(script);
             }).attr('src', 'http://api.map.baidu.com/getscript' +
-              '?type=quick&file=feature' +
+              '?type=quick&image=feature' +
               '&ak=WVAXZ05oyNRXS5egLImmentg&t=20140109092002');
           }).attr('src', 'http://api.map.baidu.com/getscript' +
-            '?type=quick&file=api&ak=WVAXZ05oyNRXS5egLImmentg&t=20140109092002'
+            '?type=quick&image=api&ak=WVAXZ05oyNRXS5egLImmentg&t=20140109092002'
           );
 
           // jQuery 中 `load` 事件触发有问题，动态设置 src 属性才会触发 `load` 事件
@@ -7117,7 +7117,7 @@
             },
 
             /**
-             * Event handler for 'dragstart'
+             * Event kit for 'dragstart'
              * @param event
              */
             handleDragStart: function(event) {
@@ -7129,7 +7129,7 @@
             },
 
             /**
-             * Event handler for 'drag'
+             * Event kit for 'drag'
              * @param event
              */
             handleDrag: function(event) {
@@ -7148,7 +7148,7 @@
             },
 
             /**
-             * Event handler for 'zoomstart'
+             * Event kit for 'zoomstart'
              * @param event
              */
             handleZoomStart: function(event) {
@@ -7161,7 +7161,7 @@
             },
 
             /**
-             * Event handler for 'zoom'
+             * Event kit for 'zoom'
              * @param event
              */
             handleZoom: function(event, newScale) {
@@ -7187,7 +7187,7 @@
             },
 
             /**
-             * Event handler for 'doubletap'
+             * Event kit for 'doubletap'
              * @param event
              */
             handleDoubleTap: function(event) {
@@ -11413,8 +11413,8 @@
             };
           }
 
-          // If a handler is already declared in the element's onclick attribute, it will be fired before
-          // FastClick's onClick handler. Fix this by pulling out the user-defined handler function and
+          // If a kit is already declared in the element's onclick attribute, it will be fired before
+          // FastClick's onClick kit. Fix this by pulling out the user-defined kit function and
           // adding it as listener.
           if (typeof layer.onclick === 'function') {
 
@@ -12705,7 +12705,7 @@
           this.element = manager.element;
           this.target = manager.options.inputTarget;
 
-          // smaller wrapper around the handler, for the scope and the enabled state of the manager,
+          // smaller wrapper around the kit, for the scope and the enabled state of the manager,
           // so when disabled the input events are completely bypassed.
           this.domHandler = function(ev) {
             if (boolOrFn(manager.options.enable, [manager])) {

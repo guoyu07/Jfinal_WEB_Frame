@@ -3,7 +3,7 @@ package com.twosnail.frame.model;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Model;
-import com.twosnail.frame.commin.util.exception.BuziException;
+import com.twosnail.frame.commin.exception.BuziException;
 import com.twosnail.frame.commin.util.tree.TreeList;
 import com.twosnail.frame.commin.util.tree.TreeNode;
 

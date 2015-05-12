@@ -2,6 +2,7 @@ package com.twosnail.frame.controller;
 
 import java.util.List;
 
+import com.twosnail.frame.commin.util.kit.request.RequestKit;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 import com.alibaba.fastjson.JSONObject;
@@ -12,8 +13,7 @@ import com.twosnail.frame.model.SysMenu;
 import com.twosnail.frame.model.SysRole;
 import com.twosnail.frame.model.SysRolePermission;
 import com.twosnail.frame.model.SysUser;
-import com.twosnail.frame.commin.util.RequestHandler;
-import com.twosnail.frame.commin.util.exception.BuziException;
+import com.twosnail.frame.commin.exception.BuziException;
 import com.twosnail.frame.commin.util.result.ResultObj;
 import com.twosnail.frame.commin.util.tree.TreeNode;
 
@@ -32,7 +32,7 @@ public class RoleController extends Controller {
 	public void index(){
 		try {
 			List<TreeNode<SysRole>> list = SysRole.me.getRoleList() ;
-	        String tree = treeMenu( list,  new StringBuilder() ,  RequestHandler.getBasePath(getRequest()) ) ;
+	        String tree = treeMenu( list,  new StringBuilder() ,  RequestKit.getBasePath(getRequest()) ) ;
 	        setAttr( "tree", tree ) ;
 	        
 		} catch (Exception e) {
@@ -177,7 +177,7 @@ public class RoleController extends Controller {
 			result.put( "menu" , SysRole.me.getPrimession() ) ;
 			List<TreeNode<SysMenu>> list  = SysRole.me.getPrimession() ;
 			List<String> permission = SysRolePermission.me.getPermissionByRoleId( id ) ;
-			String str = permission( list, permission, new StringBuilder() ,  RequestHandler.getBasePath(getRequest())  ) ;
+			String str = permission( list, permission, new StringBuilder() ,  RequestKit.getBasePath(getRequest())  ) ;
 			setAttr( "id" , id ) ;
 			setAttr( "permission" , str ) ;
 			render( "role_permission.html" );

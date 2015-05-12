@@ -8,7 +8,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.twosnail.frame.model.SysRole;
 import com.twosnail.frame.model.SysUser;
-import com.twosnail.frame.commin.util.exception.BuziException;
+import com.twosnail.frame.commin.exception.BuziException;
 import com.twosnail.frame.commin.util.result.ResultObj;
 
 /**   

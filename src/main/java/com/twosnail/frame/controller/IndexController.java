@@ -2,6 +2,7 @@ package com.twosnail.frame.controller;
 
 import java.util.List;
 
+import com.twosnail.frame.commin.util.kit.request.RequestKit;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 
@@ -13,8 +14,7 @@ import com.twosnail.frame.ext.CaptchaRender;
 import com.twosnail.frame.model.SysLoginLog;
 import com.twosnail.frame.model.SysMenu;
 import com.twosnail.frame.model.SysUser;
-import com.twosnail.frame.commin.util.RequestHandler;
-import com.twosnail.frame.commin.util.exception.BuziException;
+import com.twosnail.frame.commin.exception.BuziException;
 import com.twosnail.frame.commin.util.result.ResultObj;
 import com.twosnail.frame.commin.util.tree.TreeNode;
 
@@ -85,7 +85,7 @@ public class IndexController extends Controller {
 	public void main() {
 		//菜单
 		List<TreeNode<SysMenu>> list = SysMenu.me.getMenuTree() ;
-        String tree = treeMenu( list,  new StringBuilder() , SecurityUtils.getSubject() , RequestHandler.getBasePath(getRequest()) ) ;
+        String tree = treeMenu( list,  new StringBuilder() , SecurityUtils.getSubject() , RequestKit.getBasePath(getRequest()) ) ;
         setAttr( "tree", tree ) ;
         setAttr( "userName", getSessionAttr( "userName" ) ) ;
 		render("main.html");

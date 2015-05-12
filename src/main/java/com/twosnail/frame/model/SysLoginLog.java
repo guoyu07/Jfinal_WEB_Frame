@@ -8,8 +8,8 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
-import com.twosnail.frame.commin.util.RequestHandler;
-import com.twosnail.frame.commin.util.exception.BuziException;
+import com.twosnail.frame.commin.util.kit.request.RequestKit;
+import com.twosnail.frame.commin.exception.BuziException;
 
 /**   
  * @Title: SysLoginLog.java
@@ -34,7 +34,7 @@ public class SysLoginLog extends Model<SysLoginLog>{
 		try {
 			log.set( "userId", session.getAttribute("userId") );
 			log.set( "loginTime",System.currentTimeMillis());
-			log.set( "logIp",RequestHandler.getIpAddr(request));
+			log.set( "logIp", RequestKit.getIpAddr(request));
 			log.set( "lastlogTime" ,getLastTime( Long.parseLong(session.getAttribute("userId") +"") ) );
 			log.set( "status" ,1);
 			if( !log.save() ) {
