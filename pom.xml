@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.twosnail</groupId>
-  <artifactId>twosnail_frame</artifactId>
+  <artifactId>Jfinal_WEB_Frame</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>twosnail_frame Maven Webapp</name>
+  <name>Jfinal_WEB_Frame</name>
   <url>http://maven.apache.org</url>
   
   <properties>
@@ -182,7 +182,7 @@
 	
   </dependencies>
   <build>
-    <finalName>twosnail_frame</finalName>
+    <finalName>Jfinal_WEB_Frame</finalName>
 	    <plugins>
 		  <plugin>
 		    <groupId>org.mortbay.jetty</groupId>
