@@ -1,37 +1,25 @@
 package com.twosnail.frame.config;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.jfinal.log.Logger;
-import org.beetl.core.GroupTemplate;
-import org.beetl.core.resource.WebAppResourceLoader;
-import org.beetl.ext.jfinal.BeetlRenderFactory;
-
 import com.alibaba.druid.util.JdbcConstants;
 import com.alibaba.druid.wall.WallFilter;
-import com.jfinal.config.Constants;
-import com.jfinal.config.Handlers;
-import com.jfinal.config.Interceptors;
-import com.jfinal.config.JFinalConfig;
-import com.jfinal.config.Plugins;
-import com.jfinal.config.Routes;
+import com.jfinal.config.*;
 import com.jfinal.ext.plugin.shiro.ShiroInterceptor;
 import com.jfinal.ext.plugin.shiro.ShiroPlugin;
+import com.jfinal.log.Logger;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.tx.TxByRegex;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
-import com.twosnail.frame.interceptor.AuthInterceptor;
-import com.twosnail.frame.model.SysButton;
-import com.twosnail.frame.model.SysButtonLog;
-import com.twosnail.frame.model.SysLoginLog;
-import com.twosnail.frame.model.SysMenu;
-import com.twosnail.frame.model.SysRole;
-import com.twosnail.frame.model.SysRolePermission;
-import com.twosnail.frame.model.SysUser;
 import com.twosnail.frame.commin.util.tools.ShiroExt;
 import com.twosnail.frame.ext.ExtRoutes;
+import com.twosnail.frame.interceptor.AuthInterceptor;
+import com.twosnail.frame.model.*;
+import org.beetl.core.GroupTemplate;
+import org.beetl.core.resource.WebAppResourceLoader;
+import org.beetl.ext.jfinal.BeetlRenderFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * API引导式配置
@@ -64,6 +52,7 @@ public class SysConfig extends JFinalConfig {
 		//设置根目录
 		WebAppResourceLoader loader = (WebAppResourceLoader ) gt.getResourceLoader();
 		loader.setRoot("src/main/webapp/view");
+//        loader.setRoot(BeetlUtil.getWebRoot() + "/view");  tomcat启动时需要这样设置
 		logger.debug("设置根目录:" + loader.getRoot());
 
 		//全局变量
